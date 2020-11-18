@@ -1,0 +1,18 @@
+<!--
+  ~   Copyright (c) 2018 BigStep Technologies Private Limited.
+  ~
+  ~   The distribution of this source code is prohibited.
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.channelize.apisdk">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <application
+        android:largeHeap="true"
+        android:supportsRtl="true"
+        android:resizeableActivity="false">
+
+    </application>
+
+</manifest>

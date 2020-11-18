@@ -1,2 +1,3 @@
+include ':channelizeapi'
 include ':app'
 rootProject.name = "Live Streaming Channelize"
