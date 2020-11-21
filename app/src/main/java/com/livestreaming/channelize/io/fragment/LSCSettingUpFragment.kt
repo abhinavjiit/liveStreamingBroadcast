@@ -1,0 +1,139 @@
+package com.livestreaming.channelize.io.fragment
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.livestreaming.channelize.io.R
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.lang.Exception
+
+class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
+
+    private lateinit var checkingConnectionContainer: ConstraintLayout
+    private lateinit var checkingConnectionTextView: TextView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var connectionResultContainer: ConstraintLayout
+    private lateinit var connectionResultTextView: TextView
+    private lateinit var netWorkQuality: TextView
+    private lateinit var instructions: TextView
+    private lateinit var instructionsList: LinearLayout
+    private lateinit var dontShowAgainTextView: TextView
+    private lateinit var continueButton: Button
+    private lateinit var cancelTextView: TextView
+    private lateinit var instructionsContainer: ConstraintLayout
+    private lateinit var goLiveContainer: ConstraintLayout
+    private lateinit var goLiveButton: Button
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_setting_up_video, container, false)
+        checkingConnectionContainer = view.findViewById(R.id.checkingConnectionContainer)
+        checkingConnectionTextView = view.findViewById(R.id.checkingConnectionTextView)
+        progressBar = view.findViewById(R.id.progressBar)
+        connectionResultTextView = view.findViewById(R.id.connectionResultTextView)
+        connectionResultContainer = view.findViewById(R.id.connectionResultContainer)
+        netWorkQuality = view.findViewById(R.id.netWorkQuality)
+        instructions = view.findViewById(R.id.instructions)
+        instructionsList = view.findViewById(R.id.instructionsList)
+        continueButton = view.findViewById(R.id.continueButton)
+        dontShowAgainTextView = view.findViewById(R.id.dontShowAgainTextView)
+        cancelTextView = view.findViewById(R.id.cancelTextView)
+        instructionsContainer = view.findViewById(R.id.instructionsContainer)
+        goLiveContainer = view.findViewById(R.id.goLiveContainer)
+        goLiveButton = view.findViewById(R.id.goLiveButton)
+        cancelTextView.visibility = View.VISIBLE
+        checkingConnectionContainer.visibility = View.VISIBLE
+        showConnectionCheckingLoader()
+
+        continueButton.setOnClickListener(this)
+        goLiveButton.setOnClickListener(this)
+        cancelTextView.setOnClickListener(this)
+        return view
+
+    }
+
+    private fun showConnectionCheckingLoader() {
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(2000)
+            checkingConnectionContainer.visibility = View.GONE
+            showNetworkResult()
+        }
+
+    }
+
+    private suspend fun showNetworkResult() {
+        try {
+            activity.let {
+                connectionResultContainer.visibility = View.VISIBLE
+                when ((it as LSCBroadCastSettingUpActivity).getNetworkQuality()) {
+                    0 -> {
+                        netWorkQuality.text = "Excellent"
+                        delay(2000)
+                        showInstructionsList()
+                    }
+                    1 -> {
+                        netWorkQuality.text = "Very Good"
+                        delay(2000)
+                        showInstructionsList()
+
+                    }
+                    2 -> {
+                        netWorkQuality.text = "Good"
+                        delay(2000)
+                        showInstructionsList()
+
+                    }
+                    else -> {
+                        netWorkQuality.text = "Poor Connection"
+
+                    }
+                }
+            }
+        } catch (e: Exception) {
+        }
+    }
+
+    private fun showInstructionsList() {
+        connectionResultContainer.visibility = View.GONE
+        cancelTextView.visibility = View.GONE
+        instructionsContainer.visibility = View.VISIBLE
+
+
+    }
+
+    override fun onClick(v: View?) {
+        activity?.let {
+            when (v?.id) {
+                R.id.continueButton -> {
+                    instructionsContainer.visibility = View.GONE
+                    goLiveContainer.visibility = View.VISIBLE
+                }
+
+                R.id.goLiveButton -> {
+                    (it as LSCBroadCastSettingUpActivity).joinChannel(this)
+                }
+                R.id.cancelTextView -> {
+
+                }
+
+            }
+        }
+
+
+    }
+
+}

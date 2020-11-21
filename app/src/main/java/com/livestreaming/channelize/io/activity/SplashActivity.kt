@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
+import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
 import com.livestreaming.channelize.io.activity.login.LoginActivity
 
 class SplashActivity : BaseActivity() {
@@ -14,17 +15,21 @@ class SplashActivity : BaseActivity() {
         setContentView(R.layout.activity_splash)
         when (SharedPrefUtils.getLoggedInFlag(this)) {
             true -> {
-                ///event listing activity
+                val eventBroadCastListingActivity =
+                    Intent(this, EventBroadCastListingActivity::class.java)
+                eventBroadCastListingActivity.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(eventBroadCastListingActivity)
+                finish()
 
             }
             else -> {
-                //// login screen
                 val loginIntent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                loginIntent.flags =
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                startActivity(loginIntent)
+                finish()
             }
-
-
         }
-
     }
 }

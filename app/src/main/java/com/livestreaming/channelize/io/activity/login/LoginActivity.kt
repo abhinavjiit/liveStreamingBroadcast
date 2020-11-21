@@ -1,5 +1,6 @@
 package com.livestreaming.channelize.io.activity.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,8 +9,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.ChannelizeConfig
+import com.livestreaming.channelize.io.BuildConfig
 import com.livestreaming.channelize.io.R
+import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
+import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -27,7 +31,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setContentView(R.layout.activity_login)
         initUi()
         loginButton.setOnClickListener(this)
-
     }
 
     private fun initUi() {
@@ -40,11 +43,11 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-
         if (v?.id == R.id.loginButton) {
-            //  if (isValid()) {
-            startLogin()
-            // }
+            if (isValid()) {
+                SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
+                startLogin()
+            }
         }
     }
 
@@ -52,44 +55,55 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun startLogin() {
         val progressBar = progressDialog(this)
         progressBar.show()
+        val channelizeConfig = if (BuildConfig.DEBUG) {
+            ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
+                .setLoggingEnabled(true)
+                .build()
+        } else {
+            ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
+                .setLoggingEnabled(false)
+                .build()
+        }
+
+        Channelize.initialize(channelizeConfig)
         Channelize.getInstance().loginWithEmailPassword(
-            "sunil@channelize.io",
-            "123456"
+            emailEditTextView.text.toString(),
+            passwordEditTextView.text.toString()
         ) { result, error ->
             progressBar.dismiss()
-
             if (result != null && result.user != null) {
                 runOnUiThread {
-
+                    SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
                     Log.d("TAGGGG", "success")
                     showToast(this, "success")
+                    gotoEventListingActivity()
                 }
 
             } else if (error != null) {
                 runOnUiThread {
+                    SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
                     Log.d("TAGGGG", "failed")
-
                     showToast(this, error.message)
                 }
-
             }
-
         }
-
-
     }
 
 
-    private fun isValid(): Boolean {
+    private fun gotoEventListingActivity() {
+        val intent = Intent(this, EventBroadCastListingActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
 
+    private fun isValid(): Boolean {
         if (publicKeyEditTextView.text.toString().isBlank()) {
             showToast(this, "public key is not valid")
-            return true
+            return false
         }
         if (storeUrlEditTextView.text.toString().isBlank()) {
             showToast(this, "store url is not valid")
-
-            return true
+            return false
         }
         if (emailEditTextView.text.toString().isBlank()) {
             showToast(this, "email is not valid")

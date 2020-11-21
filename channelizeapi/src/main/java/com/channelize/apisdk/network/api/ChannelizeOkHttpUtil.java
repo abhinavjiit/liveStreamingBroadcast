@@ -85,30 +85,31 @@ public class ChannelizeOkHttpUtil extends OkHttpClient {
             mContext = context;
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            Interceptor mainInterceptor = new Interceptor() {
+                @Override
+                public Response intercept(@NonNull Chain chain) throws IOException {
+                    Request request = chain.request();
+                    // try the request
+                    Response response = chain.proceed(request);
+                    int tryCount = 0;
+                    while (!response.isSuccessful() && tryCount < 3) {
+                        Logcat.d(ChannelizeOkHttpUtil.class, "intercept, Request is not successful - " + tryCount);
+                        tryCount++;
+                        // retry the request
+                        response = chain.proceed(request);
+                    }
+
+                    // otherwise just pass the original response on
+                    return response;
+                }
+            };
             apiDefaultUrl = Channelize.getInstance().getApiDefaultUrl();
             newBuilder().readTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
                     .connectTimeout(REQUEST_TIMEOUT, TimeUnit.SECONDS)
                     .writeTimeout(0, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .sslSocketFactory(new TLSSocketFactory(), new TrustManager())
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(@NonNull Chain chain) throws IOException {
-                            Request request = chain.request();
-                            // try the request
-                            Response response = chain.proceed(request);
-                            int tryCount = 0;
-                            while (!response.isSuccessful() && tryCount < 3) {
-                                Logcat.d(ChannelizeOkHttpUtil.class, "intercept, Request is not successful - " + tryCount);
-                                tryCount++;
-                                // retry the request
-                                response = chain.proceed(request);
-                            }
-
-                            // otherwise just pass the original response on
-                            return response;
-                        }
-                    })
+                    .addInterceptor(mainInterceptor)
                     .addInterceptor(httpLoggingInterceptor).build();
 
             requestBuilder = new Request.Builder();

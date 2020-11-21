@@ -6,14 +6,14 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/channelizeImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/app_logo" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -158,8 +158,8 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_button_border"
         android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="Login"
         android:textColor="@color/white"
         android:textSize="18sp"

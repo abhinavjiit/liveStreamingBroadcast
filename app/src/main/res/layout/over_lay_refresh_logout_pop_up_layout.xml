@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@color/transparent_color">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@drawable/rectangular_rounded_corner_border">
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/refreshTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Refresh"
+            android:textAllCaps="true"
+            android:textColor="@color/app_red"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/refreshTextView"
+            android:background="@color/app_red" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/logoutTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshTextView"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="LogOut "
+            android:textAllCaps="true"
+            android:textColor="@color/app_red"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:textAllCaps="true" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
