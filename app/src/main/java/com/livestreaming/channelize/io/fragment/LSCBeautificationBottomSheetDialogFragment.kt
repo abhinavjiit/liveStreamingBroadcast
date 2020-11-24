@@ -1,4 +1,4 @@
-package com.livestreaming.channelize.io.activity.lscSettingUp
+package com.livestreaming.channelize.io.fragment
 
 import android.content.DialogInterface
 import android.graphics.drawable.GradientDrawable
@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.Slider
 import com.livestreaming.channelize.io.R
+import com.livestreaming.channelize.io.activity.lscSettingUp.BeautificationCustomizationValuesClassHolder
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
 
 class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment(),
     View.OnClickListener {
@@ -45,7 +47,7 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment(),
         muteVideoSwitch = view.findViewById(R.id.muteVideoSwitch)
         high = view.findViewById(R.id.high)
         beautificationCustomizationValuesClassHolder =
-            (activity as LSCBroadCastSettingUpActivity).getBeautificationObject()
+            (activity as LSCBroadCastSettingUpAndLiveActivity).getBeautificationObject()
         smoothnessSlider.value = beautificationCustomizationValuesClassHolder.smoothnessValue
         lightnessSlider.value = beautificationCustomizationValuesClassHolder.lightingValue
         rednessSlider.value = beautificationCustomizationValuesClassHolder.rednessValue
@@ -75,9 +77,6 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment(),
             changeBeautification()
 
         }
-
-
-
 
         low.setOnClickListener(this)
         high.setOnClickListener(this)
@@ -121,7 +120,7 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment(),
 
 
     private fun changeBeautification() {
-        (activity as LSCBroadCastSettingUpActivity).changeBeautification(
+        (activity as LSCBroadCastSettingUpAndLiveActivity).changeBeautification(
             beautificationCustomizationValuesClassHolder
         )
     }

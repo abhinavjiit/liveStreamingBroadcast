@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Base64
 import com.channelize.apisdk.utils.ChannelizePreferences
 import com.channelize.apisdk.utils.Logcat
-import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.livestreaming.channelize.io.BuildConfig
 import com.livestreaming.channelize.io.SharedPrefUtils
@@ -19,63 +18,64 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.UnsupportedEncodingException
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
 @Module
-class RetrofitModule(private val baseUrl: String, private val context: Context) {
+class RetrofitModule(
+    private val baseUrl: String,
+    private val context: Context
+    , private val productListBaseUrl: String
+) {
 
     private lateinit var client: OkHttpClient
 
     @Provides
     @Singleton
-    fun providesRetrofitInstance(): Retrofit? {
-        try {
-            val mainInterceptor = object : Interceptor {
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    val original = chain.request()
-                    val requestBuilder = original.newBuilder()
-                    SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
-                        requestBuilder.addHeader("Public-key", publicApiKey)
-                        requestBuilder.addHeader("Content_Type", "application/json")
+    @com.livestreaming.channelize.io.di.Retrofit
+    fun providesRetrofitInstance(): Retrofit {
 
-                    }
-                    addAuthHeader(requestBuilder)
-                    val request = requestBuilder.build()
-                    return chain.proceed(request = request)
+        val mainInterceptor = object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                val original = chain.request()
+                val requestBuilder = original.newBuilder()
+                SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
+                    requestBuilder.addHeader("Public-key", publicApiKey)
+                    requestBuilder.addHeader("Content_Type", "application/json")
+
                 }
-
+                addAuthHeader(requestBuilder)
+                val request = requestBuilder.build()
+                return chain.proceed(request = request)
             }
-
-            val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-
-            client = if (BuildConfig.DEBUG) {
-
-                OkHttpClient.Builder().addInterceptor(mainInterceptor)
-                    .retryOnConnectionFailure(true)
-                    .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
-                    .build()
-
-            } else {
-                OkHttpClient.Builder().addInterceptor(mainInterceptor)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
-                    .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
-                    .build()
-            }
-
-            return Retrofit.Builder().baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
-        } catch (e: Exception) {
 
         }
 
-        return null
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        client = if (BuildConfig.DEBUG) {
+
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+
+        } else {
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+        }
+
+        return Retrofit.Builder().baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
+
+
     }
 
     private fun addAuthHeader(requestBuilder: Request.Builder) {
@@ -97,9 +97,45 @@ class RetrofitModule(private val baseUrl: String, private val context: Context) 
     }
 
 
+
+
     @Provides
-    fun providesApiCallInterface(retrofit: Retrofit): LSCApiCallInterface {
-        return retrofit.create(LSCApiCallInterface::class.java)
+    @ProductsListRetrofit
+    @Singleton
+    fun providesRetrofitInstanceForProductList(): Retrofit {
+        val mainInterceptor = object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                val original = chain.request()
+                val requestBuilder = original.newBuilder()
+                val request = requestBuilder.build()
+                return chain.proceed(request = request)
+            }
+
+        }
+
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        client = if (BuildConfig.DEBUG) {
+
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+
+        } else {
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+        }
+
+        return Retrofit.Builder().baseUrl(productListBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
+
     }
 
 

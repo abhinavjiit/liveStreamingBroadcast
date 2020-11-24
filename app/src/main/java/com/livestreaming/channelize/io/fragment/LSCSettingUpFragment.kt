@@ -9,13 +9,14 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.R
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpActivity
+import com.livestreaming.channelize.io.SharedPrefUtils
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
 
@@ -33,6 +34,7 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
     private lateinit var instructionsContainer: ConstraintLayout
     private lateinit var goLiveContainer: ConstraintLayout
     private lateinit var goLiveButton: Button
+    private var instructionsChecked = false
 
 
     override fun onCreateView(
@@ -62,6 +64,7 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
         continueButton.setOnClickListener(this)
         goLiveButton.setOnClickListener(this)
         cancelTextView.setOnClickListener(this)
+        dontShowAgainTextView.setOnClickListener(this)
         return view
 
     }
@@ -79,27 +82,43 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
         try {
             activity.let {
                 connectionResultContainer.visibility = View.VISIBLE
-                when ((it as LSCBroadCastSettingUpActivity).getNetworkQuality()) {
+                when ((it as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
                     0 -> {
                         netWorkQuality.text = "Excellent"
                         delay(2000)
-                        showInstructionsList()
+                        if (SharedPrefUtils.getInstructionsShownFlag(it)) {
+                            connectionResultContainer.visibility = View.GONE
+                            cancelTextView.visibility = View.GONE
+                            goLiveContainer.visibility = View.VISIBLE
+                        } else {
+                            showInstructionsList()
+                        }
                     }
                     1 -> {
                         netWorkQuality.text = "Very Good"
                         delay(2000)
-                        showInstructionsList()
 
+                        if (SharedPrefUtils.getInstructionsShownFlag(it)) {
+                            connectionResultContainer.visibility = View.GONE
+                            cancelTextView.visibility = View.GONE
+                            goLiveContainer.visibility = View.VISIBLE
+                        } else {
+                            showInstructionsList()
+                        }
                     }
                     2 -> {
                         netWorkQuality.text = "Good"
                         delay(2000)
-                        showInstructionsList()
-
+                        if (SharedPrefUtils.getInstructionsShownFlag(it)) {
+                            connectionResultContainer.visibility = View.GONE
+                            cancelTextView.visibility = View.GONE
+                            goLiveContainer.visibility = View.VISIBLE
+                        } else {
+                            showInstructionsList()
+                        }
                     }
                     else -> {
                         netWorkQuality.text = "Poor Connection"
-
                     }
                 }
             }
@@ -124,16 +143,39 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
                 }
 
                 R.id.goLiveButton -> {
-                    (it as LSCBroadCastSettingUpActivity).joinChannel(this)
+                    (it as LSCBroadCastSettingUpAndLiveActivity).joinChannel(this)
                 }
                 R.id.cancelTextView -> {
 
+                    it.finish()
                 }
-
+                R.id.dontShowAgainTextView -> {
+                    if (!instructionsChecked) {
+                        val selectedCheckBox =
+                            ContextCompat.getDrawable(it, R.drawable.ic_check_box)
+                        dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
+                            selectedCheckBox,
+                            null,
+                            null,
+                            null
+                        )
+                        SharedPrefUtils.setInstructionsShownFlag(it, true)
+                        instructionsChecked = true
+                    } else {
+                        val selectedCheckBox =
+                            ContextCompat.getDrawable(it, R.drawable.ic_uncheck_box)
+                        dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
+                            selectedCheckBox,
+                            null,
+                            null,
+                            null
+                        )
+                        SharedPrefUtils.setInstructionsShownFlag(it, false)
+                        instructionsChecked = false
+                    }
+                }
             }
         }
-
-
     }
 
 }

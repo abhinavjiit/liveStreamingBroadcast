@@ -1,15 +1,16 @@
 package com.livestreaming.channelize.io.di
 
-import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.fragment.LSCProductsListDialogFragment
 import dagger.Component
-import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RetrofitModule::class])
+@Component(modules = [RetrofitModule::class, EventListingAndLiveBroadCastModule::class])
 interface ApplicationComponent {
     fun inject(eventBroadCastListingActivity: EventBroadCastListingActivity)
+    fun inject(liveActivity: LSCBroadCastSettingUpAndLiveActivity)
 
 }
 

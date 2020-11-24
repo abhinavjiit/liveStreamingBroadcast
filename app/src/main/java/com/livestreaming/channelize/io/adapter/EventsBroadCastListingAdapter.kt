@@ -44,11 +44,11 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
 
                 try {
                     startDateTextView.text =
-                        "start:".plus(changeGMTtoIST(eventsList?.get(position)?.startTime!!))
+                        "start:".plus(eventsList?.get(position)?.startTime?.changeGMTtoIST())
                     endDateTextView.text =
-                        "end:".plus(changeGMTtoIST(eventsList?.get(position)?.endTime!!))
-
+                        "end:".plus(eventsList?.get(position)?.endTime?.changeGMTtoIST())
                     printDifferenceDateForHours(
+                        holder.countDownTimer,
                         holder,
                         startingInDateCounter,
                         eventsList?.get(position)?.startTime!!,
@@ -56,7 +56,6 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
                     )
 
                 } catch (e: Exception) {
-/////////////////////////////////////////////////////////////////////////
                 }
 
 
@@ -97,59 +96,36 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
         }
 
         override fun onClick(v: View?) {
-            listener.onClick()
+            listener.onClick(adapterPosition)
         }
 
 
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private fun changeGMTtoIST(date: String): String? {
-
-
-        val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        utcFormat.timeZone = TimeZone.getTimeZone("GMT")
-
-
-        val outputFormat =
-            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-
-        outputFormat.timeZone = TimeZone.getTimeZone("IST")
-        val timeFormate = outputFormat.parse(date)
-
-        val day = SimpleDateFormat("dd MMM").format(timeFormate!!)
-        val time = SimpleDateFormat("H:mm a").format(timeFormate)
-
-        return day.plus(", $time")
     }
 
 
     @SuppressLint("SimpleDateFormat")
     private fun printDifferenceDateForHours(
+        countDownTimer: CountDownTimer?,
         holder: ViewHolder,
         dateCounter: TextView,
         startTime: String,
         endTime: String
     ) {
-        if (holder.countDownTimer != null) {
-            holder.countDownTimer?.cancel()
-        }
-
-
+        holder.countDownTimer?.cancel()
         val outputFormat =
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
         val timeFormate = outputFormat.parse(startTime)
+
         outputFormat.timeZone = TimeZone.getTimeZone("IST")
 
         val currentTime = Calendar.getInstance().time
+
         val startDay = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(timeFormate!!)
         val format1 = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault())
-        val startTime = format1.parse(startDay)
+        val startTimee = format1.parse(startDay)
 
-
-        val different = startTime?.time!! - currentTime.time
+        val different: Long = startTimee?.time!! - currentTime.time
         holder.countDownTimer = object : CountDownTimer(different, 1000) {
-
             override fun onTick(millisUntilFinished: Long) {
                 var diff = millisUntilFinished
                 val secondsInMilli: Long = 1000
@@ -179,15 +155,32 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
                 holder.goLiveButton.visibility = View.VISIBLE
                 holder.startBroadCastStatus.visibility = View.VISIBLE
                 holder.eventStatus.text = "Available"
-
-
             }
         }.start()
+
 
     }
 
 
     interface RecyclerViewClickListener {
-        fun onClick()
+        fun onClick(position: Int)
     }
+}
+
+@SuppressLint("SimpleDateFormat")
+fun String.changeGMTtoIST(): String? {
+    val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+    utcFormat.timeZone = TimeZone.getTimeZone("GMT")
+
+
+    val outputFormat =
+        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+
+    outputFormat.timeZone = TimeZone.getTimeZone("IST")
+    val timeFormate = outputFormat.parse(this)
+
+    val day = SimpleDateFormat("dd MMM").format(timeFormate!!)
+    val time = SimpleDateFormat("H:mm a").format(timeFormate)
+
+    return day.plus(", $time")
 }

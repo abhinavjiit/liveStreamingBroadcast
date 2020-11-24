@@ -48,6 +48,15 @@ public class Channelize {
     private volatile String googlePlacesKey;
     private volatile boolean isConnected = false;
     private ChannelizeApi channelizeApi;
+    private String broadCastId;
+
+    public String getBroadCastId() {
+        return broadCastId;
+    }
+
+    public void setBroadCastId(String broadCastId) {
+        this.broadCastId = broadCastId;
+    }
 
     private static final String CHANNELIZE_NOT_INITIALIZED_MESSAGE = "Must initialize Channelize before using getInstance()";
     @SuppressLint("StaticFieldLeak")
@@ -289,6 +298,13 @@ public class Channelize {
     public void addSubscriber(String topic) {
         if (isConnected && topic != null && !topic.isEmpty()) {
             ChannelizeMqttClient.getInstance(applicationContext).subscribeToTopic(topic);
+        }
+    }
+
+    /* method to  unsubscribe the topic*/
+    public void removeSubscriberTopic(String topic) {
+        if (isConnected && topic != null && !topic.isEmpty()) {
+            ChannelizeMqttClient.getInstance(applicationContext).unSubscribeToTopic(topic);
         }
     }
 

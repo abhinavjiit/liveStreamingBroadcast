@@ -16,6 +16,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public class ApiConstants {
 
+    public static final String APP_ID = "2336dbc90d61465ebce940642b537ba4";
 
     static final String CHANNELIZE_CALL_API_URL = "https://callsapi.channelize.io/v2/";
 

@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpActivity
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
 
 const val RECORD_REQUEST_CODE = 101
 const val CAMERA_REQUEST_CODE = 102
@@ -79,6 +79,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 R.id.microPhone -> {
                     showMicroPhonePermission()
                 }
+
             }
         }
     }
@@ -230,7 +231,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                     Manifest.permission.RECORD_AUDIO
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                (it as LSCBroadCastSettingUpActivity).settingUpFragment()
+                (it as LSCBroadCastSettingUpAndLiveActivity).settingUpFragment()
 
             }
         }

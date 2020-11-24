@@ -12,13 +12,13 @@ import kotlinx.coroutines.coroutineScope
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class EventListingRepo @Inject constructor(private val retrofit: Retrofit?) {
+class EventListingRepo @Inject constructor(@com.livestreaming.channelize.io.di.Retrofit private val retrofit: Retrofit) {
 
     suspend fun getEvents(): Resource<List<EventDetailResponse>> {
         return try {
             coroutineScope {
                 val res = async(Dispatchers.IO) {
-                    retrofit?.create(LSCApiCallInterface::class.java)?.getEvents(
+                    retrofit.create(LSCApiCallInterface::class.java).getEvents(
                         hosts = ChannelizePreferences.getCurrentUserId(BaseApplication.getInstance()),
                         skip = 0,
                         limit = 25,
@@ -26,7 +26,7 @@ class EventListingRepo @Inject constructor(private val retrofit: Retrofit?) {
                     )
 
                 }
-                ResponseHandler().handleSuccess(res.await()!!)
+                ResponseHandler().handleSuccess(res.await())
             }
 
 

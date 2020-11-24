@@ -17,7 +17,8 @@ import com.livestreaming.channelize.io.Injector
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpActivity
+import com.livestreaming.channelize.io.activity.login.LoginActivity
+import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
 import com.livestreaming.channelize.io.adapter.EventsBroadCastListingAdapter
 import com.livestreaming.channelize.io.model.EventDetailResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
@@ -88,12 +89,12 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
         viewModel.getEventList().observe(this, Observer {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
-                    progressBar.dismiss()
                     if (!it.data.isNullOrEmpty()) {
                         eventListResponse =
                             it.data.toMutableList() as ArrayList<EventDetailResponse>
                         eventsBroadCastListingAdapter.setEventList(eventListResponse)
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
+                        progressBar.dismiss()
                     } else {
                         noEventContainer.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
@@ -133,13 +134,28 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                 SharedPrefUtils.setLoggedInFlag(this, false)
                 SharedPrefUtils.clearSharedPref(this)
                 Log.d("LOGOUT", "USER LOGGED OUT")
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
                 finish()
             }
         }
     }
 
-    override fun onClick() {
-        val intent = Intent(this, LSCBroadCastSettingUpActivity::class.java)
+    override fun onClick(position: Int) {
+        val productsList = ArrayList<String>()
+        eventListResponse?.get(position)?.products?.forEach {
+            productsList.add(it.id)
+        }
+
+        val intent = Intent(this, LSCBroadCastSettingUpAndLiveActivity::class.java)
+        intent.putExtra("broadCastId", eventListResponse?.get(position)?.id)
+        intent.putStringArrayListExtra(
+            "productsIds",
+            productsList
+        )
+        intent.putExtra("startTime", eventListResponse?.get(position)?.startTime)
+        intent.putExtra("endTime", eventListResponse?.get(position)?.endTime)
         startActivity(intent)
     }
 }

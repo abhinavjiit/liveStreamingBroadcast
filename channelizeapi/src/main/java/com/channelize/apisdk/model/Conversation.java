@@ -89,6 +89,7 @@ public class Conversation implements Parcelable, GenericResponse {
     @SerializedName("members")
     private List<Member> membersList;//Okay
 
+
     private String selfUid;
     private int profileColor;
 

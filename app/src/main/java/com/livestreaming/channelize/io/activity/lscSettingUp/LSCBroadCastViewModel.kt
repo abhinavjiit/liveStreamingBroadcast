@@ -2,18 +2,25 @@ package com.livestreaming.channelize.io.activity.lscSettingUp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import javax.inject.Inject
+import com.livestreaming.channelize.io.model.MessageCommentData
+import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResponse
+import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 
-class LSCBroadCastViewModel : ViewModel() {
+class LSCBroadCastViewModel(private var lscBroadCastRepoImpl: LSCBroadCastRepoInterface) :
+    ViewModel() {
 
-    @Inject
-    lateinit var lscBroadCastRepoImpl: LSCBroadCastRepoImpl
 
-    fun getInstructions() = liveData<Unit
+    fun getProductItems() =
+        liveData<Resource<ProductItemsResponse>>
+        {
+            val productItemsData = lscBroadCastRepoImpl.getProducts()
+            emit(productItemsData)
+        }
+
+
+    fun postComment(messageCommentData: MessageCommentData) = liveData<Unit
             > {
-        lscBroadCastRepoImpl.getInstructions()
-
-
+        lscBroadCastRepoImpl.sendComment(messageCommentData)
     }
 
 

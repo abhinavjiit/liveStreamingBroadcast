@@ -46,6 +46,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         if (v?.id == R.id.loginButton) {
             if (isValid()) {
                 SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
+                SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
                 startLogin()
             }
         }

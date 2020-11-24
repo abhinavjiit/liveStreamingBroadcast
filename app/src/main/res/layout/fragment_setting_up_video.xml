@@ -166,6 +166,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/instructions">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="7dp"
+                android:text="1. Please ensure that you have a stable Internet Connection."
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="7dp"
+                android:text="2. Make sure your device's camera and microphone is turned on during the live stream."
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:text="3. Plug in your device so that the battery doesn't die ."
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="7dp"
+                android:text="4. Position your device for maximum visibility. Use Chat feature to interact with the audience."
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="7dp"
+                android:text="5. Turn on some good lights. Eliminate interfering sounds and other noises."
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
 
         </LinearLayout>
 
@@ -177,11 +217,9 @@
             android:layout_marginStart="16dp"
             android:drawableStart="@drawable/ic_uncheck_box"
             android:drawablePadding="10dp"
-            android:drawableTint="@color/white"
             android:text="Don't show this to me again"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:tint="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/instructionsList" />
 

@@ -16,7 +16,6 @@ class BaseApplication : Application(), Injector {
 
         }
 
-
         @JvmStatic
         fun getInstance(): BaseApplication {
             return appContext as BaseApplication
@@ -32,7 +31,7 @@ class BaseApplication : Application(), Injector {
         applicationComponent = DaggerApplicationComponent.builder().retrofitModule(
             RetrofitModule(
                 LiveBroadcasterConstants.CHANNELIZE_LIVE_BROADCAST_URL,
-                this
+                this, "https://shopify.channelize.io/"
             )
         ).build()
 
