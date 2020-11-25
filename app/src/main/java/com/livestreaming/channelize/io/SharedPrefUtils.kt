@@ -130,23 +130,23 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-//        fun setBroadCastId(context: Context, broadCastId: String) {
-//            val sharedPref = context.applicationContext.getSharedPreferences(
-//                COMMON_PREF_FILE,
-//                Context.MODE_PRIVATE
-//            )
-//            val editor = sharedPref.edit()
-//            editor.putString("broadCastId", broadCastId)
-//            editor.commit()
-//        }
-//
-//        fun getBroadCastId(context: Context): String? {
-//            val sharedPref = context.applicationContext.getSharedPreferences(
-//                COMMON_PREF_FILE,
-//                Context.MODE_PRIVATE
-//            )
-//            return sharedPref.getString("broadCastId", null)
-//        }
+        fun setAppID(context: Context, broadCastId: String) {
+            val sharedPref = context.applicationContext.getSharedPreferences(
+                COMMON_PREF_FILE,
+                Context.MODE_PRIVATE
+            )
+            val editor = sharedPref.edit()
+            editor.putString("appId", broadCastId)
+            editor.commit()
+        }
+
+        fun getAppId(context: Context): String? {
+            val sharedPref = context.applicationContext.getSharedPreferences(
+                COMMON_PREF_FILE,
+                Context.MODE_PRIVATE
+            )
+            return sharedPref.getString("appID", null)
+        }
     }
 
 

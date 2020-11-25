@@ -10,6 +10,9 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 
     <application
         android:name=".BaseApplication"
@@ -42,6 +45,11 @@
             android:name=".activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
+
+        <service
+            android:name=".AppIdGetService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

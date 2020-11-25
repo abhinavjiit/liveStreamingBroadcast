@@ -2,6 +2,7 @@ package com.livestreaming.channelize.io.activity
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +12,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.livestreaming.channelize.io.AppIdGetService
 import com.livestreaming.channelize.io.R
 
 abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var toast: Toast
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,11 @@ abstract class BaseActivity : AppCompatActivity() {
         dialog.setContentView(inflate)
         dialog.setCancelable(false)
         return dialog
+    }
+
+    fun startAppIdService() {
+        val intent = Intent(this, AppIdGetService::class.java)
+        AppIdGetService.enqueueWork(this, intent = intent)
     }
 
 }

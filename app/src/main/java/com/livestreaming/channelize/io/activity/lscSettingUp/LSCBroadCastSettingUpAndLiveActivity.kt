@@ -18,7 +18,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.channelize.apisdk.ApiConstants
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.ChannelizeConfig
 import com.channelize.apisdk.network.mqtt.ChannelizeConversationEventHandler
@@ -267,7 +266,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         try {
             mRtcEngine = RtcEngine.create(
                 BaseApplication.getInstance(),
-                ApiConstants.APP_ID,
+                SharedPrefUtils.getAppId(this),
                 mEventHandler
             )
             mRtcEngine.enableLastmileTest()
@@ -276,7 +275,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
             changeBeautification(beautificationValues)
         } catch (e: Exception) {
+            startAppIdService()
+            initRTCEngine()
             throw RuntimeException("Need to check RTC sdk init fatal")
+
         }
 
     }

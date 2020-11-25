@@ -112,19 +112,19 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
         endTime: String
     ) {
         holder.countDownTimer?.cancel()
+        dateCounter.visibility = View.VISIBLE
+        holder.startingInTextView.visibility = View.VISIBLE
+        holder.goLiveButton.visibility = View.GONE
+        holder.startBroadCastStatus.visibility = View.GONE
         val outputFormat =
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-        val timeFormate = outputFormat.parse(startTime)
+
 
         outputFormat.timeZone = TimeZone.getTimeZone("IST")
-
+        val timeFormat = outputFormat.parse(startTime)
         val currentTime = Calendar.getInstance().time
 
-        val startDay = SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(timeFormate!!)
-        val format1 = SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault())
-        val startTimee = format1.parse(startDay)
-
-        val different: Long = startTimee?.time!! - currentTime.time
+        val different: Long = timeFormat?.time!! - currentTime.time
         holder.countDownTimer = object : CountDownTimer(different, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var diff = millisUntilFinished
@@ -143,9 +143,20 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
                 diff %= minutesInMilli
 
                 val elapsedSeconds = diff / secondsInMilli
+                var timeValue = ""
+                if (elapsedDays > 0) {
+                    timeValue = timeValue.plus("$elapsedDays days ")
+                }
+                if (elapsedHours > 0 || elapsedDays > 0) {
+                    timeValue = timeValue.plus("$elapsedHours hs ")
+                }
+
+                if (elapsedMinutes > 0 || elapsedDays > 0 || elapsedHours > 0) {
+                    timeValue = timeValue.plus("$elapsedMinutes min ")
+                }
 
                 dateCounter.text =
-                    "$elapsedDays days $elapsedHours hs $elapsedMinutes min $elapsedSeconds sec"
+                    "$timeValue $elapsedSeconds sec"
 
             }
 

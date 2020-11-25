@@ -12,7 +12,6 @@ class LSCBroadCastRepoImpl(private val retrofit: Retrofit) : LSCBroadCastRepoInt
         return try {
             val response = retrofit.create(LSCApiCallInterface::class.java)
                 .getProducts(
-
                     "lsc-staging.myshopify.com",
                     "5701810258080,5701809635488"
                 )

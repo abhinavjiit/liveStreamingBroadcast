@@ -77,6 +77,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
                     Log.d("TAGGGG", "success")
                     showToast(this, "success")
+                    startAppIdService()
                     gotoEventListingActivity()
                 }
 

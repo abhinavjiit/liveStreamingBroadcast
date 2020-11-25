@@ -7,7 +7,6 @@ import com.channelize.apisdk.utils.Logcat
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.livestreaming.channelize.io.BuildConfig
 import com.livestreaming.channelize.io.SharedPrefUtils
-import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -26,7 +25,8 @@ import javax.inject.Singleton
 class RetrofitModule(
     private val baseUrl: String,
     private val context: Context
-    , private val productListBaseUrl: String
+    , private val productListBaseUrl: String,
+    private val channelizeCorBaseUrl: String
 ) {
 
     private lateinit var client: OkHttpClient
@@ -97,8 +97,6 @@ class RetrofitModule(
     }
 
 
-
-
     @Provides
     @ProductsListRetrofit
     @Singleton
@@ -138,6 +136,45 @@ class RetrofitModule(
 
     }
 
+
+ /*   @Provides
+    @Singleton
+    @GetAppIDRetrofit
+    fun providesRetrofitInstanceForGettingAppID(): Retrofit {
+        val mainInterceptor = object : Interceptor {
+            override fun intercept(chain: Interceptor.Chain): Response {
+                val original = chain.request()
+                val requestBuilder = original.newBuilder()
+                val request = requestBuilder.build()
+                return chain.proceed(request = request)
+            }
+
+        }
+
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        client = if (BuildConfig.DEBUG) {
+
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .retryOnConnectionFailure(true)
+                .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+
+        } else {
+            OkHttpClient.Builder().addInterceptor(mainInterceptor)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
+                .build()
+        }
+
+        return Retrofit.Builder().baseUrl(channelizeCorBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
+
+    }*/
 
 }
 

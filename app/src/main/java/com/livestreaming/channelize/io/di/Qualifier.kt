@@ -10,3 +10,7 @@ annotation class Retrofit
 @Retention(AnnotationRetention.BINARY)
 annotation class ProductsListRetrofit
 
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class GetAppIDRetrofit
+

@@ -1,6 +1,8 @@
 package com.livestreaming.channelize.io
 
 import android.app.Application
+import com.channelize.apisdk.ApiConstants
+import com.channelize.apisdk.Channelize
 import com.livestreaming.channelize.io.di.ApplicationComponent
 import com.livestreaming.channelize.io.di.DaggerApplicationComponent
 import com.livestreaming.channelize.io.di.RetrofitModule
@@ -31,7 +33,9 @@ class BaseApplication : Application(), Injector {
         applicationComponent = DaggerApplicationComponent.builder().retrofitModule(
             RetrofitModule(
                 LiveBroadcasterConstants.CHANNELIZE_LIVE_BROADCAST_URL,
-                this, "https://shopify.channelize.io/"
+                this,
+                "https://shopify.channelize.io/",
+                LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL
             )
         ).build()
 
