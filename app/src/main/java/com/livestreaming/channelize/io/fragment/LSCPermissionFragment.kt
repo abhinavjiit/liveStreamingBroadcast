@@ -46,7 +46,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 camera.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            camera.text = "enabled camera "
+            camera.text = "Enabled Camera "
             camera.isEnabled = false
             camera.isClickable = false
         }
@@ -59,7 +59,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 microPhone.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            microPhone.text = "enabled microphone "
+            microPhone.text = "Enabled MicroPhone "
             microPhone.isEnabled = false
             microPhone.isClickable = false
 
@@ -193,7 +193,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             camera.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        camera.text = "enabled camera "
+                        camera.text = "Enabled Camera "
                         Log.i("TAG", "Permission has been granted by user")
                         true
                     }
@@ -210,7 +210,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             microPhone.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        microPhone.text = "enabled microphone "
+                        microPhone.text = "Enabled MicroPhone "
                         true
                     }
             }

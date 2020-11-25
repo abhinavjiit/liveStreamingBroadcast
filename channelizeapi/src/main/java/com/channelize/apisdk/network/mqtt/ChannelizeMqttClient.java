@@ -477,11 +477,18 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
                                             listener.getLiveCount(finalResponseObject.toString());
                                         }
                                     });
-
-
                                 }
+                            } else if (topic.equals("live_broadcasts/" + Channelize.getInstance().getBroadCastId() +
+                                    "/reaction_added")) {
+                                if (chConversationEventHandlerList != null) {
+                                    JSONObject finalResponseObject = responseObject;
+                                    getPlatform().execute(() -> {
 
-
+                                        for (ChannelizeConversationEventHandler listener : chConversationEventHandlerList) {
+                                            listener.onLSCReactionsAdded(finalResponseObject.toString());
+                                        }
+                                    });
+                                }
                             } else if (topic.equals("users/" + selfUid + "/conversation/remove")) {
                                 if (chConversationEventHandlerList != null) {
                                     conversation = readJsonResponse(responseObject.toString(), Conversation.class);
@@ -501,7 +508,6 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
                                         }
                                     });
                                 }
-
                             } else if (topic.equals("users/" + selfUid + "/conversation/clear")) {
                                 if (chConversationEventHandlerList != null) {
                                     conversation = readJsonResponse(responseObject.toString(), Conversation.class);
@@ -511,7 +517,6 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
                                         }
                                     });
                                 }
-
                             } else if (topic.equals("users/" + selfUid + "/conversation/add-admin")) {
                                 if (chConversationEventHandlerList != null) {
                                     boolean isAdmin = responseObject.optBoolean("isAdmin");

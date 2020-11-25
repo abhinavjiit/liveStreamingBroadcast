@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Module
 class RetrofitModule(
-    private val baseUrl: String,
+    private val lscBaseUrl: String,
     private val context: Context
     , private val productListBaseUrl: String,
     private val channelizeCorBaseUrl: String
@@ -71,7 +71,7 @@ class RetrofitModule(
                 .build()
         }
 
-        return Retrofit.Builder().baseUrl(baseUrl)
+        return Retrofit.Builder().baseUrl(lscBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
 

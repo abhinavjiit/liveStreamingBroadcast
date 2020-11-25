@@ -130,13 +130,13 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-        fun setAppID(context: Context, broadCastId: String) {
+        fun setAppID(context: Context, appId: String) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
             )
             val editor = sharedPref.edit()
-            editor.putString("appId", broadCastId)
+            editor.putString("appID", appId)
             editor.commit()
         }
 

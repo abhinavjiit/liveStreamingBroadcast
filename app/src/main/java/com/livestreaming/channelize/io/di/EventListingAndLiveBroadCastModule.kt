@@ -20,8 +20,8 @@ class EventListingAndLiveBroadCastModule {
 
 
     @Provides
-    fun providesEventLiveBroadcastRepoInstance(@ProductsListRetrofit retrofit: Retrofit): LSCBroadCastRepoInterface {
-        return LSCBroadCastRepoImpl(retrofit)
+    fun providesEventLiveBroadcastRepoInstance(@ProductsListRetrofit retrofit: Retrofit,@com.livestreaming.channelize.io.di.Retrofit lscRetrofit: Retrofit): LSCBroadCastRepoInterface {
+        return LSCBroadCastRepoImpl(retrofit,lscRetrofit)
 
     }
 

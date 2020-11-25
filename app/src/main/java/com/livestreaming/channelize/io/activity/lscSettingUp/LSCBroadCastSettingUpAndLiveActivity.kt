@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -25,11 +27,11 @@ import com.google.gson.Gson
 import com.livestreaming.channelize.io.*
 import com.livestreaming.channelize.io.activity.BaseActivity
 import com.livestreaming.channelize.io.adapter.LSCCommentListAdapter
-import com.livestreaming.channelize.io.fragment.LSCBeautificationBottomSheetDialogFragment
-import com.livestreaming.channelize.io.fragment.LSCPermissionFragment
-import com.livestreaming.channelize.io.fragment.LSCProductsListDialogFragment
-import com.livestreaming.channelize.io.fragment.LSCSettingUpFragment
+import com.livestreaming.channelize.io.fragment.*
+import com.livestreaming.channelize.io.lscLiveReactions.Direction
+import com.livestreaming.channelize.io.lscLiveReactions.ZeroGravityAnimation
 import com.livestreaming.channelize.io.model.MessageCommentData
+import com.livestreaming.channelize.io.model.lscLiveUpdatedModel.LSCLiveReactionsResponse
 import com.livestreaming.channelize.io.model.lscLiveUpdatedModel.LSCLiveUpdatesResponse
 import com.livestreaming.channelize.io.model.productdetailModel.ProductDetailResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
@@ -51,6 +53,7 @@ import kotlin.collections.ArrayList
 class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListener,
     ChannelizeConversationEventHandler {
 
+    private lateinit var timerContainer: RelativeLayout
     private lateinit var remainingTimeCounter: TextView
     private lateinit var totalTimeLeft: TextView
     private lateinit var broadCasterContainer: RelativeLayout
@@ -71,6 +74,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private var endTime: String? = null
     private var productsList: ArrayList<ProductDetailResponse>? = null
     private var broadCastId: String? = null
+    private var live = false
+    private lateinit var countDownTimer: CountDownTimer
+    private lateinit var flipCamera: ImageView
+    private var productsIds: ArrayList<String>? = null
     private val commentData: MessageCommentData by lazy {
         MessageCommentData()
     }
@@ -93,11 +100,16 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 runOnUiThread {
                     Log.d("onJoinChannelSuccess", "onJoinChannelSuccess")
                     Channelize.getInstance().broadCastId = broadCastId
+                    hitStartBroadCastApi()
                     Channelize.getInstance().updateConnectStatus(true)
                     Channelize.getInstance()
                         .addSubscriber("live_broadcasts/$broadCastId/start_watching")
                     Channelize.getInstance()
                         .addSubscriber("live_broadcasts/$broadCastId/stop_watching")
+                    Channelize.getInstance()
+                        .addSubscriber("live_broadcasts/$broadCastId/reaction_added")//\(key)/conversations/\(conversationId)/message_created
+//                    Channelize.getInstance()
+//                        .addSubscriber("live_broadcasts/$broadCastId/reaction_added")
                     lscRemainingTime()
                 }
             }
@@ -112,6 +124,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     writeSomethingEditText.visibility = View.VISIBLE
                     bottomContainer.visibility = View.VISIBLE
                     commentRecyclerView.visibility = View.VISIBLE
+                    timerContainer.visibility = View.VISIBLE
+                    live = true
                     Log.d("onFirstLocalVideoFrame", "success")
                 }
             }
@@ -159,9 +173,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         post = findViewById(R.id.post)
         remainingTimeCounter = findViewById(R.id.remainingTimeCounter)
         totalTimeLeft = findViewById(R.id.totalTimeLeft)
+        timerContainer = findViewById(R.id.timerContainer)
+        flipCamera = findViewById(R.id.flipCamera)
         broadCastId = intent?.getStringExtra("broadCastId")
         startTime = intent?.getStringExtra("startTime")
         endTime = intent?.getStringExtra("endTime")
+        productsIds = intent?.getStringArrayListExtra("productsIds")
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
@@ -180,6 +197,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         beautification.setOnClickListener(this)
         productListView.setOnClickListener(this)
         post.setOnClickListener(this)
+        cancelLiveBroadcast.setOnClickListener(this)
+        flipCamera.setOnClickListener(this)
     }
 
     private fun initCommentRecyclerView() {
@@ -188,7 +207,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         lscCommentListAdapter.setListData(null)
         lscCommentListAdapter.notifyDataSetChanged()
     }
-
 
     private fun showPermissionFragment() {
         val fragment = LSCPermissionFragment()
@@ -199,7 +217,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         transaction.commit()
     }
 
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -209,6 +226,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         fragment?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    private fun setupViewModel() {
+        lscBroadCastViewModel = ViewModelProvider(
+            this,
+            lscBroadcastAndLiveViewModelFact
+        ).get(LSCBroadCastViewModel::class.java)
+    }
 
     fun settingUpFragment() {
         val fragment = supportFragmentManager.findFragmentByTag("LSCPermissionFragment")
@@ -221,7 +244,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             .commit()
     }
 
-    private fun removeFragment(fragment: Fragment) {
+    fun removeFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().remove(fragment).commit()
     }
 
@@ -253,15 +276,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         }
     }
 
-
     override fun onStart() {
         super.onStart()
         initRTCEngine()
         initLocalVideoConfig()
-
     }
 
-
+    // throw RuntimeException("Need to check RTC sdk init fatal")
     private fun initRTCEngine() {
         try {
             mRtcEngine = RtcEngine.create(
@@ -272,15 +293,11 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             mRtcEngine.enableLastmileTest()
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
             mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
-
             changeBeautification(beautificationValues)
         } catch (e: Exception) {
             startAppIdService()
-            initRTCEngine()
-            throw RuntimeException("Need to check RTC sdk init fatal")
-
+            Log.d("RTC_FATAL_EXCEPTION", e.toString())
         }
-
     }
 
     private fun setupVideoConfig() {
@@ -312,25 +329,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         return networkQuality
     }
 
-    override fun onStop() {
-        Log.d("OnStop", "called")
-        super.onStop()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Channelize.getInstance()
-            .removeSubscriberTopic("live_broadcasts/$broadCastId/start_watching")
-        Channelize.getInstance().removeSubscriberTopic("live_broadcasts/$broadCastId/stop_watching")
-        mRtcEngine.leaveChannel()
-        RtcEngine.destroy()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -350,9 +348,35 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 if (writeSomethingEditText.text.toString().trim().isNotBlank()) {
                     sendCommentData(writeSomethingEditText.text.toString())
                 }
-
+            }
+            R.id.cancelLiveBroadcast -> {
+                if (live)
+                //showBroadCastDetailsFragment
+                    showCancelLiveBroadCastFragment()
+                else
+                    finish()
+            }
+            R.id.flipCamera -> {
+                switchCamera()
             }
         }
+    }
+
+    private fun switchCamera() {
+        mRtcEngine.switchCamera()
+    }
+
+    private fun showCancelLiveBroadCastFragment() {
+        val fragment = LSCBroadCastDetailAfterEndingFragment()
+        val bundle = Bundle()
+        bundle.putString("broadCastId", broadCastId)
+        fragment.arguments = bundle
+        val fm = supportFragmentManager
+        val transaction =
+            fm.beginTransaction()
+                .add(R.id.content_frame, fragment, "LSCBroadCastDetailAfterEndingFragment")
+                .addToBackStack(null)
+        transaction.commit()
     }
 
     fun changeBeautification(beautificationValues: BeautificationCustomizationValuesClassHolder) {
@@ -373,8 +397,19 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
 
     private fun getProductsList() {
-        lscBroadCastViewModel.getProductItems().observe(this, Observer {
-            when (it.status) {
+        val productsIdsCommaSeparated: String? = productsIds?.let { productsId ->
+            var id = ""
+            productsId.forEach { it ->
+                id = if (id.isBlank())
+                    id.plus(it)
+                else
+                    id.plus(",$it")
+            }
+
+            id
+        }
+        lscBroadCastViewModel.getProductItems(productsIdsCommaSeparated).observe(this, Observer {
+            when (it?.status) {
                 Resource.Status.SUCCESS -> {
                     it.data?.let { productItemsRes ->
                         if (productItemsRes.statusCode == 200 && productItemsRes.success == "OK") {
@@ -385,22 +420,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                         }
                     }
                 }
-
                 Resource.Status.ERROR -> {
                     productsList = null
                 }
                 Resource.Status.LOADING -> {
-
                 }
             }
         })
-    }
-
-    private fun setupViewModel() {
-        lscBroadCastViewModel = ViewModelProvider(
-            this,
-            lscBroadcastAndLiveViewModelFact
-        ).get(LSCBroadCastViewModel::class.java)
     }
 
 
@@ -431,6 +457,48 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     }
 
+    override fun onLSCReactionsAdded(response: String?) {
+        runOnUiThread {
+            val res = Gson().fromJson(response, LSCLiveReactionsResponse::class.java)
+            when (res.reaction.type) {
+                LiveBroadcasterConstants.ANGRY -> {
+                    onFlyReactions(R.drawable.angry)
+                }
+                LiveBroadcasterConstants.THANKYOU -> {
+                    onFlyReactions(R.drawable.thankyou)
+                }
+                LiveBroadcasterConstants.WOW -> {
+                    onFlyReactions(R.drawable.wow)
+                }
+                LiveBroadcasterConstants.SAD -> {
+                    onFlyReactions(R.drawable.sad)
+                }
+                LiveBroadcasterConstants.SMILEY -> {
+                    onFlyReactions(R.drawable.smiley)
+                }
+                LiveBroadcasterConstants.CLAP -> {
+                    onFlyReactions(R.drawable.clapping)
+                }
+                LiveBroadcasterConstants.LIKE -> {
+                    onFlyReactions(R.drawable.like)
+                }
+                LiveBroadcasterConstants.LAUGH -> {
+                    onFlyReactions(R.drawable.laugh)
+                }
+                LiveBroadcasterConstants.HEART -> {
+                    onFlyReactions(R.drawable.heart)
+                }
+                LiveBroadcasterConstants.INSIGHT -> {
+                    onFlyReactions(R.drawable.angry)
+                }
+                LiveBroadcasterConstants.DISLIKE -> {
+                    onFlyReactions(R.drawable.dislike)
+                }
+            }
+        }
+
+    }
+
     @SuppressLint("SimpleDateFormat")
     private fun lscRemainingTime() {
         endTime?.let {
@@ -438,13 +506,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             outputFormat.timeZone = TimeZone.getTimeZone("IST")
             val endTimeFormat = outputFormat.parse(it)
-
             val currentTime = Calendar.getInstance().time
-
-
             val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
-
-
             val differenceInMinutes = ((differenceInTime
                     / (1000 * 60))
                     % 60)
@@ -453,15 +516,14 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     / (1000 * 60 * 60))
                     % 24)
 
-            totalTimeLeft.text = "${differenceInHours}h${differenceInMinutes}m"
-            val countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
+            totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
+            countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
                 override fun onFinish() {
                     Log.d("Tag", "aaaa")
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
                     var remainingTime = differenceInTime.minus(millisUntilFinished)
-
 
                     val differenceInMinutes1 = ((remainingTime
                             / (1000 * 60))
@@ -470,11 +532,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     val differenceInHours1 = ((remainingTime
                             / (1000 * 60 * 60))
                             % 24)
-
-
-                    remainingTimeCounter.text = "${differenceInMinutes1}m/"
-
-
+                    remainingTimeCounter.text = "${differenceInMinutes1}m /"
                     Log.d("RESULT", "see")
                 }
 
@@ -484,5 +542,69 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     }
 
+
+    private fun onFlyReactions(resId: Int) {
+        val animation = ZeroGravityAnimation()
+        animation.setCount(1)
+        animation.setScalingFactor(0.2f)
+        animation.setOriginationDirection(Direction.BOTTOM)
+        animation.setDestinationDirection(Direction.TOP)
+        animation.setImage(resId)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {}
+            override fun onAnimationRepeat(animation: Animation?) {}
+        }
+        )
+        val container: ViewGroup = findViewById(R.id.animatorLoader)
+        animation.play(this, container)
+    }
+
+
+    private fun hitStartBroadCastApi() {
+        broadCastId?.let {
+            lscBroadCastViewModel.onStartLSCBroadCast(it)
+        }
+
+    }
+
+    override fun onStop() {
+        Log.d("OnStop", "called")
+        super.onStop()
+
+    }
+
+
+    override fun onBackPressed() {
+        if (live)
+            showCancelLiveBroadCastFragment()
+        else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        leaveLSCBroadcast()
+        countDownTimer.cancel()
+        mRtcEngine.leaveChannel()
+        RtcEngine.destroy()
+    }
+
+    fun leaveLSCBroadcast() {
+        try {
+            Channelize.getInstance()
+                .removeSubscriberTopic("live_broadcasts/$broadCastId/start_watching")
+            Channelize.getInstance()
+                .removeSubscriberTopic("live_broadcasts/$broadCastId/stop_watching")
+        } catch (e: Exception) {
+            Log.d("Tag", e.toString())
+        }
+
+
+    }
 
 }

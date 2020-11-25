@@ -1,4 +1,4 @@
-package com.livestreaming.channelize.io.lscLIveReactions;
+package com.livestreaming.channelize.io.lscLiveReactions;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -115,8 +115,8 @@ public class ZeroGravityAnimation {
                 Direction origin = mOriginationDirection == Direction.RANDOM ? generator.getRandomDirection() : mOriginationDirection;
                 Direction destination = mDestinationDirection == Direction.RANDOM ? generator.getRandomDirection(origin) : mDestinationDirection;
 
-                int startingPoints[] = generator.getPointsInDirection(activity, origin);
-                int endPoints[] = generator.getPointsInDirection(activity, destination);
+                int[] startingPoints = generator.getPointsInDirection(activity, origin);
+                int[] endPoints = generator.getPointsInDirection(activity, destination);
 
 
                 Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), mImageResId);

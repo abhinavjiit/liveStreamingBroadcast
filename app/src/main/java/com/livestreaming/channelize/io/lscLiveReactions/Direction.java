@@ -1,4 +1,4 @@
-package com.livestreaming.channelize.io.lscLIveReactions;
+package com.livestreaming.channelize.io.lscLiveReactions;
 
 public enum Direction {
 

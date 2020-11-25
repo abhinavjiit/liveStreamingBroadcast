@@ -12,19 +12,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
     </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/flipCamera"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:tint="@color/trans_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_flip_camera" />
 
 
     <RelativeLayout
+        android:id="@+id/timerContainer"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_margin="10dp"
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/trans_gray"
         android:gravity="center_vertical"
-        app:layout_constraintEnd_toStartOf="@id/liveTextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@id/flipCamera"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -36,7 +46,7 @@
             android:gravity="center_vertical"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text=""
+            android:text="dsvfd"
             android:textColor="@color/white"
             android:visibility="visible" />
 
@@ -48,7 +58,7 @@
             android:layout_toEndOf="@id/remainingTimeCounter"
             android:gravity="center_vertical"
             android:paddingEnd="5dp"
-            android:text=""
+            android:text="fsdvdf"
             android:textColor="@color/white"
             android:visibility="visible" />
     </RelativeLayout>
@@ -58,8 +68,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="10dp"
-        android:tint="@color/grey_faded"
-        android:visibility="gone"
+        android:tint="@color/trans_gray"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_cancel" />
@@ -76,7 +86,7 @@
         android:paddingEnd="15dp"
         android:text="Live"
         android:textColor="@color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/liveViewCount"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,16 +96,15 @@
         android:layout_height="30dp"
         android:layout_margin="10dp"
         android:background="@drawable/rectangular_rounded_corner_border"
-        android:backgroundTint="@color/grey"
+        android:backgroundTint="@color/trans_gray"
         android:drawableStart="@drawable/ic_live_count"
         android:drawablePadding="10dp"
+        android:gravity="center_vertical"
         android:paddingStart="15dp"
-        android:paddingTop="7dp"
         android:paddingEnd="15dp"
-        android:paddingBottom="7dp"
-        android:text="25"
+        android:text="0"
         android:textColor="@color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/cancelLiveBroadcast"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -221,9 +230,21 @@
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/animatorLoader"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/transparent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

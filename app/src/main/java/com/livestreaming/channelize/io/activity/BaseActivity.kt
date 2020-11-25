@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.AppIdGetService
 import com.livestreaming.channelize.io.R
+import com.livestreaming.channelize.io.SharedPrefUtils
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -61,8 +62,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun startAppIdService() {
-        val intent = Intent(this, AppIdGetService::class.java)
-        AppIdGetService.enqueueWork(this, intent = intent)
+        if (SharedPrefUtils.getAppId(this).isNullOrBlank()) {
+            val intent = Intent(this, AppIdGetService::class.java)
+            AppIdGetService.enqueueWork(this, intent = intent)
+        }
+
     }
 
 }

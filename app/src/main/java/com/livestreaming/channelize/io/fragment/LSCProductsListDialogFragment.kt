@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
@@ -34,15 +37,18 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
     ): View? {
         val view =
             inflater.inflate(R.layout.bottom_sheet_fragment_product_list_layout, container, false)
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         cancelProductsList = view.findViewById(R.id.cancelProductsList)
         productsHeaderTextView = view.findViewById(R.id.productsHeaderTextView)
         productListRecyclerView = view.findViewById(R.id.productListRecyclerView)
         noProductsTextView = view.findViewById(R.id.noProductsTextView)
+        view.findViewById<ConstraintLayout>(R.id.root).maxHeight =
+            (resources.displayMetrics.heightPixels * 0.5).toInt()
         setupRecyclerView()
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
 
     }
 
@@ -53,11 +59,19 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
             productListRecyclerView.layoutManager = LinearLayoutManager(it)
             productListRecyclerView.adapter = productsItemAdapter
             listOfProducts?.let {
-                productsItemAdapter.setListData(listOfProducts)
-                productsItemAdapter.notifyDataSetChanged()
+                if (it.isEmpty()) {
+                    productListRecyclerView.visibility = View.GONE
+                    noProductsTextView.visibility -= View.VISIBLE
+
+                } else {
+                    productListRecyclerView.visibility = View.VISIBLE
+                    noProductsTextView.visibility -= View.GONE
+                    productsItemAdapter.setListData(listOfProducts)
+                    productsItemAdapter.notifyDataSetChanged()
+                }
             } ?: run {
-                productsItemAdapter.setListData(null)
-                productsItemAdapter.notifyDataSetChanged()
+                productListRecyclerView.visibility = View.GONE
+                noProductsTextView.visibility -= View.VISIBLE
 
             }
 

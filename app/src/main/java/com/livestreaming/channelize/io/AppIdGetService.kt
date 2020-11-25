@@ -36,7 +36,7 @@ class AppIdGetService : JobIntentService() {
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
         var channelId: String = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = createNotificationChannel("my_app_id_service", "My Background Service")
+            channelId = createNotificationChannel()
         }
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, channelId)
         val notification: Notification = builder.setOngoing(true)
@@ -47,8 +47,8 @@ class AppIdGetService : JobIntentService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNotificationChannel(
-        channelId: String,
-        channelName: String
+        channelId: String = "my_app_id_service",
+        channelName: String = "My Background Service"
     ): String {
         val channel = NotificationChannel(
             channelId,
@@ -68,11 +68,10 @@ class AppIdGetService : JobIntentService() {
 
 
     private fun onHandleIntent() {
-
         try {
             GlobalScope.launch(Dispatchers.IO) {
                 val response = retrofit.create(LSCApiCallInterface::class.java)
-                    .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL+"/modules/")
+                    .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
                 response.forEach {
                     if (it.identifier == "live-broadcast") {
                         it.settings.forEach {

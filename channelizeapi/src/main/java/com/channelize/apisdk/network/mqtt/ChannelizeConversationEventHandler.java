@@ -172,6 +172,8 @@ public interface ChannelizeConversationEventHandler {
     }
 
     default void getLiveCount(String response) {
+    }
 
+    default void onLSCReactionsAdded(String response) {
     }
 }
