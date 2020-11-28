@@ -45,7 +45,6 @@ class EventsBroadCastListingAdapter(
 
                 }
                 eventStatus.text = eventsList?.get(position)?.status
-
                 try {
                     startDateTextView.text =
                         context.getString(R.string.strat_event_date_string)
@@ -59,7 +58,6 @@ class EventsBroadCastListingAdapter(
                         startingInDateCounter,
                         eventsList?.get(position)?.startTime!!,
                         eventsList?.get(position)?.endTime!!
-
                     )
                 } catch (e: Exception) {
                     Log.d("EventListAdapterEx", e.toString())

@@ -6,18 +6,23 @@ project.ext {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode project.ext.libVersionCode
         versionName project.ext.libVersionName
     }
     buildTypes {
         release {
             minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -43,7 +48,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.google.code.gson:gson:2.8.6'
-
     implementation("com.amazonaws:aws-android-sdk-iot:2.16.12") {
         exclude module: 'org.eclipse.paho.client.mqttv3'
     }

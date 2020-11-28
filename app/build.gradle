@@ -17,7 +17,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        vectorDrawables.useSupportLibrary=true
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -26,9 +26,10 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug{
-            minifyEnabled false
-            shrinkResources false
+        debug {
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -53,7 +54,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 
-
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'org.conscrypt:conscrypt-android:2.5.1'
@@ -76,6 +76,4 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
     implementation project(':channelizeapi')
-
-
 }
