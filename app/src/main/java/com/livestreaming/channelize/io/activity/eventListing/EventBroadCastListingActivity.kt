@@ -11,14 +11,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.utils.ChannelizePreferences
 import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.Injector
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
-import com.livestreaming.channelize.io.activity.login.LoginActivity
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.login.LSCBroadcastLoginActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import com.livestreaming.channelize.io.adapter.EventsBroadCastListingAdapter
 import com.livestreaming.channelize.io.model.EventDetailResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
@@ -30,7 +31,7 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
 
 
     private val eventsBroadCastListingAdapter: EventsBroadCastListingAdapter by lazy {
-        EventsBroadCastListingAdapter(this)
+        EventsBroadCastListingAdapter(this, this)
     }
     private lateinit var recyclerView: RecyclerView
 
@@ -39,6 +40,7 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
 
     @Inject
     lateinit var eventListingViewModelFact: EventListingViewModelFact
+
 
     private lateinit var viewModel: EventsBroadCastListingViewModel
     private lateinit var userImageView: ImageView
@@ -96,6 +98,7 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
                         progressBar.dismiss()
                     } else {
+                        progressBar.dismiss()
                         noEventContainer.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
                     }
@@ -130,14 +133,37 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                 logoutPopUp.visibility = View.GONE
             }
             R.id.logoutTextView -> {
-                SharedPrefUtils.setPublicApiKey(this, null)
-                SharedPrefUtils.setLoggedInFlag(this, false)
-                SharedPrefUtils.clearSharedPref(this)
-                Log.d("LOGOUT", "USER LOGGED OUT")
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
-                finish()
+                try {
+                    val progressBar = progressDialog(this)
+                    progressBar.show()
+                    SharedPrefUtils.setPublicApiKey(this, null)
+                    SharedPrefUtils.setLoggedInFlag(this, false)
+                    SharedPrefUtils.clearSharedPref(this)
+                    ChannelizePreferences.clearSharedPreferences(BaseApplication.getInstance())
+                    Channelize.logout { result, error ->
+                        if (result.isSuccessful && result != null) {
+                            runOnUiThread {
+                                try {
+                                    progressBar.dismiss()
+                                    val intent = Intent(this, LSCBroadcastLoginActivity::class.java)
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                    startActivity(intent)
+                                    Log.d("LOGOUT", "USER LOGGED OUT")
+                                } catch (e: Exception) {
+                                    progressBar.dismiss()
+                                    Log.d("Exception", e.toString())
+                                }
+
+                            }
+
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.d("LogoutException", e.toString())
+                }
+
+
             }
         }
     }
@@ -156,6 +182,10 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
         )
         intent.putExtra("startTime", eventListResponse?.get(position)?.startTime)
         intent.putExtra("endTime", eventListResponse?.get(position)?.endTime)
+        intent.putExtra(
+            "conversationId",
+            eventListResponse?.get(position)?.metaData?.conversationId
+        )
         startActivity(intent)
     }
 }

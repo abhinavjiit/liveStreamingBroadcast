@@ -1,6 +1,7 @@
-package com.livestreaming.channelize.io.activity.lscSettingUp
+package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import com.livestreaming.channelize.io.model.MessageCommentData
+import com.livestreaming.channelize.io.model.StartBroadcastRequiredResponse
 import com.livestreaming.channelize.io.model.lscDetailsModel.LSCBroadCastLiveUpdateDetailsResponse
 import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
@@ -11,11 +12,17 @@ interface LSCBroadCastRepoInterface {
 
     suspend fun sendComment(messageCommentData: MessageCommentData)
 
-    suspend fun onStartLSCBroadCast(broadcastId: String)
+    suspend fun onStartLSCBroadCast(
+        broadcastId: String,
+        broadcastRequiredResponse: StartBroadcastRequiredResponse
+    )
 
     suspend fun onStopLSCBroadCast(broadcastId: String)
 
-    suspend fun getBroadCastDetails(broadcastId: String): Resource<LSCBroadCastLiveUpdateDetailsResponse>
+    suspend fun getBroadCastDetails(broadcastId: String,conversationId: String): Resource<LSCBroadCastLiveUpdateDetailsResponse>
 
+    suspend fun onStartConversation(conversationId: String)
+
+    suspend fun onStopConversation(conversationId: String)
 
 }

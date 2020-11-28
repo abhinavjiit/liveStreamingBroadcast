@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 
 const val RECORD_REQUEST_CODE = 101
 const val CAMERA_REQUEST_CODE = 102
@@ -46,7 +46,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 camera.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            camera.text = "Enabled Camera "
+            camera.text = "Camera Enabled "
             camera.isEnabled = false
             camera.isClickable = false
         }
@@ -59,7 +59,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 microPhone.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            microPhone.text = "Enabled MicroPhone "
+            microPhone.text = "MicroPhone Enabled"
             microPhone.isEnabled = false
             microPhone.isClickable = false
 
@@ -193,7 +193,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             camera.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        camera.text = "Enabled Camera "
+                        camera.text = "Camera Enabled"
                         Log.i("TAG", "Permission has been granted by user")
                         true
                     }
@@ -210,7 +210,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             microPhone.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        microPhone.text = "Enabled MicroPhone "
+                        microPhone.text = "MicroPhone Enabled"
                         true
                     }
             }

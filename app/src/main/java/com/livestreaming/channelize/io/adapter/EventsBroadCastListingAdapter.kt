@@ -1,13 +1,16 @@
 package com.livestreaming.channelize.io.adapter
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.model.EventDetailResponse
@@ -17,7 +20,10 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
+class EventsBroadCastListingAdapter(
+    private val context: Context,
+    private val listener: RecyclerViewClickListener
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var eventsList: List<EventDetailResponse>? = null
 
@@ -31,9 +37,7 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {
             holder.apply {
-
                 eventNameTextView.text = eventsList?.get(position)?.title
-
                 try {
                     Picasso.get().load(eventsList?.get(position)?.bannerImageUrl?.trim())
                         .into(eventImageView)
@@ -44,25 +48,24 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
 
                 try {
                     startDateTextView.text =
-                        "start:".plus(eventsList?.get(position)?.startTime?.changeGMTtoIST())
+                        context.getString(R.string.strat_event_date_string)
+                            .plus(eventsList?.get(position)?.startTime?.changeGMTtoIST())
                     endDateTextView.text =
-                        "end:".plus(eventsList?.get(position)?.endTime?.changeGMTtoIST())
+                        context.getString(R.string.end_event_date_string)
+                            .plus(eventsList?.get(position)?.endTime?.changeGMTtoIST())
                     printDifferenceDateForHours(
                         holder.countDownTimer,
                         holder,
                         startingInDateCounter,
                         eventsList?.get(position)?.startTime!!,
                         eventsList?.get(position)?.endTime!!
+
                     )
-
                 } catch (e: Exception) {
+                    Log.d("EventListAdapterEx", e.toString())
                 }
-
-
             }
-
         }
-
     }
 
 
@@ -154,10 +157,8 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
                 if (elapsedMinutes > 0 || elapsedDays > 0 || elapsedHours > 0) {
                     timeValue = timeValue.plus("$elapsedMinutes min ")
                 }
-
                 dateCounter.text =
                     "$timeValue $elapsedSeconds sec"
-
             }
 
             override fun onFinish() {
@@ -165,8 +166,15 @@ class EventsBroadCastListingAdapter(val listener: RecyclerViewClickListener) :
                 holder.startingInTextView.visibility = View.GONE
                 holder.goLiveButton.visibility = View.VISIBLE
                 holder.startBroadCastStatus.visibility = View.VISIBLE
-                holder.eventStatus.text = "Available"
+                holder.eventStatus.text = context.getString(R.string.live_event_string)
+                holder.eventStatus.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.app_red
+                    )
+                )
             }
+
         }.start()
 
 

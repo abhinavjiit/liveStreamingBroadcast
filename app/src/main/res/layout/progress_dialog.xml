@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:layout_margin="7dp"
         android:indeterminate="true"
-        android:indeterminateTint="@color/app_red"
+        android:indeterminateTint="@color/btn_bg_blue"
         android:indeterminateTintMode="src_atop"
         android:visibility="gone" />
 
@@ -23,7 +23,7 @@
         android:layout_margin="7dp"
         android:layout_toEndOf="@+id/progressBar"
         android:layout_toRightOf="@id/progressBar"
-        android:textColor="@color/app_red"
+        android:textColor="@color/blue_color"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone" />

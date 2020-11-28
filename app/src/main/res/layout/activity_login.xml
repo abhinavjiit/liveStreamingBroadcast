@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/app_logo" />
+        app:srcCompat="@drawable/applogo" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -25,8 +25,9 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"
         android:text="Broadcast your event and engage with your viewers"
-        android:textColor="@color/greytxt_color"
+        android:textColor="@color/dark_grey"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/channelizeImageView" />
@@ -40,8 +41,8 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_horizontal"
-        android:text="Login to Express yourself LIVE and promote your PRODUCTS"
-        android:textColor="@color/greytxt_color"
+        android:text="Login to Express yourself LIVE And promote your PRODUCTS"
+        android:textColor="@color/dark_grey"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,8 @@
             android:background="@color/white"
             android:drawableLeft="@drawable/ic_public_key"
             android:drawablePadding="7dp"
-            android:hint="your public key"
+            android:drawableTint="@color/dark_grey"
+            android:hint="Your Public Key"
             android:textSize="16sp" />
     </RelativeLayout>
 
@@ -93,7 +95,9 @@
             android:background="@color/white"
             android:drawableLeft="@drawable/ic_store_url"
             android:drawablePadding="7dp"
-            android:hint="your store url"
+            android:drawableTint="@color/dark_grey"
+
+            android:hint="Store Url"
             android:textSize="16sp" />
     </RelativeLayout>
 
@@ -117,8 +121,10 @@
             android:layout_margin="10dp"
             android:background="@color/white"
             android:drawableLeft="@drawable/ic_email"
+
             android:drawablePadding="7dp"
-            android:hint="email"
+            android:drawableTint="@color/dark_grey"
+            android:hint="Email Address"
             android:textSize="16sp" />
     </RelativeLayout>
 
@@ -141,9 +147,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@color/white"
-            android:drawableLeft="@drawable/ic_password"
+            android:drawableStart="@drawable/ic_password"
             android:drawablePadding="7dp"
-            android:hint="password"
+            android:drawableTint="@color/dark_grey"
+            android:hint="Password"
             android:inputType="textPassword"
             android:textSize="16sp" />
     </RelativeLayout>
@@ -157,6 +164,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_button_border"
+        android:backgroundTint="@color/btn_bg_blue"
         android:gravity="center_horizontal"
         android:paddingTop="15dp"
         android:paddingBottom="15dp"

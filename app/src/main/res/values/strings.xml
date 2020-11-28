@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Live Streaming Channelize</string>
+    <string name="reaction_count">\"# of Reactions: \"</string>
+    <string name="view_count">\"# of Views: \"</string>
+    <string name="comment_count">\"# of Reactions: \"</string>
+    <string name="live_event_string">Live</string>
+    <string name="strat_event_date_string">Start:</string>
+    <string name="end_event_date_string">End:</string>
 </resources>

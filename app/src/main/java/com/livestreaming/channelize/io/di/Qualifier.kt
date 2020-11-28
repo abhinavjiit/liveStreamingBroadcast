@@ -12,5 +12,5 @@ annotation class ProductsListRetrofit
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class GetAppIDRetrofit
+annotation class CoreUrlRetrofit
 

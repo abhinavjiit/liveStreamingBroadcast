@@ -19,7 +19,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="10dp"
-        android:tint="@color/trans_gray"
+        android:tint="@color/dark_grey"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_flip_camera" />
@@ -33,7 +34,7 @@
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/trans_gray"
         android:gravity="center_vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/flipCamera"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -46,7 +47,7 @@
             android:gravity="center_vertical"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="dsvfd"
+            android:text=""
             android:textColor="@color/white"
             android:visibility="visible" />
 
@@ -58,7 +59,7 @@
             android:layout_toEndOf="@id/remainingTimeCounter"
             android:gravity="center_vertical"
             android:paddingEnd="5dp"
-            android:text="fsdvdf"
+            android:text=""
             android:textColor="@color/white"
             android:visibility="visible" />
     </RelativeLayout>
@@ -68,8 +69,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_margin="10dp"
-        android:tint="@color/trans_gray"
-        android:visibility="visible"
+        android:tint="@color/dark_grey"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_cancel" />
@@ -86,7 +87,7 @@
         android:paddingEnd="15dp"
         android:text="Live"
         android:textColor="@color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/liveViewCount"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,7 +105,7 @@
         android:paddingEnd="15dp"
         android:text="0"
         android:textColor="@color/white"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/cancelLiveBroadcast"
         app:layout_constraintTop_toTopOf="parent" />
 

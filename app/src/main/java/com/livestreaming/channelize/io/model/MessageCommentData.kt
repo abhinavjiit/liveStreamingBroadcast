@@ -10,7 +10,11 @@ data class MessageCommentData(
     , @SerializedName("body")
     var body: String? = null,
     @SerializedName("conversationId")
-    var conversationId: String? = null
+    var conversationId: String? = null,
+    @SerializedName("userName")
+    var userName: String? = null,
+    @SerializedName("userImage")
+    var userImage: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

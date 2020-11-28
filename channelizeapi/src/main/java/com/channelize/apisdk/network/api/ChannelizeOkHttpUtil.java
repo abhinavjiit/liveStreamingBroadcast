@@ -147,6 +147,7 @@ public class ChannelizeOkHttpUtil extends OkHttpClient {
      */
     public void removeAuthHeader() {
         requestBuilder.removeHeader("Authorization");
+        requestBuilder.removeHeader("Public-Key");
     }
 
     /**
@@ -160,6 +161,11 @@ public class ChannelizeOkHttpUtil extends OkHttpClient {
             instance = new ChannelizeOkHttpUtil(context);
         }
         return instance;
+    }
+
+    public synchronized static void setInstance() {
+        if (instance != null)
+            instance = null;
     }
 
     /**

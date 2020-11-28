@@ -2,10 +2,10 @@ package com.livestreaming.channelize.io.`interface`.networkCallInterface
 
 import com.livestreaming.channelize.io.model.EventDetailResponse
 import com.livestreaming.channelize.io.model.MessageCommentData
+import com.livestreaming.channelize.io.model.StartBroadcastRequiredResponse
 import com.livestreaming.channelize.io.model.appIdModule.ExtractAppIdResponse
 import com.livestreaming.channelize.io.model.lscDetailsModel.LSCBroadCastLiveUpdateDetailsResponse
 import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResponse
-import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import okhttp3.ResponseBody
 import retrofit2.http.*
 
@@ -26,7 +26,7 @@ interface LSCApiCallInterface {
     ): ProductItemsResponse
 
 
-    @POST("v2/messages/send")
+    @POST("messages/send")
     suspend fun sendComment(@Body body: MessageCommentData): ResponseBody
 
     @GET
@@ -36,13 +36,26 @@ interface LSCApiCallInterface {
     ): List<ExtractAppIdResponse>
 
     @POST("/v2/live_broadcasts/{broadcastId}/start")
-    suspend fun onStartBroadCast(@Path("broadcastId") broadcastId: String)
+    suspend fun onStartBroadCast(
+        @Path("broadcastId") broadcastId: String,
+        @Body startBroadcastRequiredResponse: StartBroadcastRequiredResponse
+    )
 
-    @POST("/v2/live_broadcasts/{broadcastId}/stop")
+    @POST("conversations/{conversation_id}/start_watching")
+    suspend fun onStartConversation(@Path("conversation_id") conversation_id: String)
+
+    @POST("/v2/live_broadcasts/{broadcastId}/end")
     suspend fun onStopBroadCast(@Path("broadcastId") broadcastId: String)
 
+    @POST("conversations/{conversation_id}/stop_watching")
+    suspend fun onStopConversation(@Path("conversation_id") conversation_id: String)
+
     @GET("/v2/live_broadcasts/{broadcastId}")
-    suspend fun getAllDetailsOfBroadCast(@Path("broadcastId") broadcastId: String):LSCBroadCastLiveUpdateDetailsResponse
+    suspend fun getAllDetailsOfBroadCast(@Path("broadcastId") broadcastId: String): LSCBroadCastLiveUpdateDetailsResponse
+//GET https://api.channelize.io/v2/conversations/{conversation_id}/messages/count
+
+    @GET("conversations/{conversation_id}/messages/count")
+    suspend fun getCommentsCount(@Path("conversation_id") conversation_id: String):LSCBroadCastLiveUpdateDetailsResponse
 
 
 }

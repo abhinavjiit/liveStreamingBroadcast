@@ -8,8 +8,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerView"
         android:layout_width="0dp"
-        android:padding="10dp"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:tint="@color/grey"
+            android:tint="@color/dark_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -153,12 +153,12 @@
             android:id="@+id/lightnessSlider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:haloColor="@color/app_red"
+            app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lightingTextView"
-            app:thumbColor="@color/app_red"
-            app:trackColorActive="@color/app_red"
+            app:thumbColor="@color/btn_bg_blue"
+            app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -186,12 +186,12 @@
             android:id="@+id/smoothnessSlider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:haloColor="@color/app_red"
+            app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/smoothnessTextView"
-            app:thumbColor="@color/app_red"
-            app:trackColorActive="@color/app_red"
+            app:thumbColor="@color/btn_bg_blue"
+            app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -219,13 +219,13 @@
             android:id="@+id/rednessSlider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:haloColor="@color/app_red"
+            app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rednessTextView"
-            app:thumbColor="@color/app_red"
-            app:trackColorActive="@color/app_red"
+            app:thumbColor="@color/btn_bg_blue"
+            app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

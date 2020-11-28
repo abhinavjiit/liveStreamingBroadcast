@@ -20,3 +20,4 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class io.agora.**{*;}
+-keep public class com.livestreaming.channelize.io.activity.login.LSCBroadcastLoginActivity

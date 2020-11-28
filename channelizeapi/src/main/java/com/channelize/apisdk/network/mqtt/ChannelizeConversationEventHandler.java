@@ -176,4 +176,9 @@ public interface ChannelizeConversationEventHandler {
 
     default void onLSCReactionsAdded(String response) {
     }
+
+    default void onMessageCreated(String response)
+    {
+
+    }
 }

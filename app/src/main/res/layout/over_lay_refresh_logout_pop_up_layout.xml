@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent_color"
     android:clickable="true"
-    android:focusable="true"
-    android:background="@color/transparent_color">
+    android:focusable="true">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        android:background="@drawable/rectangular_rounded_corner_border">
+        android:background="@drawable/rectangular_rounded_corner_border"
+        android:backgroundTint="@color/white">
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -24,7 +25,7 @@
             android:padding="20dp"
             android:text="Refresh"
             android:textAllCaps="true"
-            android:textColor="@color/app_red"
+            android:textColor="@color/btn_bg_blue"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -32,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@id/refreshTextView"
-            android:background="@color/app_red" />
+            android:background="@color/btn_bg_blue" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/logoutTextView"
@@ -44,7 +45,7 @@
             android:padding="20dp"
             android:text="LogOut "
             android:textAllCaps="true"
-            android:textColor="@color/app_red"
+            android:textColor="@color/btn_bg_blue"
             android:textSize="16sp"
             android:textStyle="bold"
             app:textAllCaps="true" />

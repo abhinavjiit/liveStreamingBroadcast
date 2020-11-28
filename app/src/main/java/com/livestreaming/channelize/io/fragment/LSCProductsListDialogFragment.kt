@@ -10,11 +10,9 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.livestreaming.channelize.io.R
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import com.livestreaming.channelize.io.adapter.LSCBroadcastProductsListingAdapter
 
 class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
@@ -44,6 +42,10 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
         view.findViewById<ConstraintLayout>(R.id.root).maxHeight =
             (resources.displayMetrics.heightPixels * 0.5).toInt()
         setupRecyclerView()
+
+        cancelProductsList.setOnClickListener {
+            dismiss()
+        }
         return view
     }
 

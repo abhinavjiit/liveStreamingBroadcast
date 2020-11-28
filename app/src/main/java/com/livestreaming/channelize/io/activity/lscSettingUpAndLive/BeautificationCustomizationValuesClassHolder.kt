@@ -1,4 +1,4 @@
-package com.livestreaming.channelize.io.activity.lscSettingUp
+package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 data class BeautificationCustomizationValuesClassHolder(
     var isEnabled: Boolean = true,

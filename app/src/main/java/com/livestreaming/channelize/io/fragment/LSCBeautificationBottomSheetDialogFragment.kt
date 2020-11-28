@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.slider.Slider
 import com.livestreaming.channelize.io.R
-import com.livestreaming.channelize.io.activity.lscSettingUp.BeautificationCustomizationValuesClassHolder
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.BeautificationCustomizationValuesClassHolder
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 
 class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment(),
     View.OnClickListener {

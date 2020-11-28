@@ -43,7 +43,6 @@ class RetrofitModule(
                 SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
                     requestBuilder.addHeader("Public-key", publicApiKey)
                     requestBuilder.addHeader("Content_Type", "application/json")
-
                 }
                 addAuthHeader(requestBuilder)
                 val request = requestBuilder.build()
@@ -136,15 +135,19 @@ class RetrofitModule(
 
     }
 
-
- /*   @Provides
+    @Provides
     @Singleton
-    @GetAppIDRetrofit
+    @CoreUrlRetrofit
     fun providesRetrofitInstanceForGettingAppID(): Retrofit {
         val mainInterceptor = object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original = chain.request()
                 val requestBuilder = original.newBuilder()
+                SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
+                    requestBuilder.addHeader("Public-key", publicApiKey)
+                    requestBuilder.addHeader("Content_Type", "application/json")
+                }
+                addAuthHeader(requestBuilder)
                 val request = requestBuilder.build()
                 return chain.proceed(request = request)
             }
@@ -174,7 +177,7 @@ class RetrofitModule(
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
 
-    }*/
+    }
 
 }
 

@@ -1,10 +1,13 @@
 package com.livestreaming.channelize.io.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
@@ -12,9 +15,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.Injector
 import com.livestreaming.channelize.io.R
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastSettingUpAndLiveActivity
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadCastViewModel
-import com.livestreaming.channelize.io.activity.lscSettingUp.LSCBroadcastAndLiveViewModelFact
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastViewModel
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import javax.inject.Inject
 
@@ -28,7 +31,14 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
     private lateinit var endNowTextView: TextView
     private lateinit var cancel: TextView
     private lateinit var closeTextView: TextView
+    private lateinit var viewsCountTextView: TextView
+    private lateinit var reactionsCountTextView: TextView
+    private lateinit var commentsCountTextView: TextView
+    private lateinit var countContainer: LinearLayout
+    private lateinit var loadingTextView: TextView
+    private lateinit var progressBar: ProgressBar
     private var broadCastId: String? = null
+    private var conversationId: String? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,6 +49,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
         initViews(view)
         initViewModel()
         broadCastId = arguments?.getString("broadCastId")
+        conversationId = arguments?.getString("conversationId")
         return view
     }
 
@@ -48,6 +59,12 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
         cancel = view.findViewById(R.id.cancel)
         endNowTextView = view.findViewById(R.id.endNowTextView)
         closeTextView = view.findViewById(R.id.closeTextView)
+        viewsCountTextView = view.findViewById(R.id.viewsCountTextView)
+        reactionsCountTextView = view.findViewById(R.id.reactionsCountTextView)
+        commentsCountTextView = view.findViewById(R.id.commentsCountTextView)
+        countContainer = view.findViewById(R.id.countContainer)
+        loadingTextView = view.findViewById(R.id.loadingTextView)
+        progressBar = view.findViewById(R.id.progressBar)
         closeTextView.setOnClickListener(this)
         cancel.setOnClickListener(this)
         endNowTextView.setOnClickListener(this)
@@ -85,33 +102,86 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
 
     private fun onStopBroadCast() {
         broadCastId?.let {
-            viewModel.onStopLSCBroadCast(it)
+            viewModel.onStopLSCBroadCast(broadcastId = it)
+        }
+        conversationId?.let {
+            viewModel.onStopConversation(conversationId = it)
         }
         getAllDetailsOfBroadCast()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getAllDetailsOfBroadCast() {
-        broadCastId?.let {
-            viewModel.getAllDetailsOfBroadCast(it).observe(this, Observer { res ->
+        safeLet(broadCastId, conversationId) { broadCastId, conversationId ->
+            viewModel.getAllDetailsOfBroadCast(
+                broadcastId = broadCastId,
+                conversationId = conversationId
+            ).observe(this, Observer { res ->
                 when (res.status) {
                     Resource.Status.SUCCESS -> {
+                        progressBar.visibility = View.GONE
+                        loadingTextView.visibility = View.GONE
                         res.data?.let {
-                            Log.d("Tag", it.toString())
+                            Log.d("ViewReactionMsgCount", it.toString())
+                            viewsCountTextView.text =
+                                getString(R.string.view_count) + it.viewersCount
+                            commentsCountTextView.text =
+                                getString(R.string.comment_count) + it.messageCount
+                            reactionsCountTextView.text =
+                                getString(R.string.reaction_count) + (it.reactionsCount.angry + it.reactionsCount.clap + it.reactionsCount.dislike +
+                                        it.reactionsCount.heart +
+                                        it.reactionsCount.insightfull +
+                                        it.reactionsCount.laugh +
+                                        it.reactionsCount.like +
+                                        it.reactionsCount.sad +
+                                        it.reactionsCount.smiley +
+                                        it.reactionsCount.thankyou +
+                                        it.reactionsCount.wow)
                         }
-
                     }
                     Resource.Status.LOADING -> {
-
+                        progressBar.visibility = View.VISIBLE
+                        loadingTextView.visibility = View.VISIBLE
 
                     }
                     Resource.Status.ERROR -> {
-                        Log.d("Tag", res.message.toString())
+                        Log.d("ViewReactionMsgCountEx", res.message.toString())
+                        progressBar.visibility = View.GONE
+                        loadingTextView.visibility = View.GONE
                     }
-
                 }
 
             })
         }
+
+        /*  broadCastId?.let {
+              viewModel.getAllDetailsOfBroadCast(broadcastId = it).observe(this, Observer { res ->
+                  when (res.status) {
+                      Resource.Status.SUCCESS -> {
+                          res.data?.let {
+                              Log.d("Tag", it.toString())
+                          }
+
+                      }
+                      Resource.Status.LOADING -> {
+
+
+                      }
+                      Resource.Status.ERROR -> {
+                          Log.d("Tag", res.message.toString())
+                      }
+                  }
+
+              })
+          }*/
+    }
+
+    private inline fun <T1 : Any, T2 : Any, R : Any> safeLet(
+        p1: T1?,
+        p2: T2?,
+        block: (T1, T2) -> R?
+    ): R? {
+        return if (p1 != null && p2 != null) block(p1, p2) else null
     }
 
 }

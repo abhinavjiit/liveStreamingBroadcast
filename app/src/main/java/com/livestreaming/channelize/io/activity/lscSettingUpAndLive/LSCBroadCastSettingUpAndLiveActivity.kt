@@ -1,7 +1,8 @@
-package com.livestreaming.channelize.io.activity.lscSettingUp
+package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -23,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.ChannelizeConfig
 import com.channelize.apisdk.network.mqtt.ChannelizeConversationEventHandler
+import com.channelize.apisdk.utils.ChannelizePreferences
 import com.google.gson.Gson
 import com.livestreaming.channelize.io.*
 import com.livestreaming.channelize.io.activity.BaseActivity
@@ -31,9 +34,12 @@ import com.livestreaming.channelize.io.fragment.*
 import com.livestreaming.channelize.io.lscLiveReactions.Direction
 import com.livestreaming.channelize.io.lscLiveReactions.ZeroGravityAnimation
 import com.livestreaming.channelize.io.model.MessageCommentData
+import com.livestreaming.channelize.io.model.RecordingParams
+import com.livestreaming.channelize.io.model.StartBroadcastRequiredResponse
 import com.livestreaming.channelize.io.model.lscLiveUpdatedModel.LSCLiveReactionsResponse
 import com.livestreaming.channelize.io.model.lscLiveUpdatedModel.LSCLiveUpdatesResponse
 import com.livestreaming.channelize.io.model.productdetailModel.ProductDetailResponse
+import com.livestreaming.channelize.io.model.realTimeMessageResponse.MessageResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import io.agora.rtc.Constants
 import io.agora.rtc.IRtcEngineEventHandler
@@ -41,11 +47,7 @@ import io.agora.rtc.RtcEngine
 import io.agora.rtc.video.BeautyOptions
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -78,14 +80,17 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var flipCamera: ImageView
     private var productsIds: ArrayList<String>? = null
-    private val commentData: MessageCommentData by lazy {
-        MessageCommentData()
-    }
+    private var conversationId: String? = null
     private var commentListData = ArrayList<MessageCommentData>()
 
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
         LSCCommentListAdapter()
     }
+
+    private val startBroadcastRequiredResponse: StartBroadcastRequiredResponse by lazy {
+        StartBroadcastRequiredResponse()
+    }
+
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
@@ -98,24 +103,27 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
             override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
                 runOnUiThread {
-                    Log.d("onJoinChannelSuccess", "onJoinChannelSuccess")
+                    Log.i("onJoinChannelSuccess", "onJoinChannelSuccess")
+                    Log.i("AgoraID", uid.toString())
+                    startBroadcastRequiredResponse.rtcUserId = 1234
                     Channelize.getInstance().broadCastId = broadCastId
-                    hitStartBroadCastApi()
+                    Channelize.getInstance().conversationId = conversationId
                     Channelize.getInstance().updateConnectStatus(true)
-                    Channelize.getInstance()
-                        .addSubscriber("live_broadcasts/$broadCastId/start_watching")
-                    Channelize.getInstance()
-                        .addSubscriber("live_broadcasts/$broadCastId/stop_watching")
-                    Channelize.getInstance()
-                        .addSubscriber("live_broadcasts/$broadCastId/reaction_added")//\(key)/conversations/\(conversationId)/message_created
-//                    Channelize.getInstance()
-//                        .addSubscriber("live_broadcasts/$broadCastId/reaction_added")
+                    runBlocking {
+                        Channelize.getInstance()
+                            .addSubscriber("live_broadcasts/$broadCastId/start_watching")
+                    }
                     lscRemainingTime()
                 }
             }
 
             override fun onFirstLocalVideoFrame(width: Int, height: Int, elapsed: Int) {
                 runOnUiThread {
+                    Log.i("onFirstLocalVideoFrame", "success")
+                    val recordingParams = RecordingParams(width = width, height = height)
+                    startBroadcastRequiredResponse.recordingParams = recordingParams
+                    hitStartBroadCastApi()
+                    hitStartConversationApi()
                     beautification.visibility = View.VISIBLE
                     liveTextView.visibility = View.VISIBLE
                     cancelLiveBroadcast.visibility = View.VISIBLE
@@ -124,6 +132,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     writeSomethingEditText.visibility = View.VISIBLE
                     bottomContainer.visibility = View.VISIBLE
                     commentRecyclerView.visibility = View.VISIBLE
+                    flipCamera.visibility = View.VISIBLE
                     timerContainer.visibility = View.VISIBLE
                     live = true
                     Log.d("onFirstLocalVideoFrame", "success")
@@ -179,6 +188,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         startTime = intent?.getStringExtra("startTime")
         endTime = intent?.getStringExtra("endTime")
         productsIds = intent?.getStringArrayListExtra("productsIds")
+        conversationId = intent?.getStringExtra("conversationId")
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
@@ -240,12 +250,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         }
         val settingFragment = LSCSettingUpFragment()
         supportFragmentManager.beginTransaction()
-            .add(R.id.content_frame, settingFragment, "LSCSettingUpFragment").addToBackStack(null)
+            .add(R.id.content_frame, settingFragment, "LSCSettingUpFragment")
             .commit()
     }
 
-    fun removeFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().remove(fragment).commit()
+    fun removeFragment(fragment: Fragment?) {
+        fragment?.let {
+            supportFragmentManager.beginTransaction().remove(it).commit()
+        }
+
     }
 
     private fun initLocalVideoConfig() {
@@ -259,13 +272,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             val progress = progressDialog(this)
             progress.show()
             CoroutineScope(Dispatchers.Main).launch {
-                mRtcEngine.joinChannel(null, broadCastId, "", 0)
+                mRtcEngine.joinChannel(null, broadCastId, "", 1234)
                 delay(2000)
                 progress.dismiss()
                 val progress2 = progressDialog(
                     this@LSCBroadCastSettingUpAndLiveActivity,
                     onlyText = true,
-                    text = "You are live now"
+                    text = "You are now live!"
                 )
                 progress2.show()
                 delay(1000)
@@ -285,6 +298,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     // throw RuntimeException("Need to check RTC sdk init fatal")
     private fun initRTCEngine() {
         try {
+            Log.d("AppId", SharedPrefUtils.getAppId(this)!!)
             mRtcEngine = RtcEngine.create(
                 BaseApplication.getInstance(),
                 SharedPrefUtils.getAppId(this),
@@ -304,8 +318,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         mRtcEngine.enableVideo()
         mRtcEngine.setVideoEncoderConfiguration(
             VideoEncoderConfiguration(
-                VideoEncoderConfiguration.VD_640x360,
-                VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
+                VideoEncoderConfiguration.VD_1280x720,
+                VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_30,
                 VideoEncoderConfiguration.STANDARD_BITRATE,
                 VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT
             )
@@ -347,11 +361,18 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             R.id.post -> {
                 if (writeSomethingEditText.text.toString().trim().isNotBlank()) {
                     sendCommentData(writeSomethingEditText.text.toString())
+                    writeSomethingEditText.setText("")
+                    try {
+                        val imm: InputMethodManager =
+                            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                        imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+                    } catch (e: Exception) {
+                        Log.d("Exception", "KEYPAD ERROR")
+                    }
                 }
             }
             R.id.cancelLiveBroadcast -> {
                 if (live)
-                //showBroadCastDetailsFragment
                     showCancelLiveBroadCastFragment()
                 else
                     finish()
@@ -370,6 +391,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         val fragment = LSCBroadCastDetailAfterEndingFragment()
         val bundle = Bundle()
         bundle.putString("broadCastId", broadCastId)
+        bundle.putString("conversationId", conversationId)
         fragment.arguments = bundle
         val fm = supportFragmentManager
         val transaction =
@@ -431,11 +453,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
 
     private fun sendCommentData(message: String) {
+        val commentData = MessageCommentData()
         commentData.id = UUID.randomUUID().toString()
-        commentData.body = message + UUID.randomUUID().toString()
-        commentData.conversationId = ""
+        commentData.body = message
+        commentData.conversationId = conversationId
+        commentData.userName =
+            ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
+        commentData.userImage =
+            ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
         commentListData.add(commentData)
-        commentListData.reverse()
         lscCommentListAdapter.setListData(commentListData)
         lscCommentListAdapter.notifyDataSetChanged()
         commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
@@ -457,6 +483,23 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     }
 
+    override fun onMessageCreated(response: String?) {
+        runOnUiThread {
+            Log.d("onMessageCreated", response.toString())
+            val res = Gson().fromJson(response, MessageResponse::class.java)
+            val commentData = MessageCommentData()
+            commentData.body = res.message.body
+            commentData.userName = res.message.owner.displayName
+            commentData.id = res.message.id
+            commentListData.add(commentData)
+            val listOfMessaged = LinkedHashSet(commentListData)
+            commentListData.clear()
+            commentListData.addAll(listOfMessaged)
+            lscCommentListAdapter.setListData(commentListData)
+            lscCommentListAdapter.notifyDataSetChanged()
+        }
+    }
+
     override fun onLSCReactionsAdded(response: String?) {
         runOnUiThread {
             val res = Gson().fromJson(response, LSCLiveReactionsResponse::class.java)
@@ -464,7 +507,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 LiveBroadcasterConstants.ANGRY -> {
                     onFlyReactions(R.drawable.angry)
                 }
-                LiveBroadcasterConstants.THANKYOU -> {
+                LiveBroadcasterConstants.THANK_YOU -> {
                     onFlyReactions(R.drawable.thankyou)
                 }
                 LiveBroadcasterConstants.WOW -> {
@@ -501,43 +544,49 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     @SuppressLint("SimpleDateFormat")
     private fun lscRemainingTime() {
-        endTime?.let {
-            val outputFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            outputFormat.timeZone = TimeZone.getTimeZone("IST")
-            val endTimeFormat = outputFormat.parse(it)
-            val currentTime = Calendar.getInstance().time
-            val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
-            val differenceInMinutes = ((differenceInTime
-                    / (1000 * 60))
-                    % 60)
+        /* endTime?.let {
+             val outputFormat =
+                 SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+             outputFormat.timeZone = TimeZone.getTimeZone("IST")
+             val endTimeFormat = outputFormat.parse(it)
+             val currentTime = Calendar.getInstance().time
+             val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
+             val differenceInMinutes = ((differenceInTime
+                     / (1000 * 60))
+                     % 60)
 
-            val differenceInHours = ((differenceInTime
-                    / (1000 * 60 * 60))
-                    % 24)
+             val differenceInHours = ((differenceInTime
+                     / (1000 * 60 * 60))
+                     % 24)
 
-            totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
-            countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
-                override fun onFinish() {
-                    Log.d("Tag", "aaaa")
-                }
+             totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
+             countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
+                 override fun onFinish() {
+                     Log.d("Tag", "aaaa")
+                 }
 
-                override fun onTick(millisUntilFinished: Long) {
-                    var remainingTime = differenceInTime.minus(millisUntilFinished)
+                 override fun onTick(millisUntilFinished: Long) {
+                     var remainingTime = differenceInTime.minus(millisUntilFinished)
 
-                    val differenceInMinutes1 = ((remainingTime
-                            / (1000 * 60))
-                            % 60)
+                     val differenceInMinutes1 = ((remainingTime
+                             / (1000 * 60))
+                             % 60)
 
-                    val differenceInHours1 = ((remainingTime
-                            / (1000 * 60 * 60))
-                            % 24)
-                    remainingTimeCounter.text = "${differenceInMinutes1}m /"
-                    Log.d("RESULT", "see")
-                }
+                     val differenceInHours1 = ((remainingTime
+                             / (1000 * 60 * 60))
+                             % 24)
+                     remainingTimeCounter.text = "${differenceInMinutes1}m /"
+                     Log.d("RESULT", "see")
+                 }
 
-            }.start()
-        }
+             }.start()
+         }*/
+        lscBroadCastViewModel.getCounterTime(endTime).observe(this, Observer {
+            Log.d("counterTime", "///${it}m")
+        })
+        lscBroadCastViewModel.getTotalTime(endTime).observe(this, Observer {
+            Log.d("TotalTime", it)
+        })
 
 
     }
@@ -566,9 +615,14 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     private fun hitStartBroadCastApi() {
         broadCastId?.let {
-            lscBroadCastViewModel.onStartLSCBroadCast(it)
+            lscBroadCastViewModel.onStartLSCBroadCast(it, startBroadcastRequiredResponse)
         }
+    }
 
+    private fun hitStartConversationApi() {
+        conversationId?.let {
+            lscBroadCastViewModel.onStartConversation(it)
+        }
     }
 
     override fun onStop() {
@@ -577,20 +631,23 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     }
 
-
     override fun onBackPressed() {
+        Log.d("onBackPressed", "onBackPressed")
         if (live)
             showCancelLiveBroadCastFragment()
         else {
-            super.onBackPressed()
+            finish()
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("onDestroy", "onDestroy")
         leaveLSCBroadcast()
-        countDownTimer.cancel()
-        mRtcEngine.leaveChannel()
+        if (::countDownTimer.isInitialized)
+            countDownTimer.cancel()
+        if (::mRtcEngine.isInitialized)
+            mRtcEngine.leaveChannel()
         RtcEngine.destroy()
     }
 
@@ -600,6 +657,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 .removeSubscriberTopic("live_broadcasts/$broadCastId/start_watching")
             Channelize.getInstance()
                 .removeSubscriberTopic("live_broadcasts/$broadCastId/stop_watching")
+            Channelize.getInstance()
+                .removeSubscriberTopic("live_broadcasts/$broadCastId/reaction_added")
+            Channelize.getInstance()
+                .removeSubscriberTopic("conversations/$conversationId/message_created")
         } catch (e: Exception) {
             Log.d("Tag", e.toString())
         }

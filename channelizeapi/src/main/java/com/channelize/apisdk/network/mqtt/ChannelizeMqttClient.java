@@ -144,9 +144,6 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
         connectToServer(context, true);
     }
 
-    public void connectToSeverLiveBroadCast(Context context, String topic) {
-        connectToServerBroadCast(context, false, topic);
-    }
 
     /**
      * Method to get connected to the server.
@@ -231,82 +228,6 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
         }
     }
 
-    public void connectToServerBroadCast(Context context, boolean subscribeAllTopics, String topic) {
-        try {
-            // Connecting only when the Channelize sdk is connected.
-            if (Channelize.getInstance().isConnected() && instance != null) {
-                if (isMqttConnected() && subscribeAllTopics) {
-                    subscribeToTopic(topic);
-                } else {
-                    AWSMobileClient.getInstance().initialize(context, new Callback<UserStateDetails>() {
-                        @Override
-                        public void onResult(UserStateDetails result) {
-                            Logcat.d(ChannelizeMqttClient.class, "onResult: " + "user state: " + String.valueOf(result.getUserState()));
-
-                            setAutoReconnect(true);
-                            setCleanSession(false);
-                            final Channelize channelize = Channelize.getInstance();
-                            String currentUserId = channelize.getCurrentUserId();
-                            if (!currentUserId.isEmpty()) {
-                                JSONObject jsonObject = new JSONObject();
-                                try {
-                                    jsonObject.put("userId", currentUserId);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                AWSIotMqttLastWillAndTestament lastWill = new AWSIotMqttLastWillAndTestament(
-                                        channelize.getApiKey() + "/users/server/offline",
-                                        jsonObject.toString(), AWSIotMqttQos.QOS0);
-                                setMqttLastWillAndTestament(lastWill);
-                            }
-                            connect(AWSMobileClient.getInstance(), new AWSIotMqttClientStatusCallback() {
-                                @Override
-                                public void onStatusChanged(final AWSIotMqttClientStatus status,
-                                                            final Throwable throwable) {
-
-                                    if (status == AWSIotMqttClientStatus.Connected) {
-                                        isMqttConnected = true;
-                                        if (chConnectionHandlerList != null && !chConnectionHandlerList.isEmpty()) {
-                                            for (ChannelizeConnectionHandler listener : chConnectionHandlerList) {
-                                                listener.onConnected();
-                                            }
-                                        }
-
-                                        if (!subscribeTopic)
-                                            subscribeToTopic(topic);
-
-                                        // If the mqtt was connected previously and its connecting again,
-                                        // then make the user online. i.e mqtt is reconnected.
-                                        if (isConnectedOnce) {
-                                            Channelize.getInstance().setUserOnline();
-                                        }
-                                        isConnectedOnce = true;
-                                    } else {
-                                        isMqttConnected = false;
-                                        if (chConnectionHandlerList != null) {
-                                            for (ChannelizeConnectionHandler listener : chConnectionHandlerList) {
-                                                listener.onDisconnected();
-                                            }
-                                        }
-                                    }
-                                    Logcat.d(ChannelizeMqttClient.class, "Status = " + status);
-                                    Logcat.d(ChannelizeMqttClient.class, "throwable = " + throwable);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-                            Logcat.d(ChannelizeMqttClient.class, "onError: " + e);
-                        }
-                    });
-                }
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     /**
      * Method to disconnect server.
@@ -343,15 +264,6 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
         }
     }
 
-    private void checkIndividualInitialization(String topic) {
-        if (instance == null) {
-            getInstance(Channelize.getInstance().getContext());
-            connectToSeverLiveBroadCast(Channelize.getInstance().getContext(), topic);
-        } else if (!isMqttConnected()) {
-            connectToSeverLiveBroadCast(Channelize.getInstance().getContext(), topic);
-        }
-    }
-
     private Platform getPlatform() {
         if (platform == null) {
             platform = Platform.get();
@@ -366,13 +278,8 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
      */
     public void subscribeToTopic(String subscriptionTopic) {
         try {
-            if (subscriptionTopic.contains("live_broadcasts/")) {
-                checkIndividualInitialization(subscriptionTopic);
-            } else {
-                checkInitialized();
-            }
+            checkInitialized();
             if (isMqttConnected()) {
-                this.subscribeTopic = true;
                 subscriptionTopic = Channelize.getInstance().getApiKey() + "/" + subscriptionTopic;
 
                 subscribeToTopic(subscriptionTopic, AWSIotMqttQos.QOS0, new AWSIotMqttNewMessageCallback() {
@@ -489,7 +396,21 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
                                         }
                                     });
                                 }
-                            } else if (topic.equals("users/" + selfUid + "/conversation/remove")) {
+                            }
+                            else if (topic.equals("conversations/" + Channelize.getInstance().getConversationId() +
+                                    "/message_created")) {
+                                if (chConversationEventHandlerList != null) {
+                                    JSONObject finalResponseObject = responseObject;
+                                    getPlatform().execute(() -> {
+
+                                        for (ChannelizeConversationEventHandler listener : chConversationEventHandlerList) {
+                                            listener.onMessageCreated(finalResponseObject.toString());
+                                        }
+                                    });
+                                }
+                            }
+
+                            else if (topic.equals("users/" + selfUid + "/conversation/remove")) {
                                 if (chConversationEventHandlerList != null) {
                                     conversation = readJsonResponse(responseObject.toString(), Conversation.class);
                                     getPlatform().execute(() -> {
@@ -918,11 +839,21 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
      */
     private void subscribeToAllTopics() {
         String selfUid = Channelize.getInstance().getCurrentUserId();
+        subscribeToTopic("live_broadcasts/" + Channelize.getInstance().getBroadCastId() +
+                "/reaction_added");
+        subscribeToTopic("live_broadcasts/" + Channelize.getInstance().getBroadCastId() +
+                "/stop_watching");
+        subscribeToTopic("live_broadcasts/" + Channelize.getInstance().getBroadCastId() +
+                "/start_watching");
+        subscribeToTopic("conversations/" + Channelize.getInstance().getConversationId() +
+                "/message_created");
 
-        subscribeToTopic("users/" + selfUid + "/add-friends");
+        ;
+
+       /* subscribeToTopic("users/" + selfUid + "/add-friends");
         subscribeToTopic("users/" + selfUid + "/remove-friends");
         subscribeToTopic("users/online");
-        subscribeToTopic("users/offline");
+        subscribeToTopic("users/offline");*/
 
         //subscribeToTopic("self/" + selfUid + "/conversation/mark-as-read");
         //subscribeToTopic("message-owner/" + selfUid + "/conversation/mark-as-read");
@@ -933,9 +864,9 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
         //subscribeToTopic("users/" + selfUid + "/conversation/clear");
         //subscribeToTopic("users/" + selfUid + "/conversation/delete");
         //subscribeToTopic("users/" + selfUid + "/conversation/messages");
-        subscribeToTopic("users/" + selfUid + "/conversation/remove");
+   /*     subscribeToTopic("users/" + selfUid + "/conversation/remove");
         subscribeToTopic("users/" + selfUid + "/conversation/join");
-        subscribeToTopic("users/" + selfUid + "/conversation/update-info");
+        subscribeToTopic("users/" + selfUid + "/conversation/update-info");*/
         //subscribeToTopic("users/" + selfUid + "/conversation/mute");
         //subscribeToTopic("users/" + selfUid + "/conversation/messages/deleted-for-everyone");
 
@@ -943,7 +874,7 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
         //**************************************************MQTT New Topics*****************************************************
 
         // Mark as read message
-        subscribeToTopic("users/" + selfUid + "/conversation/mark_as_read");
+        /*subscribeToTopic("users/" + selfUid + "/conversation/mark_as_read");
         subscribeToTopic("users/" + selfUid + "/total_unread_message_count_updated");
 
         //When a new Member is added
@@ -1008,7 +939,7 @@ public class ChannelizeMqttClient extends AWSIotMqttManager {
 
         subscribeToTopic("users/" + selfUid + "/call/joined");
 
-        subscribeToTopic("users/" + selfUid + "/call/rejected");
+        subscribeToTopic("users/" + selfUid + "/call/rejected");*/
 
     }
 

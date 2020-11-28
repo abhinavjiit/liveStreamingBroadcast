@@ -25,7 +25,6 @@ import com.channelize.apisdk.network.response.ChannelizeError;
 import com.channelize.apisdk.network.response.CompletionHandler;
 import com.channelize.apisdk.network.response.LoginResponse;
 import com.channelize.apisdk.network.response.RequestResponse;
-import com.channelize.apisdk.network.response.TotalCountResponse;
 import com.channelize.apisdk.utils.ChannelizePreferences;
 import com.channelize.apisdk.utils.CoreFunctionsUtil;
 import com.channelize.apisdk.utils.Logcat;
@@ -49,6 +48,8 @@ public class Channelize {
     private volatile boolean isConnected = false;
     private ChannelizeApi channelizeApi;
     private String broadCastId;
+    private String conversationId;
+
 
     public String getBroadCastId() {
         return broadCastId;
@@ -56,6 +57,14 @@ public class Channelize {
 
     public void setBroadCastId(String broadCastId) {
         this.broadCastId = broadCastId;
+    }
+
+    public void setConversationId(String conversationId) {
+        this.conversationId = conversationId;
+    }
+
+    public String getConversationId() {
+        return conversationId;
     }
 
     private static final String CHANNELIZE_NOT_INITIALIZED_MESSAGE = "Must initialize Channelize before using getInstance()";
@@ -121,6 +130,9 @@ public class Channelize {
         return instance;
     }
 
+    private void setInstance() {
+        instance = null;
+    }
 
     /**
      * @return A {@link Context}.
@@ -145,6 +157,10 @@ public class Channelize {
      */
     public String getApiKey() {
         return instance.apiKey;
+    }
+
+    public void setApiKey(String apiKey) {
+        instance.apiKey = apiKey;
     }
 
     public String getCurrentUserId() {
@@ -401,6 +417,7 @@ public class Channelize {
             ChannelizePreferences.setCurrentUserId(applicationContext, loginResponse.getUserId());
             this.currentUserId = loginResponse.getUserId();
             ChannelizePreferences.setCurrentUserProfileImage(applicationContext, loginResponse.getUser().getProfileImageUrl());
+            ChannelizePreferences.setCurrentUserName(applicationContext, loginResponse.getUser().getDisplayName());
             if (isConnected()) {
                 connect();
             }
@@ -422,11 +439,17 @@ public class Channelize {
         new AsyncTask<Void, Boolean, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                Channelize.getInstance().logoutUserFromChannelize();
-                Channelize.getInstance().setUserOffline();
-                ChannelizePreferences.clearSharedPreferences(Channelize.getInstance().applicationContext);
-                ChannelizeOkHttpUtil.getInstance(Channelize.getInstance().getContext()).removeAuthHeader();
-                return null;
+                try {
+                    Channelize.getInstance().logoutUserFromChannelize();
+                    ChannelizeOkHttpUtil.getInstance(Channelize.getInstance().getContext()).removeAuthHeader();
+                    Channelize.getInstance().setUserOffline();
+                    ChannelizePreferences.clearSharedPreferences(Channelize.getInstance().applicationContext);
+                    ChannelizeOkHttpUtil.setInstance();
+                    return null;
+                } catch (Exception e) {
+                    Log.d("LOGOUT_ERROR", "LOGOUT_ERROR");
+                    return null;
+                }
             }
 
             @Override

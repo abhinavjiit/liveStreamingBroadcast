@@ -16,7 +16,7 @@ class LiveBroadcasterConstants {
         const val LIKE = "like"
         const val SAD = "sad"
         const val SMILEY = "smiley"
-        const val THANKYOU = "thankyou"
+        const val THANK_YOU = "thankyou"
 
 
     }
