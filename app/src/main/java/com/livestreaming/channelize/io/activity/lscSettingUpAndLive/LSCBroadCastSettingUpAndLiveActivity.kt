@@ -48,6 +48,7 @@ import io.agora.rtc.video.BeautyOptions
 import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.coroutines.*
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -544,51 +545,51 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     @SuppressLint("SimpleDateFormat")
     private fun lscRemainingTime() {
-        /* endTime?.let {
-             val outputFormat =
-                 SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-             outputFormat.timeZone = TimeZone.getTimeZone("IST")
-             val endTimeFormat = outputFormat.parse(it)
-             val currentTime = Calendar.getInstance().time
-             val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
-             val differenceInMinutes = ((differenceInTime
-                     / (1000 * 60))
-                     % 60)
+        endTime?.let {
+            val outputFormat =
+                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            outputFormat.timeZone = TimeZone.getTimeZone("IST")
+            val endTimeFormat = outputFormat.parse(it)
+            val currentTime = Calendar.getInstance().time
+            val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
+            val differenceInMinutes = ((differenceInTime
+                    / (1000 * 60))
+                    % 60)
 
-             val differenceInHours = ((differenceInTime
-                     / (1000 * 60 * 60))
-                     % 24)
+            val differenceInHours = ((differenceInTime
+                    / (1000 * 60 * 60))
+                    % 24)
 
-             totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
-             countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
-                 override fun onFinish() {
-                     Log.d("Tag", "aaaa")
-                 }
+            totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
+            countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
+                override fun onFinish() {
+                    Log.d("Tag", "aaaa")
+                }
 
-                 override fun onTick(millisUntilFinished: Long) {
-                     var remainingTime = differenceInTime.minus(millisUntilFinished)
+                override fun onTick(millisUntilFinished: Long) {
+                    var remainingTime = differenceInTime.minus(millisUntilFinished)
 
-                     val differenceInMinutes1 = ((remainingTime
-                             / (1000 * 60))
-                             % 60)
+                    val differenceInMinutes1 = ((remainingTime
+                            / (1000 * 60))
+                            % 60)
 
-                     val differenceInHours1 = ((remainingTime
-                             / (1000 * 60 * 60))
-                             % 24)
-                     remainingTimeCounter.text = "${differenceInMinutes1}m /"
-                     Log.d("RESULT", "see")
-                 }
+                    val differenceInHours1 = ((remainingTime
+                            / (1000 * 60 * 60))
+                            % 24)
+                    remainingTimeCounter.text = "${differenceInMinutes1}m /"
+                    Log.d("RESULT", "see")
+                }
 
-             }.start()
-         }*/
-        lscBroadCastViewModel.getCounterTime(endTime).observe(this, Observer {
+            }.start()
+        }
+        /*will change this code to obserables*/
+
+/*        lscBroadCastViewModel.getCounterTime(endTime).observe(this, Observer {
             Log.d("counterTime", "///${it}m")
         })
         lscBroadCastViewModel.getTotalTime(endTime).observe(this, Observer {
             Log.d("TotalTime", it)
-        })
-
-
+        })*/
     }
 
 
@@ -630,6 +631,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         super.onStop()
 
     }
+
 
     override fun onBackPressed() {
         Log.d("onBackPressed", "onBackPressed")
