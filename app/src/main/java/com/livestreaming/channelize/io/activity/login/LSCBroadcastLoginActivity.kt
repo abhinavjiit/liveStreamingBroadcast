@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.ChannelizeConfig
 import com.channelize.apisdk.network.api.ChannelizeOkHttpUtil
+import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.BuildConfig
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
@@ -105,7 +106,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
         storeUrlEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            // colorLine, colorLineFocus is vars of ColorStateList
             if (hasFocus) {
                 val tvBackground: GradientDrawable =
                     storeUrlContainer.background as GradientDrawable
@@ -154,7 +154,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
         emailEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            // colorLine, colorLineFocus is vars of ColorStateList
             if (hasFocus) {
                 val tvBackground: GradientDrawable =
                     emailContainer.background as GradientDrawable
@@ -203,7 +202,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
         passwordEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            // colorLine, colorLineFocus is vars of ColorStateList
             if (hasFocus) {
                 val tvBackground: GradientDrawable =
                     passwordContainer.background as GradientDrawable
@@ -261,7 +259,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-
     private fun startLogin() {
         val progressBar = progressDialog(this)
         progressBar.show()
@@ -277,6 +274,8 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
 
         Channelize.initialize(channelizeConfig)
         Channelize.getInstance().apiKey = publicKeyEditTextView.text.toString()
+        ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).removeHeader()
+        ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).addHeaders()
         Channelize.getInstance().loginWithEmailPassword(
             emailEditTextView.text.toString(),
             passwordEditTextView.text.toString()
@@ -288,7 +287,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
                     SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
                     Log.d("TAGGGG", "success")
-                    //showToast(this, "success")
                     startAppIdService()
                     gotoEventListingActivity()
                 }
@@ -306,7 +304,6 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             }
         }
     }
-
 
     private fun gotoEventListingActivity() {
         val intent = Intent(this, EventBroadCastListingActivity::class.java)
@@ -334,19 +331,4 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
         }
         return true
     }
-
-    /*   override fun onTouch(view: View?, event: MotionEvent?): Boolean {
-           if (view is EditText) {
-               view.setOnFocusChangeListener(this)
-           }
-           return false
-       }
-
-       override fun onFocusChange(v: View?, hasFocus: Boolean) {
-
-           Log.d("Tag", "v")
-
-       }*/
-
-
 }

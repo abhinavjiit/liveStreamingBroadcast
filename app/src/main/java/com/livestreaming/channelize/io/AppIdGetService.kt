@@ -30,7 +30,6 @@ class AppIdGetService : JobIntentService() {
     @com.livestreaming.channelize.io.di.Retrofit
     lateinit var retrofit: Retrofit
 
-
     override fun onCreate() {
         super.onCreate()
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
@@ -66,7 +65,6 @@ class AppIdGetService : JobIntentService() {
         onHandleIntent()
     }
 
-
     private fun onHandleIntent() {
         try {
             GlobalScope.launch(Dispatchers.IO) {
@@ -84,15 +82,11 @@ class AppIdGetService : JobIntentService() {
                                 }
                             }
                         }
-
                     }
                 }
-
             }
         } catch (e: Exception) {
-            Log.d("Exception", e.message.toString())
+            Log.d("AppIDServiceException", e.message.toString())
         }
-
-
     }
 }

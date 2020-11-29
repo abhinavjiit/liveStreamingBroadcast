@@ -66,7 +66,6 @@ abstract class BaseActivity : AppCompatActivity() {
             val intent = Intent(this, AppIdGetService::class.java)
             AppIdGetService.enqueueWork(this, intent = intent)
         }
-
     }
 
     override fun onResume() {

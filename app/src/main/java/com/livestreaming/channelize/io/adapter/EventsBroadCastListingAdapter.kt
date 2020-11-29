@@ -42,9 +42,26 @@ class EventsBroadCastListingAdapter(
                     Picasso.get().load(eventsList?.get(position)?.bannerImageUrl?.trim())
                         .into(eventImageView)
                 } catch (e: Exception) {
-
+                    Log.d("EventListingAdapterEx", e.toString())
                 }
-                eventStatus.text = eventsList?.get(position)?.status
+
+                if (eventsList?.get(position)?.status == "live") {
+                    eventStatus.text = eventsList?.get(position)?.status
+                    holder.eventStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.app_red
+                        )
+                    )
+                } else {
+                    eventStatus.text = eventsList?.get(position)?.status
+                    holder.eventStatus.setBackgroundColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.dark_grey
+                        )
+                    )
+                }
                 try {
                     startDateTextView.text =
                         context.getString(R.string.strat_event_date_string)
@@ -57,7 +74,7 @@ class EventsBroadCastListingAdapter(
                         holder,
                         startingInDateCounter,
                         eventsList?.get(position)?.startTime!!,
-                        eventsList?.get(position)?.endTime!!
+                        eventsList?.get(position)?.endTime!!, position
                     )
                 } catch (e: Exception) {
                     Log.d("EventListAdapterEx", e.toString())
@@ -65,7 +82,6 @@ class EventsBroadCastListingAdapter(
             }
         }
     }
-
 
     override fun getItemCount(): Int {
         return if (eventsList.isNullOrEmpty()) 0 else
@@ -75,7 +91,6 @@ class EventsBroadCastListingAdapter(
     fun setEventList(listData: List<EventDetailResponse>?) {
         this.eventsList = listData
     }
-
 
     class ViewHolder(mView: View, private val listener: RecyclerViewClickListener) :
         RecyclerView.ViewHolder(mView), View.OnClickListener {
@@ -99,10 +114,7 @@ class EventsBroadCastListingAdapter(
         override fun onClick(v: View?) {
             listener.onClick(adapterPosition)
         }
-
-
     }
-
 
     @SuppressLint("SimpleDateFormat")
     private fun printDifferenceDateForHours(
@@ -110,7 +122,7 @@ class EventsBroadCastListingAdapter(
         holder: ViewHolder,
         dateCounter: TextView,
         startTime: String,
-        endTime: String
+        endTime: String, position: Int
     ) {
         holder.countDownTimer?.cancel()
         dateCounter.visibility = View.VISIBLE
@@ -174,10 +186,7 @@ class EventsBroadCastListingAdapter(
             }
 
         }.start()
-
-
     }
-
 
     interface RecyclerViewClickListener {
         fun onClick(position: Int)
@@ -189,7 +198,6 @@ fun String.changeGMTtoIST(): String? {
     val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     utcFormat.timeZone = TimeZone.getTimeZone("GMT")
 
-
     val outputFormat =
         SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
@@ -198,6 +206,5 @@ fun String.changeGMTtoIST(): String? {
 
     val day = SimpleDateFormat("dd MMM").format(timeFormate!!)
     val time = SimpleDateFormat("H:mm a").format(timeFormate)
-
     return day.plus(", $time")
 }

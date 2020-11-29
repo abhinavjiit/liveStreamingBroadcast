@@ -121,6 +121,13 @@ public class ChannelizeOkHttpUtil extends OkHttpClient {
         }
     }
 
+    public void addHeaders() {
+        if (instance != null) {
+            instance.requestBuilder.addHeader("Public-Key", Channelize.getInstance().getApiKey());
+            //  instance.requestBuilder.addHeader("Content-Type", "application/json");
+        }
+    }
+
     /**
      * Add the Authorization header once user is logged-in into app.
      * AccessToken will be received in login response.
@@ -147,7 +154,14 @@ public class ChannelizeOkHttpUtil extends OkHttpClient {
      */
     public void removeAuthHeader() {
         requestBuilder.removeHeader("Authorization");
-        requestBuilder.removeHeader("Public-Key");
+    }
+
+
+    public void removeHeader() {
+        if (instance != null) {
+            requestBuilder.removeHeader("Authorization");
+            requestBuilder.removeHeader("Public-Key");
+        }
     }
 
     /**

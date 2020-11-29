@@ -118,7 +118,7 @@ public class Channelize {
 
     private static void checkInitialized() {
         if (instance == null) {
-            throw new IllegalStateException(CHANNELIZE_NOT_INITIALIZED_MESSAGE);
+           // throw new IllegalStateException(CHANNELIZE_NOT_INITIALIZED_MESSAGE);
         }
     }
 
@@ -444,7 +444,6 @@ public class Channelize {
                     ChannelizeOkHttpUtil.getInstance(Channelize.getInstance().getContext()).removeAuthHeader();
                     Channelize.getInstance().setUserOffline();
                     ChannelizePreferences.clearSharedPreferences(Channelize.getInstance().applicationContext);
-                    ChannelizeOkHttpUtil.setInstance();
                     return null;
                 } catch (Exception e) {
                     Log.d("LOGOUT_ERROR", "LOGOUT_ERROR");

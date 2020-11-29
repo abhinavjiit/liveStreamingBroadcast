@@ -1,6 +1,5 @@
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -13,8 +12,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LSCBroadCastViewModel(
-    private var lscBroadCastRepoImpl: LSCBroadCastRepoInterface,
-    private val useCase: UseCaseInterface
+    private var lscBroadCastRepoImpl: LSCBroadCastRepoInterface
+
 ) :
     ViewModel() {
 
@@ -76,24 +75,6 @@ class LSCBroadCastViewModel(
         )
         emit(res)
     }
-
-
-    fun getTotalTime(endTime: String?): LiveData<String> {
-        totalTime.value = useCase.getTotalTime(endTime)
-        return totalTime
-    }
-
-    fun getCounterTime(endTime: String?): LiveData<String> {
-//        counterTime.value = useCase.getCountdownTime(endTime).value
-//        return counterTime
-        ////// have to remove manually ,will be active forever
-        useCase.getCountdownTime(endTime).observeForever {
-            counterTime.value = it
-        }
-        return counterTime
-
-    }
-
 }
 
 

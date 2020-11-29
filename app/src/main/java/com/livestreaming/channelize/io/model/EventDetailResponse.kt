@@ -37,7 +37,7 @@ data class EventDetailResponse(
     @SerializedName("startTime")
     val startTime: String,
     @SerializedName("status")
-    val status: String,
+    var status: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("updatedAt")

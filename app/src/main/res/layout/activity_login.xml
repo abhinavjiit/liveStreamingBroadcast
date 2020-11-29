@@ -1,182 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/channelizeImageView"
-        android:layout_width="0dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/applogo" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/channelizeImageView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/applogo" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/broadcastYourEventHeaderTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center"
-        android:text="Broadcast your event and engage with your viewers"
-        android:textColor="@color/dark_grey"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/channelizeImageView" />
-
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginToExpressTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:gravity="center_horizontal"
-        android:text="Login to Express yourself LIVE And promote your PRODUCTS"
-        android:textColor="@color/dark_grey"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/broadcastYourEventHeaderTextView" />
-
-
-    <RelativeLayout
-        android:id="@+id/publicKeyContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rectangular_rounded_corner_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginToExpressTextView">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/publicKeyEditTextView"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/broadcastYourEventHeaderTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_public_key"
-            android:drawablePadding="7dp"
-            android:drawableTint="@color/dark_grey"
-            android:hint="Your Public Key"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
+            android:text="Broadcast your event and engage with your viewers"
+            android:textColor="@color/dark_grey"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/channelizeImageView" />
 
 
-    <RelativeLayout
-        android:id="@+id/storeUrlContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rectangular_rounded_corner_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/publicKeyContainer">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/storeUrlEditTextView"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginToExpressTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_store_url"
-            android:drawablePadding="7dp"
-            android:drawableTint="@color/dark_grey"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_horizontal"
+            android:text="Login to Express yourself LIVE And promote your PRODUCTS"
+            android:textColor="@color/dark_grey"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/broadcastYourEventHeaderTextView" />
 
-            android:hint="Store Url"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/emailContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rectangular_rounded_corner_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/storeUrlContainer">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/emailEditTextView"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/publicKeyContainer"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:drawableLeft="@drawable/ic_email"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangular_rounded_corner_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/loginToExpressTextView">
 
-            android:drawablePadding="7dp"
-            android:drawableTint="@color/dark_grey"
-            android:hint="Email Address"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/publicKeyEditTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/ic_public_key"
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/dark_grey"
+                android:hint="Your Public Key"
+                android:textSize="16sp" />
+        </RelativeLayout>
 
-
-    <RelativeLayout
-        android:id="@+id/passwordContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rectangular_rounded_corner_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/emailContainer">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/passwordEditTextView"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/publicKeyInfoTextView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@color/white"
-            android:drawableStart="@drawable/ic_password"
-            android:drawablePadding="7dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_info_outline"
+            android:drawablePadding="5dp"
             android:drawableTint="@color/dark_grey"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:textSize="16sp" />
-    </RelativeLayout>
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="This key can be copied from your Live Stream Shopping dashboard."
+            android:textColor="@color/dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/publicKeyContainer" />
 
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/rounded_button_border"
-        android:backgroundTint="@color/btn_bg_blue"
-        android:gravity="center_horizontal"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:text="Login"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordContainer" />
+        <RelativeLayout
+            android:id="@+id/storeUrlContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangular_rounded_corner_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/publicKeyInfoTextView">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/storeUrlEditTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/ic_store_url"
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/dark_grey"
+                android:hint="Store Url"
+                android:textAllCaps="true"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/storeUrlInfoTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:drawableStart="@drawable/ic_info_outline"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/dark_grey"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="This is your Shopify Store URL."
+            android:textColor="@color/dark_grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/storeUrlContainer" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:id="@+id/emailContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangular_rounded_corner_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/storeUrlInfoTextView">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/emailEditTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/white"
+                android:drawableLeft="@drawable/ic_email"
+
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/dark_grey"
+                android:hint="Email Address"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/passwordContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rectangular_rounded_corner_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/emailContainer">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/passwordEditTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@color/white"
+                android:drawableStart="@drawable/ic_password"
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/dark_grey"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/loginButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_button_border"
+            android:backgroundTint="@color/btn_bg_blue"
+            android:gravity="center_horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="Login"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passwordContainer" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
 
 
