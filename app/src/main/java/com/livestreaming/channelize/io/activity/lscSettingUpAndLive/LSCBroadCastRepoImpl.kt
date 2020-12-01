@@ -10,9 +10,7 @@ import com.livestreaming.channelize.io.model.lscDetailsModel.LSCBroadCastLiveUpd
 import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.ResponseHandler
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
+import okhttp3.ResponseBody
 import retrofit2.Retrofit
 
 class LSCBroadCastRepoImpl(
@@ -39,7 +37,8 @@ class LSCBroadCastRepoImpl(
     override suspend fun sendComment(messageCommentData: MessageCommentData) {
         try {
             val response =
-                coreUrlRetrofit.create(LSCApiCallInterface::class.java).sendComment(messageCommentData)
+                coreUrlRetrofit.create(LSCApiCallInterface::class.java)
+                    .sendComment(messageCommentData)
         } catch (e: Exception) {
             Log.d("sendCommentException", e.toString())
         }
@@ -48,13 +47,16 @@ class LSCBroadCastRepoImpl(
     override suspend fun onStartLSCBroadCast(
         broadcastId: String,
         broadcastRequiredResponse: StartBroadcastRequiredResponse
-    ) {
+    ): Resource<ResponseBody> {
         try {
             val response =
                 lscRetrofit.create(LSCApiCallInterface::class.java)
-                    .onStartBroadCast(broadcastId, broadcastRequiredResponse)
+                    .onStartBroadCast(broadcastId = broadcastId, broadcastRequiredResponse)
+
+            return ResponseHandler().handleSuccess(response)
         } catch (e: Exception) {
             Log.d("onStartLSCBroadCastEx", e.toString())
+            return ResponseHandler().handleException(e)
         }
     }
 
@@ -75,7 +77,6 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-
     override suspend fun onStopConversation(conversationId: String) {
         try {
             coreUrlRetrofit.create(LSCApiCallInterface::class.java)
@@ -91,23 +92,22 @@ class LSCBroadCastRepoImpl(
     ): Resource<LSCBroadCastLiveUpdateDetailsResponse> {
         return try {
             val lscBroadCastLiveUpdateDetailsResponse: LSCBroadCastLiveUpdateDetailsResponse
-            coroutineScope {
-                val response1 = async {
-                    lscRetrofit.create(LSCApiCallInterface::class.java)
-                        .getAllDetailsOfBroadCast(broadcastId = broadcastId)
-                }
-                val response2 = async {
-                    coreUrlRetrofit.create(LSCApiCallInterface::class.java)
-                        .getCommentsCount(conversation_id = conversationId)
-                }
-                val viewOrReactionsCount = response1.await()
-                val messageCount = response2.await()
-                lscBroadCastLiveUpdateDetailsResponse = LSCBroadCastLiveUpdateDetailsResponse(
-                    viewersCount = viewOrReactionsCount.viewersCount,
-                    messageCount = messageCount.messageCount,
-                    reactionsCount = viewOrReactionsCount.reactionsCount
-                )
-            }
+
+            val response1 =
+                lscRetrofit.create(LSCApiCallInterface::class.java)
+                    .getAllDetailsOfBroadCast(broadcastId = broadcastId)
+
+            val response2 =
+                coreUrlRetrofit.create(LSCApiCallInterface::class.java)
+                    .getCommentsCount(conversation_id = conversationId)
+
+            val viewOrReactionsCount = response1
+            val messageCount = response2
+            lscBroadCastLiveUpdateDetailsResponse = LSCBroadCastLiveUpdateDetailsResponse(
+                viewersCount = viewOrReactionsCount.viewersCount,
+                messageCount = messageCount.messageCount,
+                reactionsCount = viewOrReactionsCount.reactionsCount
+            )
 
             ResponseHandler().handleSuccess(lscBroadCastLiveUpdateDetailsResponse)
         } catch (e: Exception) {

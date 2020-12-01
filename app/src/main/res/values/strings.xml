@@ -1,9 +1,19 @@
 <resources>
-    <string name="app_name">Live Streaming Channelize</string>
-    <string name="reaction_count">\"# of Reactions: \"</string>
-    <string name="view_count">\"# of Views: \"</string>
-    <string name="comment_count">\"# of Reactions: \"</string>
-    <string name="live_event_string">Live</string>
-    <string name="strat_event_date_string">Start:</string>
-    <string name="end_event_date_string">End:</string>
+    <string name="app_name">Channelize Live</string>
+    <string name="reaction_count">\# of Reactions: \</string>
+    <string name="view_count">\# of Views: \</string>
+    <string name="comment_count">\# of Comments: \</string>
+    <string name="live_event_string">Available</string>
+    <string name="strat_event_date_string">Start: </string>
+    <string name="end_event_date_string">End: </string>
+    <string name="public_key_validation_check">public key is not valid</string>
+    <string name="store_url_key_validation_string">store url is not valid</string>
+    <string name="email_validation_string">email is not valid</string>
+    <string name="password_validation_string">password is not valid</string>
+    <string name="camera_enabled_string">Camera Enabled</string>
+    <string name="microphone_enable_string">MicroPhone Enabled</string>
+    <string name="excellent_connection_string">Excellent</string>
+    <string name="very_good_connection_string">Very Good</string>
+    <string name="good_connection_string">Good</string>
+    <string name="poor_connection_string">Poor Connection</string>
 </resources>

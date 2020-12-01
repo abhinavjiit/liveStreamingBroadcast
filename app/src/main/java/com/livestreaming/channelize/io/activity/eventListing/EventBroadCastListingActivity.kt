@@ -48,6 +48,8 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
     private lateinit var refreshTextView: TextView
     private lateinit var logoutTextView: TextView
     private lateinit var noEventContainer: RelativeLayout
+    private lateinit var storeURLTextView: TextView
+    private lateinit var nameTextView: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,11 +69,42 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
         refreshTextView = logoutPopUp.findViewById(R.id.refreshTextView)
         logoutTextView = logoutPopUp.findViewById(R.id.logoutTextView)
         noEventContainer = findViewById(R.id.noEventContainer)
+        storeURLTextView = findViewById(R.id.storeURLTextView)
+        nameTextView = findViewById(R.id.nameTextView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = eventsBroadCastListingAdapter
-        Picasso.get()
-            .load(ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance()))
-            .into(userImageView)
+        storeURLTextView.text = SharedPrefUtils.getStoreUrl(BaseApplication.getInstance())
+        if (ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
+                .isNullOrBlank()
+        ) {
+            val name = ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
+            if (name.isNotBlank()) {
+                val nameParts = name.split(" ").toTypedArray()
+
+                val initials = when (nameParts.size) {
+                    1 -> {
+                        nameParts[0][0].toString()
+                    }
+                    2, 3, 4 -> {
+                        nameParts[0][0].toString() + nameParts[1][0]
+                    }
+                    else -> {
+                        "null"
+                    }
+                }
+                nameTextView.text = initials
+            } else
+                nameTextView.text = "null"
+            userImageView.visibility = View.GONE
+            nameTextView.visibility = View.VISIBLE
+        } else {
+            userImageView.visibility = View.VISIBLE
+            nameTextView.visibility = View.GONE
+            Picasso.get()
+                .load(ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance()))
+                .into(userImageView)
+        }
+        nameTextView.setOnClickListener(this)
         userImageView.setOnClickListener(this)
         logoutPopUp.setOnClickListener(this)
         refreshTextView.setOnClickListener(this)
@@ -92,8 +125,15 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     if (!it.data.isNullOrEmpty()) {
-                        eventListResponse =
+                        val formatList = ArrayList<EventDetailResponse>()
+                        val listData =
                             it.data.toMutableList() as ArrayList<EventDetailResponse>
+                        listData.forEach {
+                            if (it.status != "completed") {
+                                formatList.add(it)
+                            }
+                        }
+                        eventListResponse = formatList
                         eventsBroadCastListingAdapter.setEventList(eventListResponse)
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
                         progressBar.dismiss()
@@ -113,13 +153,12 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                     progressBar.show()
                 }
             }
-
         })
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.userImageView -> {
+            R.id.userImageView, R.id.nameTextView -> {
                 logoutPopUp.visibility = View.VISIBLE
             }
             R.id.logoutPopUp -> {
@@ -139,8 +178,7 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                     SharedPrefUtils.setPublicApiKey(this, null)
                     SharedPrefUtils.setLoggedInFlag(this, false)
                     SharedPrefUtils.clearSharedPref(this)
-                    ChannelizePreferences.clearSharedPreferences(BaseApplication.getInstance())
-                    Channelize.logout { result, error ->
+                    Channelize.logout { result, _ ->
                         if (result.isSuccessful && result != null) {
                             runOnUiThread {
                                 try {
@@ -154,16 +192,12 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
                                     progressBar.dismiss()
                                     Log.d("Exception", e.toString())
                                 }
-
                             }
-
                         }
                     }
                 } catch (e: Exception) {
                     Log.d("LogoutException", e.toString())
                 }
-
-
             }
         }
     }
@@ -173,7 +207,6 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
         eventListResponse?.get(position)?.products?.forEach {
             productsList.add(it.id)
         }
-
         val intent = Intent(this, LSCBroadCastSettingUpAndLiveActivity::class.java)
         intent.putExtra("broadCastId", eventListResponse?.get(position)?.id)
         intent.putStringArrayListExtra(
@@ -186,6 +219,31 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
             "conversationId",
             eventListResponse?.get(position)?.metaData?.conversationId
         )
-        startActivity(intent)
+        startActivityForResult(intent, 1000)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
+                for (i in eventListResponse?.indices!!) {
+                    if (eventListResponse?.get(i)?.id == data?.getStringExtra("broadCastId")) {
+                        eventListResponse?.removeAt(i)
+                        break
+                    }
+                }
+                if (eventListResponse.isNullOrEmpty()) {
+                    noEventContainer.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+
+                } else {
+                    recyclerView.visibility = View.VISIBLE
+                    noEventContainer.visibility = View.GONE
+                    eventsBroadCastListingAdapter.setEventList(eventListResponse)
+                    eventsBroadCastListingAdapter.notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
 }

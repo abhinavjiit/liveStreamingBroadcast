@@ -9,7 +9,7 @@ class ReactionsCount(
     @SerializedName("angry")
 
     var angry: Int = 0,
-    @SerializedName("wow")
+    @SerializedName("clap")
 
     var clap: Int = 0,
     @SerializedName("dislike")
@@ -18,7 +18,7 @@ class ReactionsCount(
     @SerializedName("heart")
 
     var heart: Int = 0,
-    @SerializedName("wow")
+    @SerializedName("insightfull")
 
     var insightfull: Int = 0,
     @SerializedName("laugh")

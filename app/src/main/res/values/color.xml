@@ -379,4 +379,5 @@
     <color name="moderation_or_share.okay">#ffffff</color>
 
     <color name="complete_blogger_profile.complete_label">#545454</color>
+    <color name="upcoming_event_color_code">#565656</color>
 </resources>

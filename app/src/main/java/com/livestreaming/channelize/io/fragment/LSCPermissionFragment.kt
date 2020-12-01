@@ -46,7 +46,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 camera.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            camera.text = "Camera Enabled "
+            camera.text = context?.resources?.getString(R.string.camera_enabled_string)
             camera.isEnabled = false
             camera.isClickable = false
         }
@@ -59,14 +59,13 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 microPhone.background as GradientDrawable
             tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
             microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-            microPhone.text = "MicroPhone Enabled"
+            microPhone.text = context?.resources?.getString(R.string.microphone_enable_string)
             microPhone.isEnabled = false
             microPhone.isClickable = false
 
         }
         microPhone.setOnClickListener(this)
         camera.setOnClickListener(this)
-
         return view
     }
 
@@ -79,7 +78,6 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 R.id.microPhone -> {
                     showMicroPhonePermission()
                 }
-
             }
         }
     }
@@ -104,7 +102,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
 
                     builder.setPositiveButton(
                         "OK"
-                    ) { dialog, id ->
+                    ) { _, _ ->
                         Log.i("TAG", "Clicked")
                         makeRequest(it, "camera")
                     }
@@ -115,8 +113,6 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                     makeRequest(it, "camera")
                 }
             }
-
-
         }
     }
 
@@ -193,7 +189,7 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             camera.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         camera.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        camera.text = "Camera Enabled"
+                        camera.text = context?.resources?.getString(R.string.camera_enabled_string)
                         Log.i("TAG", "Permission has been granted by user")
                         true
                     }
@@ -210,7 +206,8 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                             microPhone.background as GradientDrawable
                         tvBackground.setColor(ContextCompat.getColor(activity!!, R.color.white))
                         microPhone.setTextColor(ContextCompat.getColor(activity!!, R.color.app_red))
-                        microPhone.text = "MicroPhone Enabled"
+                        microPhone.text =
+                            context?.resources?.getString(R.string.microphone_enable_string)
                         true
                     }
             }
@@ -232,12 +229,9 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 (it as LSCBroadCastSettingUpAndLiveActivity).settingUpFragment()
-
             }
         }
-
     }
-
 
 }
 

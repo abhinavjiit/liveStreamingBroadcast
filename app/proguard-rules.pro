@@ -20,7 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -dontobfuscate
--keep class io.agora.**{*;}
+#-keep class io.agora.**{*;}
 #modules
 -keepclassmembers class com.livestreaming.channelize.io.model.**{*;}
 

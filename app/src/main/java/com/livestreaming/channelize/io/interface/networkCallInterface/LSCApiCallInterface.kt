@@ -39,7 +39,7 @@ interface LSCApiCallInterface {
     suspend fun onStartBroadCast(
         @Path("broadcastId") broadcastId: String,
         @Body startBroadcastRequiredResponse: StartBroadcastRequiredResponse
-    )
+    ):ResponseBody
 
     @POST("conversations/{conversation_id}/start_watching")
     suspend fun onStartConversation(@Path("conversation_id") conversation_id: String)

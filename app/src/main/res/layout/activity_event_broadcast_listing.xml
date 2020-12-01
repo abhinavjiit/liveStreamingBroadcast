@@ -43,8 +43,39 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <RelativeLayout
+                        android:id="@+id/imageOrUserNameContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
+                        <com.mikhaellopez.circularimageview.CircularImageView
+                            android:id="@+id/userImageView"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:visibility="gone"
+                            android:layout_alignParentTop="true"
+                            app:srcCompat="@drawable/ic_launcher_background" />
 
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/nameTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:background="@drawable/circular_blue_background"
+                            android:backgroundTint="@color/btn_bg_blue"
+                            android:visibility="gone"
+                            android:text="a b"
+                            android:gravity="center"
+                            android:padding="2dp"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            app:textAllCaps="true" />
+                    </RelativeLayout>
+<!--
                     <com.mikhaellopez.circularimageview.CircularImageView
                         android:id="@+id/userImageView"
                         android:layout_width="40dp"
@@ -53,7 +84,7 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_launcher_background" />
+                        app:srcCompat="@drawable/ic_launcher_background" />-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -94,7 +125,7 @@
                             android:id="@+id/storeTextView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="@color/dark_grey"
+                            android:background="#808080"
                             android:paddingStart="10dp"
                             android:paddingTop="5dp"
                             android:paddingEnd="10dp"
@@ -111,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_marginEnd="8dp"
-                            android:text="live-stream-commerce-spoifiy.com"
+                            android:text=""
                             android:textColor="@color/greytxt_color"
                             android:textSize="12sp"
                             android:textStyle="bold"

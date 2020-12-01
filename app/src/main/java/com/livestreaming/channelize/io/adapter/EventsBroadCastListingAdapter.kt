@@ -44,38 +44,34 @@ class EventsBroadCastListingAdapter(
                 } catch (e: Exception) {
                     Log.d("EventListingAdapterEx", e.toString())
                 }
-
-                if (eventsList?.get(position)?.status == "live") {
-                    eventStatus.text = eventsList?.get(position)?.status
-                    holder.eventStatus.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.app_red
-                        )
+                eventStatus.text = eventsList?.get(position)?.status?.capitalize()
+                eventStatus.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.upcoming_event_color_code
                     )
-                } else {
-                    eventStatus.text = eventsList?.get(position)?.status
-                    holder.eventStatus.setBackgroundColor(
-                        ContextCompat.getColor(
-                            context,
-                            R.color.dark_grey
-                        )
+                )
+                holder.eventStatus.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.dark_grey
                     )
-                }
+                )
+                printDifferenceDateForHours(
+                    holder.countDownTimer,
+                    holder,
+                    startingInDateCounter,
+                    eventsList?.get(position)?.startTime!!,
+                    eventsList?.get(position)?.endTime!!, position
+                )
                 try {
                     startDateTextView.text =
                         context.getString(R.string.strat_event_date_string)
-                            .plus(eventsList?.get(position)?.startTime?.changeGMTtoIST())
+                            .plus(" " + eventsList?.get(position)?.startTime?.changeGMTtoIST())
                     endDateTextView.text =
                         context.getString(R.string.end_event_date_string)
-                            .plus(eventsList?.get(position)?.endTime?.changeGMTtoIST())
-                    printDifferenceDateForHours(
-                        holder.countDownTimer,
-                        holder,
-                        startingInDateCounter,
-                        eventsList?.get(position)?.startTime!!,
-                        eventsList?.get(position)?.endTime!!, position
-                    )
+                            .plus(" " + eventsList?.get(position)?.endTime?.changeGMTtoIST())
+
                 } catch (e: Exception) {
                     Log.d("EventListAdapterEx", e.toString())
                 }
@@ -104,7 +100,7 @@ class EventsBroadCastListingAdapter(
         val startingInTextView: TextView = mView.startingInTextView
         internal val goLiveButton: TextView = mView.goLiveButton
         val startBroadCastStatus: TextView = mView.startBroadCastStatus
-        private val card: CardView = mView.card
+        internal val card: CardView = mView.card
 
         init {
             goLiveButton.setOnClickListener(this)
@@ -129,6 +125,8 @@ class EventsBroadCastListingAdapter(
         holder.startingInTextView.visibility = View.VISIBLE
         holder.goLiveButton.visibility = View.GONE
         holder.startBroadCastStatus.visibility = View.GONE
+        holder.card.isEnabled = false
+        holder.card.isClickable = false
         val outputFormat =
             SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 
@@ -177,12 +175,11 @@ class EventsBroadCastListingAdapter(
                 holder.goLiveButton.visibility = View.VISIBLE
                 holder.startBroadCastStatus.visibility = View.VISIBLE
                 holder.eventStatus.text = context.getString(R.string.live_event_string)
-                holder.eventStatus.setBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.app_red
-                    )
+                holder.eventStatus.setBackgroundResource(
+                    R.drawable.available_events_status_backgroung
                 )
+                holder.card.isClickable = true
+                holder.card.isEnabled = true
             }
 
         }.start()
@@ -194,7 +191,7 @@ class EventsBroadCastListingAdapter(
 }
 
 @SuppressLint("SimpleDateFormat")
-fun String.changeGMTtoIST(): String? {
+fun String.changeGMTtoIST(): String {
     val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     utcFormat.timeZone = TimeZone.getTimeZone("GMT")
 

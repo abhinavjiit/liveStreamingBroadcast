@@ -151,24 +151,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/post"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/writeSomethingEditText"
+                android:layout_toEndOf="@+id/writeSomethingEditText"
                 android:paddingStart="15dp"
                 android:paddingTop="16dp"
                 android:paddingEnd="15dp"
-
                 android:paddingBottom="16dp"
-                android:text="POST"
                 android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="bold"
+                android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_send" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -185,7 +183,7 @@
                 android:id="@+id/beautification"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_store_url"
+                android:src="@drawable/ic_magic_wand"
                 android:tint="@color/white"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -197,11 +195,12 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="10dp"
+                android:tint="@color/white"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/beautification"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_shopify" />
+                app:srcCompat="@drawable/ic_gift_box" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

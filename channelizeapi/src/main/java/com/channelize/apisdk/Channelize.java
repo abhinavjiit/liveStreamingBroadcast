@@ -454,7 +454,7 @@ public class Channelize {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                Channelize.getInstance().setCurrentUserId("");
+               // Channelize.getInstance().setCurrentUserId("");
                 if (completionHandler != null) {
                     completionHandler.onComplete(new RequestResponse(true), null);
                 }

@@ -1,6 +1,7 @@
 package com.livestreaming.channelize.io.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -90,6 +91,9 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
             }
             R.id.closeTextView -> {
                 lscDetailsView.visibility = View.GONE
+                val intent = Intent()
+                intent.putExtra("broadCastId", broadCastId)
+                activity?.setResult(-1, intent)
                 (activity as LSCBroadCastSettingUpAndLiveActivity).finish()
             }
             R.id.cancel -> {
@@ -122,13 +126,14 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
                         progressBar.visibility = View.GONE
                         loadingTextView.visibility = View.GONE
                         res.data?.let {
+                            countContainer.visibility = View.VISIBLE
                             Log.d("ViewReactionMsgCount", it.toString())
                             viewsCountTextView.text =
-                                getString(R.string.view_count) + it.viewersCount
+                                context?.resources?.getString(R.string.view_count) + it.viewersCount
                             commentsCountTextView.text =
-                                getString(R.string.comment_count) + it.messageCount
+                                context?.resources?.getString(R.string.comment_count) + it.messageCount
                             reactionsCountTextView.text =
-                                getString(R.string.reaction_count) + (it.reactionsCount.angry + it.reactionsCount.clap + it.reactionsCount.dislike +
+                                context?.resources?.getString(R.string.reaction_count) + (it.reactionsCount.angry + it.reactionsCount.clap + it.reactionsCount.dislike +
                                         it.reactionsCount.heart +
                                         it.reactionsCount.insightfull +
                                         it.reactionsCount.laugh +
@@ -142,7 +147,6 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
                     Resource.Status.LOADING -> {
                         progressBar.visibility = View.VISIBLE
                         loadingTextView.visibility = View.VISIBLE
-
                     }
                     Resource.Status.ERROR -> {
                         Log.d("ViewReactionMsgCountEx", res.message.toString())
@@ -150,30 +154,8 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
                         loadingTextView.visibility = View.GONE
                     }
                 }
-
             })
         }
-
-        /*  broadCastId?.let {
-              viewModel.getAllDetailsOfBroadCast(broadcastId = it).observe(this, Observer { res ->
-                  when (res.status) {
-                      Resource.Status.SUCCESS -> {
-                          res.data?.let {
-                              Log.d("Tag", it.toString())
-                          }
-
-                      }
-                      Resource.Status.LOADING -> {
-
-
-                      }
-                      Resource.Status.ERROR -> {
-                          Log.d("Tag", res.message.toString())
-                      }
-                  }
-
-              })
-          }*/
     }
 
     private inline fun <T1 : Any, T2 : Any, R : Any> safeLet(

@@ -10,6 +10,7 @@ import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resourc
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 
 class LSCBroadCastViewModel(
     private var lscBroadCastRepoImpl: LSCBroadCastRepoInterface
@@ -39,15 +40,14 @@ class LSCBroadCastViewModel(
     fun onStartLSCBroadCast(
         broadcastId: String,
         broadcastResponse: StartBroadcastRequiredResponse
-    ) {
-        CoroutineScope(Dispatchers.IO).launch {
-            lscBroadCastRepoImpl.onStartLSCBroadCast(
-                broadcastId = broadcastId,
-                broadcastRequiredResponse = broadcastResponse
-            )
-        }
-
+    ) = liveData<Resource<ResponseBody>> {
+        val res = lscBroadCastRepoImpl.onStartLSCBroadCast(
+            broadcastId = broadcastId,
+            broadcastRequiredResponse = broadcastResponse
+        )
+        emit(res)
     }
+
 
     fun onStartConversation(conversationId: String) {
         CoroutineScope(Dispatchers.IO).launch {

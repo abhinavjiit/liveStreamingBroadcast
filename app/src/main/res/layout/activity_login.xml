@@ -12,13 +12,13 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/channelizeImageView"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/applogo" />
+            app:srcCompat="@drawable/app_logo_svg" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/broadcastYourEventHeaderTextView"
@@ -28,7 +28,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="Broadcast your event and engage with your viewers"
+            android:text="Broadcast your Events and engage with your viewers"
             android:textColor="@color/dark_grey"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -116,7 +116,7 @@
                 android:drawableLeft="@drawable/ic_store_url"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
-                android:hint="Store Url"
+                android:hint="Store URL"
                 android:textAllCaps="true"
                 android:textSize="16sp" />
         </RelativeLayout>

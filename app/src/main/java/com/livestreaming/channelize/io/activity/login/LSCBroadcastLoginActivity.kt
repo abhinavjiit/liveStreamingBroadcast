@@ -286,7 +286,7 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
                     SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
                     SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
-                    Log.d("TAGGGG", "success")
+                    Log.d("LOGIN", "success")
                     startAppIdService()
                     gotoEventListingActivity()
                 }
@@ -294,7 +294,7 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             } else if (error != null) {
                 runOnUiThread {
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
-                    Log.d("TAGGGG", "failed")
+                    Log.d("LOGIN", "failed")
                     showToast(this, error.message)
                 }
             } else {
@@ -313,20 +313,20 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
 
     private fun isValid(): Boolean {
         if (publicKeyEditTextView.text.toString().isBlank()) {
-            showToast(this, "public key is not valid")
+            showToast(this, getString(R.string.public_key_validation_check))
             return false
         }
         if (storeUrlEditTextView.text.toString().isBlank()) {
-            showToast(this, "store url is not valid")
+            showToast(this, getString(R.string.store_url_key_validation_string))
             return false
         }
         if (emailEditTextView.text.toString().isBlank()) {
-            showToast(this, "email is not valid")
+            showToast(this, getString(R.string.email_validation_string))
 
             return false
         }
         if (passwordEditTextView.text.toString().isBlank()) {
-            showToast(this, "password is not valid")
+            showToast(this, getString(R.string.password_validation_string))
             return false
         }
         return true

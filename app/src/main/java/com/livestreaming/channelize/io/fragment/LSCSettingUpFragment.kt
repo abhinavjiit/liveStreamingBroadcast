@@ -84,7 +84,8 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
                 connectionResultContainer.visibility = View.VISIBLE
                 when ((it as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
                     0 -> {
-                        netWorkQuality.text = "Excellent"
+                        netWorkQuality.text =
+                            context?.resources?.getString(R.string.excellent_connection_string)
                         delay(2000)
                         if (SharedPrefUtils.getInstructionsShownFlag(it)) {
                             connectionResultContainer.visibility = View.GONE
@@ -95,7 +96,8 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
                         }
                     }
                     1 -> {
-                        netWorkQuality.text = "Very Good"
+                        netWorkQuality.text =
+                            context?.resources?.getString(R.string.very_good_connection_string)
                         delay(2000)
 
                         if (SharedPrefUtils.getInstructionsShownFlag(it)) {
@@ -107,7 +109,8 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
                         }
                     }
                     2 -> {
-                        netWorkQuality.text = "Good"
+                        netWorkQuality.text =
+                            context?.resources?.getString(R.string.good_connection_string)
                         delay(2000)
                         if (SharedPrefUtils.getInstructionsShownFlag(it)) {
                             connectionResultContainer.visibility = View.GONE
@@ -118,7 +121,8 @@ class LSCSettingUpFragment : BaseFragment(), View.OnClickListener {
                         }
                     }
                     else -> {
-                        netWorkQuality.text = "Poor Connection"
+                        netWorkQuality.text =
+                            context?.resources?.getString(R.string.poor_connection_string)
                     }
                 }
             }

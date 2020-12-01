@@ -71,7 +71,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private lateinit var writeSomethingEditText: EditText
     private lateinit var commentRecyclerView: RecyclerView
     private lateinit var lscBroadCastViewModel: LSCBroadCastViewModel
-    private lateinit var post: TextView
+    private lateinit var post: ImageView
     private lateinit var bottomContainer: ConstraintLayout
     private var startTime: String? = null
     private var endTime: String? = null
@@ -111,8 +111,18 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     Channelize.getInstance().conversationId = conversationId
                     Channelize.getInstance().updateConnectStatus(true)
                     runBlocking {
-                        Channelize.getInstance()
-                            .addSubscriber("live_broadcasts/$broadCastId/start_watching")
+                        Channelize.getInstance().addSubscriber(
+                            "live_broadcasts/$broadCastId/start_watching"
+                        )
+                        Channelize.getInstance().addSubscriber(
+                            "live_broadcasts/$broadCastId/reaction_added"
+                        )
+                        Channelize.getInstance().addSubscriber(
+                            "live_broadcasts/$broadCastId/stop_watching"
+                        )
+                        Channelize.getInstance().addSubscriber(
+                            "conversations/$conversationId/message_created"
+                        )
                     }
                     lscRemainingTime()
                 }
@@ -259,7 +269,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         fragment?.let {
             supportFragmentManager.beginTransaction().remove(it).commit()
         }
-
     }
 
     private fun initLocalVideoConfig() {
@@ -286,7 +295,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 progress2.dismiss()
             }
         } catch (e: Exception) {
-
+            Log.d("JoinChannelEx", e.toString())
         }
     }
 
@@ -428,7 +437,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 else
                     id.plus(",$it")
             }
-
             id
         }
         lscBroadCastViewModel.getProductItems(productsIdsCommaSeparated).observe(this, Observer {
@@ -498,6 +506,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             commentListData.addAll(listOfMessaged)
             lscCommentListAdapter.setListData(commentListData)
             lscCommentListAdapter.notifyDataSetChanged()
+            commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
         }
     }
 
@@ -560,14 +569,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     / (1000 * 60 * 60))
                     % 24)
 
-            totalTimeLeft.text = "${differenceInHours}h ${differenceInMinutes}m"
+            totalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
             countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
                 override fun onFinish() {
                     Log.d("Tag", "aaaa")
+                    remainingTimeCounter.visibility = View.GONE
                 }
 
                 override fun onTick(millisUntilFinished: Long) {
-                    var remainingTime = differenceInTime.minus(millisUntilFinished)
+                    val remainingTime = differenceInTime.minus(millisUntilFinished)
 
                     val differenceInMinutes1 = ((remainingTime
                             / (1000 * 60))
@@ -617,6 +627,24 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private fun hitStartBroadCastApi() {
         broadCastId?.let {
             lscBroadCastViewModel.onStartLSCBroadCast(it, startBroadcastRequiredResponse)
+                .observe(this,
+                    Observer {
+                        when (it?.status) {
+                            Resource.Status.ERROR -> {
+                                it.message?.let {
+                                    //showToast(this, it)
+                                    Log.d("StartBroadCastError", it)
+                                }
+                            }
+                            Resource.Status.SUCCESS -> {
+                                it.data?.let {
+                                    Log.d("START_BROADCAST", "SUCCESS")
+                                }
+                            }
+                            else -> {
+                            }
+                        }
+                    })
         }
     }
 
@@ -629,9 +657,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     override fun onStop() {
         Log.d("OnStop", "called")
         super.onStop()
-
     }
-
 
     override fun onBackPressed() {
         Log.d("onBackPressed", "onBackPressed")
@@ -666,8 +692,5 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         } catch (e: Exception) {
             Log.d("Tag", e.toString())
         }
-
-
     }
-
 }

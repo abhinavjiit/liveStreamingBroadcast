@@ -22,9 +22,8 @@ class EventListingRepo @Inject constructor(@com.livestreaming.channelize.io.di.R
                         hosts = ChannelizePreferences.getCurrentUserId(BaseApplication.getInstance()),
                         skip = 0,
                         limit = 25,
-                        sort = "createdAt DESC"
+                        sort = "startTime ASC"
                     )
-
                 }
                 ResponseHandler().handleSuccess(res.await())
             }
