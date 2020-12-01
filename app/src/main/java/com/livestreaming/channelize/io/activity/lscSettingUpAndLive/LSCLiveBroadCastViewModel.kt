@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 
-class LSCBroadCastViewModel(
+class LSCLiveBroadCastViewModel(
     private var lscBroadCastRepoImpl: LSCBroadCastRepoInterface
 
 ) :

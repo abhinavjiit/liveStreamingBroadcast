@@ -1,6 +1,5 @@
 package com.livestreaming.channelize.io.activity.login
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.GradientDrawable
@@ -40,216 +39,217 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        initUi()
+        initUi
         loginButton.setOnClickListener(this)
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private fun initUi() {
-        channelizeImageView = findViewById(R.id.channelizeImageView)
-        publicKeyEditTextView = findViewById(R.id.publicKeyEditTextView)
-        storeUrlEditTextView = findViewById(R.id.storeUrlEditTextView)
-        emailEditTextView = findViewById(R.id.emailEditTextView)
-        passwordEditTextView = findViewById(R.id.passwordEditTextView)
-        loginButton = findViewById(R.id.loginButton)
-        publicKeyContainer = findViewById(R.id.publicKeyContainer)
-        passwordContainer = findViewById(R.id.passwordContainer)
-        storeUrlContainer = findViewById(R.id.storeUrlContainer)
-        emailContainer = findViewById(R.id.emailContainer)
+    private val initUi: Unit
+        get() {
+            channelizeImageView = findViewById(R.id.channelizeImageView)
+            publicKeyEditTextView = findViewById(R.id.publicKeyEditTextView)
+            storeUrlEditTextView = findViewById(R.id.storeUrlEditTextView)
+            emailEditTextView = findViewById(R.id.emailEditTextView)
+            passwordEditTextView = findViewById(R.id.passwordEditTextView)
+            loginButton = findViewById(R.id.loginButton)
+            publicKeyContainer = findViewById(R.id.publicKeyContainer)
+            passwordContainer = findViewById(R.id.passwordContainer)
+            storeUrlContainer = findViewById(R.id.storeUrlContainer)
+            emailContainer = findViewById(R.id.emailContainer)
 
-        publicKeyEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val tvBackground: GradientDrawable =
-                    publicKeyContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
-                val drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.btn_bg_blue),
-                    PorterDuff.Mode.SRC_IN
-                )
+            publicKeyEditTextView.onFocusChangeListener =
+                View.OnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        val tvBackground: GradientDrawable =
+                            publicKeyContainer.background as GradientDrawable
+                        tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                        tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
+                        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
+                        drawable?.setColorFilter(
+                            ContextCompat.getColor(this, R.color.btn_bg_blue),
+                            PorterDuff.Mode.SRC_IN
+                        )
 
-                publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                publicKeyEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.btn_bg_blue
+                        publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                            drawable,
+                            null,
+                            null,
+                            null
+                        )
+                        publicKeyEditTextView.setTextColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            )
+                        )
+                    } else {
+                        val tvBackground: GradientDrawable =
+                            publicKeyContainer.background as GradientDrawable
+                        tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                        tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
+                        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
+                        drawable?.setColorFilter(
+                            ContextCompat.getColor(this, R.color.dark_grey),
+                            PorterDuff.Mode.SRC_IN
+                        )
+                        publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                            drawable,
+                            null,
+                            null,
+                            null
+                        )
+                        publicKeyEditTextView.setTextColor(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            )
+                        )
+                    }
+                }
+            storeUrlEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    val tvBackground: GradientDrawable =
+                        storeUrlContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.btn_bg_blue),
+                        PorterDuff.Mode.SRC_IN
                     )
-                )
-            } else {
-                val tvBackground: GradientDrawable =
-                    publicKeyContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
-                var drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.dark_grey),
-                    PorterDuff.Mode.SRC_IN
-                )
-                publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                publicKeyEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_grey
+
+                    storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
                     )
-                )
+                    storeUrlEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.btn_bg_blue
+                        )
+                    )
+                } else {
+                    val tvBackground: GradientDrawable =
+                        storeUrlContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.dark_grey),
+                        PorterDuff.Mode.SRC_IN
+                    )
+                    storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
+                    )
+                    storeUrlEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.dark_grey
+                        )
+                    )
+                }
+            }
+            emailEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    val tvBackground: GradientDrawable =
+                        emailContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.btn_bg_blue),
+                        PorterDuff.Mode.SRC_IN
+                    )
+
+                    emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
+                    )
+                    emailEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.btn_bg_blue
+                        )
+                    )
+                } else {
+                    val tvBackground: GradientDrawable =
+                        emailContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.dark_grey),
+                        PorterDuff.Mode.SRC_IN
+                    )
+                    emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
+                    )
+                    emailEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.dark_grey
+                        )
+                    )
+                }
+            }
+            passwordEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) {
+                    val tvBackground: GradientDrawable =
+                        passwordContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.btn_bg_blue),
+                        PorterDuff.Mode.SRC_IN
+                    )
+
+                    passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
+                    )
+                    passwordEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.btn_bg_blue
+                        )
+                    )
+                } else {
+                    val tvBackground: GradientDrawable =
+                        passwordContainer.background as GradientDrawable
+                    tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
+                    tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
+                    val drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
+                    drawable?.setColorFilter(
+                        ContextCompat.getColor(this, R.color.dark_grey),
+                        PorterDuff.Mode.SRC_IN
+                    )
+                    passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
+                        drawable,
+                        null,
+                        null,
+                        null
+                    )
+                    passwordEditTextView.setTextColor(
+                        ContextCompat.getColor(
+                            this,
+                            R.color.dark_grey
+                        )
+                    )
+                }
             }
         }
-        storeUrlEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val tvBackground: GradientDrawable =
-                    storeUrlContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
-                val drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.btn_bg_blue),
-                    PorterDuff.Mode.SRC_IN
-                )
-
-                storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                storeUrlEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.btn_bg_blue
-                    )
-                )
-            } else {
-                val tvBackground: GradientDrawable =
-                    storeUrlContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
-                var drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.dark_grey),
-                    PorterDuff.Mode.SRC_IN
-                )
-                storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                storeUrlEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_grey
-                    )
-                )
-            }
-        }
-        emailEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val tvBackground: GradientDrawable =
-                    emailContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
-                val drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.btn_bg_blue),
-                    PorterDuff.Mode.SRC_IN
-                )
-
-                emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                emailEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.btn_bg_blue
-                    )
-                )
-            } else {
-                val tvBackground: GradientDrawable =
-                    emailContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
-                var drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.dark_grey),
-                    PorterDuff.Mode.SRC_IN
-                )
-                emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                emailEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_grey
-                    )
-                )
-            }
-        }
-        passwordEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                val tvBackground: GradientDrawable =
-                    passwordContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
-                val drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.btn_bg_blue),
-                    PorterDuff.Mode.SRC_IN
-                )
-
-                passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                passwordEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.btn_bg_blue
-                    )
-                )
-            } else {
-                val tvBackground: GradientDrawable =
-                    passwordContainer.background as GradientDrawable
-                tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
-                tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
-                var drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
-                drawable?.setColorFilter(
-                    ContextCompat.getColor(this, R.color.dark_grey),
-                    PorterDuff.Mode.SRC_IN
-                )
-                passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
-                    drawable,
-                    null,
-                    null,
-                    null
-                )
-                passwordEditTextView.setTextColor(
-                    ContextCompat.getColor(
-                        this,
-                        R.color.dark_grey
-                    )
-                )
-            }
-        }
-    }
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.loginButton) {

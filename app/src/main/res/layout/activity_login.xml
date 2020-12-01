@@ -28,14 +28,13 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="Broadcast your Events and engage with your viewers"
+            android:text="@string/broadcast_your_events_and_engage_with_your_viewers"
             android:textColor="@color/dark_grey"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/channelizeImageView" />
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/loginToExpressTextView"
@@ -45,7 +44,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:gravity="center_horizontal"
-            android:text="Login to Express yourself LIVE And promote your PRODUCTS"
+            android:text="@string/login_to_express_yourself_live_and_promote_your_products"
             android:textColor="@color/dark_grey"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -70,10 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/white"
-                android:drawableLeft="@drawable/ic_public_key"
+                android:drawableStart="@drawable/ic_public_key"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
-                android:hint="Your Public Key"
+                android:hint="@string/your_public_key"
                 android:textSize="16sp" />
         </RelativeLayout>
 
@@ -88,12 +87,11 @@
             android:drawableTint="@color/dark_grey"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
-            android:text="This key can be copied from your Live Stream Shopping dashboard."
+            android:text="@string/this_key_can_be_copied_from_your_live_stream_shopping_dashboard"
             android:textColor="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/publicKeyContainer" />
-
 
         <RelativeLayout
             android:id="@+id/storeUrlContainer"
@@ -113,10 +111,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/white"
-                android:drawableLeft="@drawable/ic_store_url"
+                android:drawableStart="@drawable/ic_store_url"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
-                android:hint="Store URL"
+                android:hint="@string/store_url"
                 android:textAllCaps="true"
                 android:textSize="16sp" />
         </RelativeLayout>
@@ -132,7 +130,7 @@
             android:drawableTint="@color/dark_grey"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
-            android:text="This is your Shopify Store URL."
+            android:text="@string/this_is_your_shopify_store_url"
             android:textColor="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -157,14 +155,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/white"
-                android:drawableLeft="@drawable/ic_email"
-
+                android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
-                android:hint="Email Address"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
                 android:textSize="16sp" />
         </RelativeLayout>
-
 
         <RelativeLayout
             android:id="@+id/passwordContainer"
@@ -187,11 +184,10 @@
                 android:drawableStart="@drawable/ic_password"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
-                android:hint="Password"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textSize="16sp" />
         </RelativeLayout>
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/loginButton"
@@ -212,8 +208,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordContainer" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

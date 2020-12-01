@@ -9,6 +9,6 @@ class LSCBroadcastAndLiveViewModelFact(
 ) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LSCBroadCastViewModel(lscBroadCastRepoInterface) as T
+        return LSCLiveBroadCastViewModel(lscBroadCastRepoInterface) as T
     }
 }

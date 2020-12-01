@@ -219,6 +219,7 @@ class EventBroadCastListingActivity : BaseActivity(), View.OnClickListener,
             "conversationId",
             eventListResponse?.get(position)?.metaData?.conversationId
         )
+        intent.putExtra("eventName", eventListResponse?.get(position)?.title)
         startActivityForResult(intent, 1000)
     }
 

@@ -17,7 +17,7 @@ import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.Injector
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
-import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastViewModel
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import javax.inject.Inject
@@ -28,7 +28,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
     private lateinit var cancelLiveBroadCastView: ConstraintLayout
     private lateinit var lscDetailsView: ConstraintLayout
-    private lateinit var viewModel: LSCBroadCastViewModel
+    private lateinit var viewModel: LSCLiveBroadCastViewModel
     private lateinit var endNowTextView: TextView
     private lateinit var cancel: TextView
     private lateinit var closeTextView: TextView
@@ -40,6 +40,8 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
     private lateinit var progressBar: ProgressBar
     private var broadCastId: String? = null
     private var conversationId: String? = null
+    private var eventTitle: String? = null
+    private lateinit var headerTextView: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,6 +53,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
         initViewModel()
         broadCastId = arguments?.getString("broadCastId")
         conversationId = arguments?.getString("conversationId")
+        eventTitle = arguments?.getString("eventTitle")
         return view
     }
 
@@ -66,6 +69,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
         countContainer = view.findViewById(R.id.countContainer)
         loadingTextView = view.findViewById(R.id.loadingTextView)
         progressBar = view.findViewById(R.id.progressBar)
+        headerTextView = view.findViewById(R.id.headerTextView)
         closeTextView.setOnClickListener(this)
         cancel.setOnClickListener(this)
         endNowTextView.setOnClickListener(this)
@@ -75,7 +79,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
         viewModel = ViewModelProvider(
             this,
             lscBroadcastAndLiveViewModelFact
-        ).get(LSCBroadCastViewModel::class.java)
+        ).get(LSCLiveBroadCastViewModel::class.java)
     }
 
     override fun onClick(v: View?) {
@@ -84,6 +88,7 @@ class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListen
                 onStopBroadCast()
                 (activity as LSCBroadCastSettingUpAndLiveActivity).leaveLSCBroadcast()
                 cancelLiveBroadCastView.visibility = View.GONE
+                headerTextView.text = eventTitle
                 lscDetailsView.visibility = View.VISIBLE
                 endNowTextView.visibility = View.GONE
                 cancel.visibility = View.GONE

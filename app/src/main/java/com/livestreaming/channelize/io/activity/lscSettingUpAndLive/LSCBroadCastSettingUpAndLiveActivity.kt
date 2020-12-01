@@ -70,18 +70,19 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private lateinit var productListView: ImageView
     private lateinit var writeSomethingEditText: EditText
     private lateinit var commentRecyclerView: RecyclerView
-    private lateinit var lscBroadCastViewModel: LSCBroadCastViewModel
+    private lateinit var lscBroadCastViewModel: LSCLiveBroadCastViewModel
     private lateinit var post: ImageView
     private lateinit var bottomContainer: ConstraintLayout
     private var startTime: String? = null
     private var endTime: String? = null
     private var productsList: ArrayList<ProductDetailResponse>? = null
     private var broadCastId: String? = null
-    private var live = false
+    private var isLive = false
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var flipCamera: ImageView
     private var productsIds: ArrayList<String>? = null
     private var conversationId: String? = null
+    private var eventTitle: String? = null
     private var commentListData = ArrayList<MessageCommentData>()
 
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
@@ -105,7 +106,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             override fun onJoinChannelSuccess(channel: String?, uid: Int, elapsed: Int) {
                 runOnUiThread {
                     Log.i("onJoinChannelSuccess", "onJoinChannelSuccess")
-                    Log.i("AgoraID", uid.toString())
+                    Log.i("Agora_ID", uid.toString())
                     startBroadcastRequiredResponse.rtcUserId = 1234
                     Channelize.getInstance().broadCastId = broadCastId
                     Channelize.getInstance().conversationId = conversationId
@@ -145,7 +146,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     commentRecyclerView.visibility = View.VISIBLE
                     flipCamera.visibility = View.VISIBLE
                     timerContainer.visibility = View.VISIBLE
-                    live = true
+                    isLive = true
                     Log.d("onFirstLocalVideoFrame", "success")
                 }
             }
@@ -168,7 +169,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_lsc_broadcast_setting_up)
+        setContentView(R.layout.activity_lsc_broadcast_setting_up_and_live)
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
         val channelizeConfig = if (BuildConfig.DEBUG) {
             ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
@@ -181,25 +182,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         }
         Channelize.initialize(channelizeConfig)
         Channelize.addConversationEventHandler(this)
-        broadCasterContainer = findViewById(R.id.broadCasterContainer)
-        beautification = findViewById(R.id.beautification)
-        liveTextView = findViewById(R.id.liveTextView)
-        liveViewCount = findViewById(R.id.liveViewCount)
-        cancelLiveBroadcast = findViewById(R.id.cancelLiveBroadcast)
-        productListView = findViewById(R.id.productListView)
-        writeSomethingEditText = findViewById(R.id.writeSomethingEditText)
-        commentRecyclerView = findViewById(R.id.commentRecyclerView)
-        bottomContainer = findViewById(R.id.bottomContainer)
-        post = findViewById(R.id.post)
-        remainingTimeCounter = findViewById(R.id.remainingTimeCounter)
-        totalTimeLeft = findViewById(R.id.totalTimeLeft)
-        timerContainer = findViewById(R.id.timerContainer)
-        flipCamera = findViewById(R.id.flipCamera)
+        initViews
         broadCastId = intent?.getStringExtra("broadCastId")
         startTime = intent?.getStringExtra("startTime")
         endTime = intent?.getStringExtra("endTime")
         productsIds = intent?.getStringArrayListExtra("productsIds")
         conversationId = intent?.getStringExtra("conversationId")
+        eventTitle = intent.getStringExtra("eventName")
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
@@ -212,15 +201,30 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         } else {
             settingUpFragment()
         }
+
         initCommentRecyclerView()
         setupViewModel()
         getProductsList()
-        beautification.setOnClickListener(this)
-        productListView.setOnClickListener(this)
-        post.setOnClickListener(this)
-        cancelLiveBroadcast.setOnClickListener(this)
-        flipCamera.setOnClickListener(this)
+        clickListener
     }
+
+    private val initViews: Unit
+        get() {
+            broadCasterContainer = findViewById(R.id.broadCasterContainer)
+            beautification = findViewById(R.id.beautification)
+            liveTextView = findViewById(R.id.liveTextView)
+            liveViewCount = findViewById(R.id.liveViewCount)
+            cancelLiveBroadcast = findViewById(R.id.cancelLiveBroadcast)
+            productListView = findViewById(R.id.productListView)
+            writeSomethingEditText = findViewById(R.id.writeSomethingEditText)
+            commentRecyclerView = findViewById(R.id.commentRecyclerView)
+            bottomContainer = findViewById(R.id.bottomContainer)
+            post = findViewById(R.id.post)
+            remainingTimeCounter = findViewById(R.id.remainingTimeCounter)
+            totalTimeLeft = findViewById(R.id.totalTimeLeft)
+            timerContainer = findViewById(R.id.timerContainer)
+            flipCamera = findViewById(R.id.flipCamera)
+        }
 
     private fun initCommentRecyclerView() {
         commentRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -251,7 +255,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         lscBroadCastViewModel = ViewModelProvider(
             this,
             lscBroadcastAndLiveViewModelFact
-        ).get(LSCBroadCastViewModel::class.java)
+        ).get(LSCLiveBroadCastViewModel::class.java)
     }
 
     fun settingUpFragment() {
@@ -270,6 +274,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             supportFragmentManager.beginTransaction().remove(it).commit()
         }
     }
+
+    private val clickListener: Unit
+        get() {
+            beautification.setOnClickListener(this)
+            productListView.setOnClickListener(this)
+            post.setOnClickListener(this)
+            cancelLiveBroadcast.setOnClickListener(this)
+            flipCamera.setOnClickListener(this)
+        }
 
     private fun initLocalVideoConfig() {
         setupVideoConfig()
@@ -382,7 +395,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 }
             }
             R.id.cancelLiveBroadcast -> {
-                if (live)
+                if (isLive)
                     showCancelLiveBroadCastFragment()
                 else
                     finish()
@@ -402,6 +415,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         val bundle = Bundle()
         bundle.putString("broadCastId", broadCastId)
         bundle.putString("conversationId", conversationId)
+        bundle.putString("eventTitle", eventTitle)
         fragment.arguments = bundle
         val fm = supportFragmentManager
         val transaction =
@@ -661,7 +675,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     override fun onBackPressed() {
         Log.d("onBackPressed", "onBackPressed")
-        if (live)
+        if (isLive)
             showCancelLiveBroadCastFragment()
         else {
             finish()
