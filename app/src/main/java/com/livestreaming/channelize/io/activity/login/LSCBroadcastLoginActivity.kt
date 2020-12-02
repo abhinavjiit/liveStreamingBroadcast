@@ -8,6 +8,7 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -413,9 +414,10 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
             showToast(this, getString(R.string.store_url_key_validation_string))
             return false
         }
-        if (emailEditTextView.text.toString().isBlank()) {
+        if (emailEditTextView.text.toString().isBlank() || !emailEditTextView.text.toString()
+                .trim().isEmailValid()
+        ) {
             showToast(this, getString(R.string.email_validation_string))
-
             return false
         }
         if (passwordEditTextView.text.toString().isBlank()) {
@@ -424,4 +426,10 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
         }
         return true
     }
+
+}
+
+fun String.isEmailValid(): Boolean {
+    return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this)
+        .matches()
 }
