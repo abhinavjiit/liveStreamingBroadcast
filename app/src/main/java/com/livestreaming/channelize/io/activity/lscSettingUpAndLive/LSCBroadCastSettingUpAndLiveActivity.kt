@@ -107,7 +107,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                 runOnUiThread {
                     Log.i("onJoinChannelSuccess", "onJoinChannelSuccess")
                     Log.i("Agora_ID", uid.toString())
-                    startBroadcastRequiredResponse.rtcUserId = 1234
+                    startBroadcastRequiredResponse.rtcUserId = uid
                     Channelize.getInstance().broadCastId = broadCastId
                     Channelize.getInstance().conversationId = conversationId
                     Channelize.getInstance().updateConnectStatus(true)
@@ -295,7 +295,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
             val progress = progressDialog(this)
             progress.show()
             CoroutineScope(Dispatchers.Main).launch {
-                mRtcEngine.joinChannel(null, broadCastId, "", 1234)
+                mRtcEngine.joinChannel(
+                    null,
+                    broadCastId,
+                    "",
+                    SharedPrefUtils.getUniqueId(this@LSCBroadCastSettingUpAndLiveActivity).toInt()
+                )
                 delay(2000)
                 progress.dismiss()
                 val progress2 = progressDialog(
@@ -558,7 +563,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                             Resource.Status.ERROR -> {
                                 it.message?.let {
                                     //showToast(this, it)
-                                    Log.d("StartBroadCastError", it)
+                                    Log.d("START_BROADCAST_ERROR", it)
                                 }
                             }
                             Resource.Status.SUCCESS -> {
@@ -567,6 +572,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                                 }
                             }
                             else -> {
+                                Log.d("START_BROADCAST_TAG", "START_BROADCAST")
                             }
                         }
                     })

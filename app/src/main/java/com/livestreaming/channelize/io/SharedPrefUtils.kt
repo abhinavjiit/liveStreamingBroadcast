@@ -147,6 +147,26 @@ class SharedPrefUtils private constructor() {
             )
             return sharedPref.getString("appID", null)
         }
+
+        fun setUniqueId(context: Context, id: Long) {
+            val sharedPref = context.applicationContext.getSharedPreferences(
+                COMMON_PREF_FILE,
+                Context.MODE_PRIVATE
+            )
+            val editor = sharedPref.edit()
+            editor.putLong("uniqueRtcId", id)
+            editor.commit()
+        }
+
+        fun getUniqueId(context: Context): Long {
+            val sharedPref = context.applicationContext.getSharedPreferences(
+                COMMON_PREF_FILE,
+                Context.MODE_PRIVATE
+            )
+            return sharedPref.getLong("uniqueRtcId", 0)
+
+        }
+
     }
 
 

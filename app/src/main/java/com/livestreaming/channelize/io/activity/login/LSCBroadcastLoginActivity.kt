@@ -368,6 +368,7 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
         Channelize.getInstance().apiKey = publicKeyEditTextView.text.toString()
         ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).removeHeader()
         ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).addHeaders()
+        SharedPrefUtils.setUniqueId(this, System.currentTimeMillis())
         Channelize.getInstance().loginWithEmailPassword(
             emailEditTextView.text.toString(),
             passwordEditTextView.text.toString()
