@@ -147,8 +147,6 @@ class LSCPermissionFragment : BaseFragment(), View.OnClickListener {
                     makeRequest(it, "microPhone")
                 }
             }
-
-
         }
     }
 

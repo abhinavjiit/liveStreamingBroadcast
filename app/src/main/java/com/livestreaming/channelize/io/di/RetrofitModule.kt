@@ -176,7 +176,6 @@ class RetrofitModule(
         return Retrofit.Builder().baseUrl(channelizeCorBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
-
     }
 
 }

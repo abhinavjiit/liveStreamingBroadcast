@@ -411,7 +411,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     }
 
     private fun showCancelLiveBroadCastFragment() {
-        val fragment = LSCBroadCastDetailAfterEndingFragment()
+        val fragment = LSCBroadCastDetailAfterFinishedFragment()
         val bundle = Bundle()
         bundle.putString("broadCastId", broadCastId)
         bundle.putString("conversationId", conversationId)

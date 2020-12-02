@@ -22,7 +22,7 @@ import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcast
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import javax.inject.Inject
 
-class LSCBroadCastDetailAfterEndingFragment : BaseFragment(), View.OnClickListener {
+class LSCBroadCastDetailAfterFinishedFragment : BaseFragment(), View.OnClickListener {
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact

@@ -3,7 +3,7 @@ package com.livestreaming.channelize.io.di
 import com.livestreaming.channelize.io.AppIdGetService
 import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
-import com.livestreaming.channelize.io.fragment.LSCBroadCastDetailAfterEndingFragment
+import com.livestreaming.channelize.io.fragment.LSCBroadCastDetailAfterFinishedFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,7 +13,7 @@ interface ApplicationComponent {
     fun inject(eventBroadCastListingActivity: EventBroadCastListingActivity)
     fun inject(liveActivity: LSCBroadCastSettingUpAndLiveActivity)
     fun inject(appIdService: AppIdGetService)
-    fun inject(lscBroadCastDetailAfterEndingFragment: LSCBroadCastDetailAfterEndingFragment)
+    fun inject(lscBroadCastDetailAfterEndingFragment: LSCBroadCastDetailAfterFinishedFragment)
 
 
 }

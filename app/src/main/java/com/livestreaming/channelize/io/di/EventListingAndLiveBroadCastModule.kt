@@ -13,11 +13,6 @@ import retrofit2.Retrofit
 @Module
 class EventListingAndLiveBroadCastModule {
 
-
-    fun providesEventRepoInstance(apiCall: LSCApiCallInterface): EventRepo {
-        return EventsBroadCastRepoInterfaceImpl(apiCall)
-    }
-
     @Provides
     fun providesEventLiveBroadcastRepoInstance(
         @ProductsListRetrofit retrofit: Retrofit,
@@ -25,11 +20,7 @@ class EventListingAndLiveBroadCastModule {
         @CoreUrlRetrofit coreUrlRetrofit: Retrofit
     ): LSCBroadCastRepoInterface {
         return LSCBroadCastRepoImpl(retrofit, lscRetrofit, coreUrlRetrofit)
-
     }
-
-
-
 
     @Provides
     fun providesLiveBroadcastViewModelFact(
