@@ -498,6 +498,87 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     }
 
 
+    @SuppressLint("SimpleDateFormat")
+    private fun lscRemainingTime() {
+        endTime?.let {
+            val outputFormat =
+                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            outputFormat.timeZone = TimeZone.getTimeZone("IST")
+            val endTimeFormat = outputFormat.parse(it)
+            val currentTime = Calendar.getInstance().time
+            val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
+            val differenceInMinutes = ((differenceInTime
+                    / (1000 * 60))
+                    % 60)
+
+            val differenceInHours = ((differenceInTime
+                    / (1000 * 60 * 60))
+                    % 24)
+
+            totalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
+            countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
+                override fun onFinish() {
+                    Log.d("Tag", "aaaa")
+                    remainingTimeCounter.visibility = View.GONE
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
+                    val remainingTime = differenceInTime.minus(millisUntilFinished)
+
+                    val differenceInMinutes1 = ((remainingTime
+                            / (1000 * 60))
+                            % 60)
+
+                    val differenceInHours1 = ((remainingTime
+                            / (1000 * 60 * 60))
+                            % 24)
+                    remainingTimeCounter.text = "${differenceInMinutes1}m /"
+                    Log.d("RESULT", "see")
+                }
+
+            }.start()
+        }
+        /*will change this code to obserables*/
+
+/*        lscBroadCastViewModel.getCounterTime(endTime).observe(this, Observer {
+            Log.d("counterTime", "///${it}m")
+        })
+        lscBroadCastViewModel.getTotalTime(endTime).observe(this, Observer {
+            Log.d("TotalTime", it)
+        })*/
+    }
+
+
+    private fun hitStartBroadCastApi() {
+        broadCastId?.let {
+            lscBroadCastViewModel.onStartLSCBroadCast(it, startBroadcastRequiredResponse)
+                .observe(this,
+                    Observer {
+                        when (it?.status) {
+                            Resource.Status.ERROR -> {
+                                it.message?.let {
+                                    //showToast(this, it)
+                                    Log.d("StartBroadCastError", it)
+                                }
+                            }
+                            Resource.Status.SUCCESS -> {
+                                it.data?.let {
+                                    Log.d("START_BROADCAST", "SUCCESS")
+                                }
+                            }
+                            else -> {
+                            }
+                        }
+                    })
+        }
+    }
+
+    private fun hitStartConversationApi() {
+        conversationId?.let {
+            lscBroadCastViewModel.onStartConversation(it)
+        }
+    }
+
     override fun getLiveCount(response: String?) {
         runOnUiThread {
             val res = Gson().fromJson(response, LSCLiveUpdatesResponse::class.java)
@@ -566,57 +647,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
 
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun lscRemainingTime() {
-        endTime?.let {
-            val outputFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            outputFormat.timeZone = TimeZone.getTimeZone("IST")
-            val endTimeFormat = outputFormat.parse(it)
-            val currentTime = Calendar.getInstance().time
-            val differenceInTime: Long = endTimeFormat?.time?.minus(currentTime.time)!!
-            val differenceInMinutes = ((differenceInTime
-                    / (1000 * 60))
-                    % 60)
-
-            val differenceInHours = ((differenceInTime
-                    / (1000 * 60 * 60))
-                    % 24)
-
-            totalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
-            countDownTimer = object : CountDownTimer(differenceInTime, 1000) {
-                override fun onFinish() {
-                    Log.d("Tag", "aaaa")
-                    remainingTimeCounter.visibility = View.GONE
-                }
-
-                override fun onTick(millisUntilFinished: Long) {
-                    val remainingTime = differenceInTime.minus(millisUntilFinished)
-
-                    val differenceInMinutes1 = ((remainingTime
-                            / (1000 * 60))
-                            % 60)
-
-                    val differenceInHours1 = ((remainingTime
-                            / (1000 * 60 * 60))
-                            % 24)
-                    remainingTimeCounter.text = "${differenceInMinutes1}m /"
-                    Log.d("RESULT", "see")
-                }
-
-            }.start()
-        }
-        /*will change this code to obserables*/
-
-/*        lscBroadCastViewModel.getCounterTime(endTime).observe(this, Observer {
-            Log.d("counterTime", "///${it}m")
-        })
-        lscBroadCastViewModel.getTotalTime(endTime).observe(this, Observer {
-            Log.d("TotalTime", it)
-        })*/
-    }
-
-
     private fun onFlyReactions(resId: Int) {
         val animation = ZeroGravityAnimation()
         animation.setCount(1)
@@ -635,37 +665,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         )
         val container: ViewGroup = findViewById(R.id.animatorLoader)
         animation.play(this, container)
-    }
-
-
-    private fun hitStartBroadCastApi() {
-        broadCastId?.let {
-            lscBroadCastViewModel.onStartLSCBroadCast(it, startBroadcastRequiredResponse)
-                .observe(this,
-                    Observer {
-                        when (it?.status) {
-                            Resource.Status.ERROR -> {
-                                it.message?.let {
-                                    //showToast(this, it)
-                                    Log.d("StartBroadCastError", it)
-                                }
-                            }
-                            Resource.Status.SUCCESS -> {
-                                it.data?.let {
-                                    Log.d("START_BROADCAST", "SUCCESS")
-                                }
-                            }
-                            else -> {
-                            }
-                        }
-                    })
-        }
-    }
-
-    private fun hitStartConversationApi() {
-        conversationId?.let {
-            lscBroadCastViewModel.onStartConversation(it)
-        }
     }
 
     override fun onStop() {

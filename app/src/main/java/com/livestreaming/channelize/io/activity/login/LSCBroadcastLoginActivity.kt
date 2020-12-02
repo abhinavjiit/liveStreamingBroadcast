@@ -1,8 +1,12 @@
 package com.livestreaming.channelize.io.activity.login
 
 import android.content.Intent
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +24,7 @@ import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
 import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
+
 
 class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
 
@@ -64,11 +69,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                         tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                         tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
                         val drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
-                        drawable?.setColorFilter(
-                            ContextCompat.getColor(this, R.color.btn_bg_blue),
-                            PorterDuff.Mode.SRC_IN
-                        )
-
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            drawable?.colorFilter = BlendModeColorFilter(
+                                ContextCompat.getColor(
+                                    this,
+                                    R.color.btn_bg_blue
+                                ), BlendMode.SRC_ATOP
+                            )
+                        } else {
+                            drawable?.colorFilter = PorterDuffColorFilter(
+                                ContextCompat.getColor(
+                                    this,
+                                    R.color.btn_bg_blue
+                                ), PorterDuff.Mode.SRC_ATOP
+                            )
+                        }
                         publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                             drawable,
                             null,
@@ -87,10 +102,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                         tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                         tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
                         val drawable = ContextCompat.getDrawable(this, R.drawable.ic_public_key)
-                        drawable?.setColorFilter(
-                            ContextCompat.getColor(this, R.color.dark_grey),
-                            PorterDuff.Mode.SRC_IN
-                        )
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            drawable?.colorFilter = BlendModeColorFilter(
+                                ContextCompat.getColor(
+                                    this,
+                                    R.color.dark_grey
+                                ), BlendMode.SRC_ATOP
+                            )
+                        } else {
+                            drawable?.colorFilter = PorterDuffColorFilter(
+                                ContextCompat.getColor(
+                                    this,
+                                    R.color.dark_grey
+                                ), PorterDuff.Mode.SRC_ATOP
+                            )
+                        }
                         publicKeyEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                             drawable,
                             null,
@@ -112,10 +138,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.btn_bg_blue),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
 
                     storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
@@ -135,10 +172,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_store_url)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.dark_grey),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
                     storeUrlEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
                         null,
@@ -160,10 +208,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.btn_bg_blue),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
 
                     emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
@@ -183,10 +242,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_email)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.dark_grey),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
                     emailEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
                         null,
@@ -208,10 +278,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.btn_bg_blue),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.btn_bg_blue
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
 
                     passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
@@ -231,10 +312,21 @@ class LSCBroadcastLoginActivity : BaseActivity(), View.OnClickListener {
                     tvBackground.setColor(ContextCompat.getColor(this, R.color.white))
                     tvBackground.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
                     val drawable = ContextCompat.getDrawable(this, R.drawable.ic_password)
-                    drawable?.setColorFilter(
-                        ContextCompat.getColor(this, R.color.dark_grey),
-                        PorterDuff.Mode.SRC_IN
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        drawable?.colorFilter = BlendModeColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), BlendMode.SRC_ATOP
+                        )
+                    } else {
+                        drawable?.colorFilter = PorterDuffColorFilter(
+                            ContextCompat.getColor(
+                                this,
+                                R.color.dark_grey
+                            ), PorterDuff.Mode.SRC_ATOP
+                        )
+                    }
                     passwordEditTextView.setCompoundDrawablesWithIntrinsicBounds(
                         drawable,
                         null,

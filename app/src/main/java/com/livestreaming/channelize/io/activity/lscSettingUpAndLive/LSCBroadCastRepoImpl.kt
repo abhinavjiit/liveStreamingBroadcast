@@ -101,12 +101,10 @@ class LSCBroadCastRepoImpl(
                 coreUrlRetrofit.create(LSCApiCallInterface::class.java)
                     .getCommentsCount(conversation_id = conversationId)
 
-            val viewOrReactionsCount = response1
-            val messageCount = response2
             lscBroadCastLiveUpdateDetailsResponse = LSCBroadCastLiveUpdateDetailsResponse(
-                viewersCount = viewOrReactionsCount.viewersCount,
-                messageCount = messageCount.messageCount,
-                reactionsCount = viewOrReactionsCount.reactionsCount
+                viewersCount = response1.viewersCount,
+                messageCount = response2.messageCount,
+                reactionsCount = response1.reactionsCount
             )
 
             ResponseHandler().handleSuccess(lscBroadCastLiveUpdateDetailsResponse)

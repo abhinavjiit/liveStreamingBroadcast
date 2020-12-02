@@ -71,6 +71,7 @@
                 android:background="@color/white"
                 android:drawableStart="@drawable/ic_public_key"
                 android:drawablePadding="7dp"
+                android:inputType="text"
                 android:drawableTint="@color/dark_grey"
                 android:hint="@string/your_public_key"
                 android:textSize="16sp" />
@@ -110,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:inputType="text"
                 android:background="@color/white"
                 android:drawableStart="@drawable/ic_store_url"
                 android:drawablePadding="7dp"
