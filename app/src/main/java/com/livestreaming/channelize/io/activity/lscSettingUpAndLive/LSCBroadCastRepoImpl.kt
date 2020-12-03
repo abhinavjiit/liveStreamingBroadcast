@@ -11,6 +11,8 @@ import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResp
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.ResponseHandler
 import okhttp3.ResponseBody
+import org.json.JSONObject
+import retrofit2.HttpException
 import retrofit2.Retrofit
 
 class LSCBroadCastRepoImpl(
@@ -48,15 +50,18 @@ class LSCBroadCastRepoImpl(
         broadcastId: String,
         broadcastRequiredResponse: StartBroadcastRequiredResponse
     ): Resource<ResponseBody> {
-        try {
+        return try {
             val response =
                 lscRetrofit.create(LSCApiCallInterface::class.java)
                     .onStartBroadCast(broadcastId = broadcastId, broadcastRequiredResponse)
 
-            return ResponseHandler().handleSuccess(response)
+            ResponseHandler().handleSuccess(response)
+        } catch (e: Throwable) {
+            Log.d("onStartLSCBroadCastEx", e.toString())
+            ResponseHandler().handleThrowable(e)
         } catch (e: Exception) {
             Log.d("onStartLSCBroadCastEx", e.toString())
-            return ResponseHandler().handleException(e)
+            ResponseHandler().handleException(e)
         }
     }
 

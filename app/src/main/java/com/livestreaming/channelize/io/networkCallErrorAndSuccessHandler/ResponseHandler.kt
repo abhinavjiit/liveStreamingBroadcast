@@ -1,5 +1,6 @@
 package com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler
 
+import org.json.JSONObject
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 
@@ -15,6 +16,16 @@ open class ResponseHandler {
             else -> Resource.error(getErrorMessage(Int.MAX_VALUE), null)
         }
     }
+
+    fun <T : Any> handleThrowable(e: Throwable): Resource<T> {
+        val error = (e as HttpException).response()?.errorBody()
+        val errorRes = String(error?.bytes()!!)
+        val jsonObject = JSONObject(errorRes)
+        val errorJson = jsonObject.getJSONObject("error")
+        val errorMsg = errorJson.getString("message")
+        return Resource.error(errorMsg, null)
+    }
+
 
     private fun getErrorMessage(code: Int): String {
         return when (code) {

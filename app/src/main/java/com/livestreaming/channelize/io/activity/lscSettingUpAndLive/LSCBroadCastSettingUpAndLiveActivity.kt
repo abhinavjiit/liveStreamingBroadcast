@@ -558,16 +558,16 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         broadCastId?.let {
             lscBroadCastViewModel.onStartLSCBroadCast(it, startBroadcastRequiredResponse)
                 .observe(this,
-                    Observer {
-                        when (it?.status) {
+                    Observer { startBroadcastRes ->
+                        when (startBroadcastRes?.status) {
                             Resource.Status.ERROR -> {
-                                it.message?.let {
-                                    //showToast(this, it)
+                                startBroadcastRes.message?.let {
+                                    showToast(this, it)
                                     Log.d("START_BROADCAST_ERROR", it)
                                 }
                             }
                             Resource.Status.SUCCESS -> {
-                                it.data?.let {
+                                startBroadcastRes.data?.let {
                                     Log.d("START_BROADCAST", "SUCCESS")
                                 }
                             }
