@@ -17,8 +17,8 @@ import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.Injector
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
-import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import javax.inject.Inject
 
@@ -41,6 +41,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment(), View.OnClickList
     private var broadCastId: String? = null
     private var conversationId: String? = null
     private var eventTitle: String? = null
+    private var comingFrom: String? = null
     private lateinit var headerTextView: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +54,20 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment(), View.OnClickList
         initViewModel()
         broadCastId = arguments?.getString("broadCastId")
         conversationId = arguments?.getString("conversationId")
+        comingFrom = arguments?.getString("comingFrom")
         eventTitle = arguments?.getString("eventTitle")
+        if ("timeElapsed" == comingFrom) {
+            onStopBroadCast()
+            (activity as LSCBroadCastSettingUpAndLiveActivity).leaveLSCBroadcast()
+            cancelLiveBroadCastView.visibility = View.GONE
+            headerTextView.text = eventTitle
+            lscDetailsView.visibility = View.VISIBLE
+            endNowTextView.visibility = View.GONE
+            cancel.visibility = View.GONE
+            closeTextView.visibility = View.VISIBLE
+        } else {
+            cancelLiveBroadCastView.visibility = View.VISIBLE
+        }
         return view
     }
 

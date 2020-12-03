@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.AppIdGetService
@@ -70,8 +72,22 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //checkNetrworkConnectivity
 
+    }
+
+    fun showAlertDialogBox(msg: String, title: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(msg)
+            .setTitle(title)
+        builder.setPositiveButton(
+            "DONE"
+        ) { dialog, _ ->
+            dialog.dismiss()
+            Log.i("TAG", "Clicked")
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
 }

@@ -83,6 +83,23 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private var productsIds: ArrayList<String>? = null
     private var conversationId: String? = null
     private var eventTitle: String? = null
+    private val firstReminderPopUp by lazy {
+        showAlertDialogBox(
+            msg = getString(R.string.first_reminder_string),
+            title = getString(R.string.alert_string)
+        )
+
+    }
+    private val lastReminderPopUp by lazy {
+        showAlertDialogBox(
+            msg = getString(R.string.last_reminder_string),
+            title = getString(R.string.alert_string)
+        )
+        CoroutineScope(Dispatchers.Main).launch {
+            delay(30000)
+            showCancelLiveBroadCastFragment("timeElapsed")
+        }
+    }
     private var commentListData = ArrayList<MessageCommentData>()
 
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
@@ -92,7 +109,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
     private val startBroadcastRequiredResponse: StartBroadcastRequiredResponse by lazy {
         StartBroadcastRequiredResponse()
     }
-
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
@@ -415,12 +431,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         mRtcEngine.switchCamera()
     }
 
-    private fun showCancelLiveBroadCastFragment() {
+    private fun showCancelLiveBroadCastFragment(comingFrom: String = "") {
         val fragment = LSCBroadCastDetailAfterFinishedFragment()
         val bundle = Bundle()
         bundle.putString("broadCastId", broadCastId)
         bundle.putString("conversationId", conversationId)
         bundle.putString("eventTitle", eventTitle)
+        bundle.putString("comingFrom", comingFrom)
         fragment.arguments = bundle
         val fm = supportFragmentManager
         val transaction =
@@ -533,11 +550,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
                     val differenceInMinutes1 = ((remainingTime
                             / (1000 * 60))
                             % 60)
+                    val reminderAlertDialog = ((millisUntilFinished
+                            / (1000 * 60))
+                            % 60)
 
-                    val differenceInHours1 = ((remainingTime
-                            / (1000 * 60 * 60))
-                            % 24)
                     remainingTimeCounter.text = "${differenceInMinutes1}m /"
+                    alertDialogBox(reminderAlertDialog)
                     Log.d("RESULT", "see")
                 }
 
@@ -672,6 +690,24 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), View.OnClickListene
         val container: ViewGroup = findViewById(R.id.animatorLoader)
         animation.play(this, container)
     }
+
+    private fun alertDialogBox(reminderAlertDialogTime: Long) {
+        (reminderAlertDialogTime == 2L || reminderAlertDialogTime == 0L).also { flag ->
+            when (flag) {
+                true -> {
+                    if (reminderAlertDialogTime == 2L)
+                        firstReminderPopUp
+                    else if (reminderAlertDialogTime == 0L)
+                        lastReminderPopUp
+                }
+                else -> {
+                    Log.d("REMINDER_TIME", "FALSE")
+                }
+            }
+        }
+
+    }
+
 
     override fun onStop() {
         Log.d("OnStop", "called")

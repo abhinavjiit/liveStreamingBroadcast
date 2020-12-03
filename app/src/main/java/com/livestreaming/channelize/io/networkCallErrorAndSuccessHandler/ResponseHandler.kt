@@ -18,12 +18,16 @@ open class ResponseHandler {
     }
 
     fun <T : Any> handleThrowable(e: Throwable): Resource<T> {
-        val error = (e as HttpException).response()?.errorBody()
-        val errorRes = String(error?.bytes()!!)
-        val jsonObject = JSONObject(errorRes)
-        val errorJson = jsonObject.getJSONObject("error")
-        val errorMsg = errorJson.getString("message")
-        return Resource.error(errorMsg, null)
+        return try {
+            val error = (e as HttpException).response()?.errorBody()
+            val errorRes = String(error?.bytes()!!)
+            val jsonObject = JSONObject(errorRes)
+            val errorJson = jsonObject.getJSONObject("error")
+            val errorMsg = errorJson.getString("message")
+            Resource.error(errorMsg, null)
+        } catch (e: Exception) {
+            Resource.error(null, null)
+        }
     }
 
 

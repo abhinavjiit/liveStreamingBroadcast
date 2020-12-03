@@ -27,4 +27,7 @@
     <string name="email_address">Email Address</string>
     <string name="login_to_express_yourself_live_and_promote_your_products">Login to Express yourself LIVE And promote your PRODUCTS</string>
     <string name="broadcast_your_events_and_engage_with_your_viewers">Broadcast your Events and engage with your viewers</string>
+    <string name="last_reminder_string">Sorry,Your Live Broadcast Time limit has been reached. Your Broadcast will automatically end in the next 30 seconds.</string>
+    <string name="first_reminder_string">Your Live Broadcast will end in next 2 minutes. Please ensure you finish the Event for your viewers before the end time.</string>
+    <string name="alert_string">Alert</string>
 </resources>
