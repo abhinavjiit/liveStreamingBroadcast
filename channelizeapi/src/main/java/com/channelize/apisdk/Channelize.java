@@ -50,7 +50,6 @@ public class Channelize {
     private String broadCastId;
     private String conversationId;
 
-
     public String getBroadCastId() {
         return broadCastId;
     }
@@ -351,7 +350,6 @@ public class Channelize {
      */
     public void loginWithEmailPassword(final String email, final String password,
                                        final CompletionHandler<LoginResponse> completionHandler) {
-
         Map<String, Object> postParam = new HashMap<>();
         postParam.put("email", email);
         postParam.put("password", password);
@@ -363,7 +361,6 @@ public class Channelize {
                     public void onComplete(LoginResponse loginResponse, ChannelizeError error) {
                         handleLoginResponse(loginResponse, completionHandler);
                     }
-
                 });
     }
 
@@ -398,7 +395,6 @@ public class Channelize {
                         }
                         handleLoginResponse(loginResponse, completionHandler);
                     }
-
                 });
     }
 

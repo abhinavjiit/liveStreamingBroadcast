@@ -22,16 +22,10 @@ data class Message(
     val isDeleted: Boolean,
     @SerializedName("mentionedUsers")
     val mentionedUsers: List<Any>,
-    @SerializedName("metaData")
-    val metaData: MetaData,
     @SerializedName("owner")
     val owner: Owner,
     @SerializedName("ownerId")
     val ownerId: String,
-    @SerializedName("reactions")
-    val reactions: Reactions,
-    @SerializedName("reactionsCount")
-    val reactionsCount: ReactionsCount,
     @SerializedName("replyCount")
     val replyCount: Int,
     @SerializedName("showInConversation")

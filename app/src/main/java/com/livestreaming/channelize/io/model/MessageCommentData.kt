@@ -30,4 +30,5 @@ data class MessageCommentData(
     override fun hashCode(): Int {
         return id?.hashCode() ?: 0
     }
+
 }

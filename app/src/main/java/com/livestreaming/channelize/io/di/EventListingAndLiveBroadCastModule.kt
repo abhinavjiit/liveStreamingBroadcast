@@ -1,8 +1,5 @@
 package com.livestreaming.channelize.io.di
 
-import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
-import com.livestreaming.channelize.io.activity.eventListing.EventRepo
-import com.livestreaming.channelize.io.activity.eventListing.EventsBroadCastRepoInterfaceImpl
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastRepoImpl
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastRepoInterface
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact

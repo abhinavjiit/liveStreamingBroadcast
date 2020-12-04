@@ -25,7 +25,6 @@ interface LSCApiCallInterface {
         @Query("ids") ids: String
     ): ProductItemsResponse
 
-
     @POST("messages/send")
     suspend fun sendComment(@Body body: MessageCommentData): ResponseBody
 
@@ -52,10 +51,8 @@ interface LSCApiCallInterface {
 
     @GET("/v2/live_broadcasts/{broadcastId}")
     suspend fun getAllDetailsOfBroadCast(@Path("broadcastId") broadcastId: String): LSCBroadCastLiveUpdateDetailsResponse
-//GET https://api.channelize.io/v2/conversations/{conversation_id}/messages/count
 
     @GET("conversations/{conversation_id}/messages/count")
     suspend fun getCommentsCount(@Path("conversation_id") conversation_id: String):LSCBroadCastLiveUpdateDetailsResponse
-
 
 }

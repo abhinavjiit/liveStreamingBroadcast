@@ -18,11 +18,6 @@ class LSCLiveBroadCastViewModel(
 ) :
     ViewModel() {
 
-
-    private val totalTime = MutableLiveData<String>()
-    private val counterTime = MutableLiveData<String>()
-
-
     fun getProductItems(productsIds: String?) =
         liveData<Resource<ProductItemsResponse>?>
         {
@@ -30,12 +25,10 @@ class LSCLiveBroadCastViewModel(
             emit(productItemsData)
         }
 
-
     fun postComment(messageCommentData: MessageCommentData) = liveData<Unit
             > {
         lscBroadCastRepoImpl.sendComment(messageCommentData = messageCommentData)
     }
-
 
     fun onStartLSCBroadCast(
         broadcastId: String,
@@ -47,7 +40,6 @@ class LSCLiveBroadCastViewModel(
         )
         emit(res)
     }
-
 
     fun onStartConversation(conversationId: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -75,6 +67,7 @@ class LSCLiveBroadCastViewModel(
         )
         emit(res)
     }
+
 }
 
 

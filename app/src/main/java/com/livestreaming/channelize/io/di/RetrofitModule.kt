@@ -35,7 +35,6 @@ class RetrofitModule(
     @Singleton
     @com.livestreaming.channelize.io.di.Retrofit
     fun providesRetrofitInstance(): Retrofit {
-
         val mainInterceptor = object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original = chain.request()
@@ -48,20 +47,17 @@ class RetrofitModule(
                 val request = requestBuilder.build()
                 return chain.proceed(request = request)
             }
-
         }
 
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         client = if (BuildConfig.DEBUG) {
-
             OkHttpClient.Builder().addInterceptor(mainInterceptor)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS).writeTimeout(60, TimeUnit.SECONDS)
                 .build()
-
         } else {
             OkHttpClient.Builder().addInterceptor(mainInterceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -73,15 +69,12 @@ class RetrofitModule(
         return Retrofit.Builder().baseUrl(lscBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
-
-
     }
 
     private fun addAuthHeader(requestBuilder: Request.Builder) {
         val accessToken = ChannelizePreferences.getAccessToken(context)
         var base64EncodedAccessToken: String? = null
         if (!accessToken.isNullOrBlank()) {
-
             try {
                 base64EncodedAccessToken = Base64.encodeToString(
                     accessToken
@@ -107,14 +100,12 @@ class RetrofitModule(
                 val request = requestBuilder.build()
                 return chain.proceed(request = request)
             }
-
         }
 
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         client = if (BuildConfig.DEBUG) {
-
             OkHttpClient.Builder().addInterceptor(mainInterceptor)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)
@@ -132,7 +123,6 @@ class RetrofitModule(
         return Retrofit.Builder().baseUrl(productListBaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory()).client(client).build()
-
     }
 
     @Provides
@@ -158,7 +148,6 @@ class RetrofitModule(
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         client = if (BuildConfig.DEBUG) {
-
             OkHttpClient.Builder().addInterceptor(mainInterceptor)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(httpLoggingInterceptor).connectTimeout(60, TimeUnit.SECONDS)

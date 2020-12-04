@@ -4,13 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/dark_grey">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:orientation="vertical">
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"

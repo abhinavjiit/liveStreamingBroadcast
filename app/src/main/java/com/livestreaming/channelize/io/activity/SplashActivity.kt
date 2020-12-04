@@ -11,22 +11,17 @@ class SplashActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (SharedPrefUtils.getLoggedInFlag(this)) {
-            true -> {
-                val eventBroadCastListingActivity =
-                    Intent(this, EventBroadCastListingActivity::class.java)
-                eventBroadCastListingActivity.flags =
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                startActivity(eventBroadCastListingActivity)
-                finish()
-            }
-            else -> {
-                val loginIntent = Intent(this, LSCBroadcastLoginActivity::class.java)
-                loginIntent.flags =
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-                startActivity(loginIntent)
-                finish()
-            }
+        val intent = if (SharedPrefUtils.getLoggedInFlag(this)) {
+            Intent(this, EventBroadCastListingActivity::class.java)
+        } else {
+            Intent(this, LSCBroadcastLoginActivity::class.java)
         }
+        intent.flags =
+            Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(intent)
+        finish()
     }
+
 }
+
+

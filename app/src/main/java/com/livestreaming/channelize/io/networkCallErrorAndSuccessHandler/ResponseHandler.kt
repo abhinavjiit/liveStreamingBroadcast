@@ -20,16 +20,19 @@ open class ResponseHandler {
     fun <T : Any> handleThrowable(e: Throwable): Resource<T> {
         return try {
             val error = (e as HttpException).response()?.errorBody()
-            val errorRes = String(error?.bytes()!!)
-            val jsonObject = JSONObject(errorRes)
-            val errorJson = jsonObject.getJSONObject("error")
-            val errorMsg = errorJson.getString("message")
-            Resource.error(errorMsg, null)
+            error?.bytes()?.let { byteArray ->
+                val errorRes = String(byteArray)
+                val jsonObject = JSONObject(errorRes)
+                val errorJson = jsonObject.getJSONObject("error")
+                val errorMsg = errorJson.getString("message")
+                Resource.error(errorMsg, null)
+            } ?: kotlin.run {
+                Resource.error("Something went wrong", null)
+            }
         } catch (e: Exception) {
             Resource.error(null, null)
         }
     }
-
 
     private fun getErrorMessage(code: Int): String {
         return when (code) {
@@ -40,4 +43,5 @@ open class ResponseHandler {
             else -> "Something went wrong"
         }
     }
+
 }

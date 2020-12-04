@@ -1,5 +1,7 @@
 package com.livestreaming.channelize.io.activity.eventListing
 
+import androidx.lifecycle.MutableLiveData
+import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.utils.ChannelizePreferences
 import com.livestreaming.channelize.io.BaseApplication
 import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
@@ -13,6 +15,7 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 class EventListingRepo @Inject constructor(@com.livestreaming.channelize.io.di.Retrofit private val retrofit: Retrofit) {
+    private var isUserLoggedOut = MutableLiveData<Boolean>()
 
     suspend fun getEvents(): Resource<List<EventDetailResponse>> {
         return try {
@@ -27,11 +30,20 @@ class EventListingRepo @Inject constructor(@com.livestreaming.channelize.io.di.R
                 }
                 ResponseHandler().handleSuccess(res.await())
             }
-
-
         } catch (e: Exception) {
             ResponseHandler().handleException(e)
         }
-
     }
+
+    fun onUserLogout(): MutableLiveData<Boolean> {
+        Channelize.logout { result, _ ->
+            if (result.isSuccessful && result != null) {
+                isUserLoggedOut.postValue(true)
+            } else {
+                isUserLoggedOut.postValue(null)
+            }
+        }
+        return isUserLoggedOut
+    }
+
 }

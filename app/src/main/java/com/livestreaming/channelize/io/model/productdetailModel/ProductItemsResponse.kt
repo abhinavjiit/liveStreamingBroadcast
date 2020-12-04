@@ -10,7 +10,6 @@ data class ProductDetailResponse(
     @SerializedName("image") val image: Image
 )
 
-
 data class ProductItemsResponse(
     val statusCode: Int,
     val success: String,

@@ -6,8 +6,6 @@ import android.app.Activity;
 import java.util.Random;
 
 public class DirectionGenerator {
-
-
     /**
      * Gets the random pixel points in the given direction of the screen
      * @param activity - activity from where you are referring the random value.
@@ -31,9 +29,7 @@ public class DirectionGenerator {
                 Direction[] allDirections = new Direction[]{Direction.LEFT,Direction.TOP,Direction.BOTTOM,Direction.RIGHT};
                 int index = new Random().nextInt(allDirections.length);
                 return getPointsInDirection(activity, allDirections[index]);
-
         }
-
     }
 
     /**
@@ -42,14 +38,10 @@ public class DirectionGenerator {
      * @return a pixel point {x,y}.
      */
     public int[] getRandomLeft(Activity activity) {
-
         int x = 0;
-
         int height = activity.getResources().getDisplayMetrics().heightPixels;
-
         Random random = new Random();
         int y = random.nextInt(height);
-
         return new int[]{x, y};
     }
 
@@ -59,14 +51,10 @@ public class DirectionGenerator {
      * @return a pixel point {x,y}.
      */
     public int[] getRandomTop(Activity activity) {
-
         int y = 0;
-
         int width = activity.getResources().getDisplayMetrics().widthPixels;
-
         Random random = new Random();
         int x = random.nextInt(width);
-
         return new int[]{x, y};
     }
 
@@ -76,16 +64,11 @@ public class DirectionGenerator {
      * @return a pixel point {x,y}.
      */
     public int[] getRandomRight(Activity activity) {
-
-
         int width = activity.getResources().getDisplayMetrics().widthPixels;
         int height = activity.getResources().getDisplayMetrics().heightPixels;
-
         int x = width ;
-
         Random random = new Random();
         int y = random.nextInt(height);
-
         return new int[]{x, y};
     }
 
@@ -95,16 +78,11 @@ public class DirectionGenerator {
      * @return a pixel point {x,y}.
      */
     public int[] getRandomBottom(Activity activity) {
-
-
         int width = activity.getResources().getDisplayMetrics().widthPixels;
         int height = activity.getResources().getDisplayMetrics().heightPixels;
-
-
         int y = height ;
         Random random = new Random();
         int x = random.nextInt(width);
-
         return new int[]{x, y};
     }
 
@@ -128,7 +106,6 @@ public class DirectionGenerator {
     public Direction getRandomDirection(Direction toSkip) {
         Direction[] allExceptionalDirections;
         switch (toSkip) {
-
             case LEFT:
                 allExceptionalDirections = new Direction[]{Direction.TOP,Direction.BOTTOM,Direction.RIGHT};
                 break;
@@ -144,11 +121,10 @@ public class DirectionGenerator {
 
             default:
                 allExceptionalDirections = new Direction[]{Direction.LEFT,Direction.TOP,Direction.BOTTOM,Direction.RIGHT};
-
-
         }
 
         int index = new Random().nextInt(allExceptionalDirections.length);
         return (allExceptionalDirections[index]);
     }
+
 }

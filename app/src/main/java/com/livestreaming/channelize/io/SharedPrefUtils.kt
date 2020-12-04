@@ -4,17 +4,17 @@ import android.content.Context
 
 class SharedPrefUtils private constructor() {
 
-
     companion object {
-
         private const val COMMON_PREF_FILE: String = "big_step_LSC_prefs"
         private const val LOGGED_IN: String = "login"
         private const val PUBLIC_API_KEY = "publicApiKey"
         private const val CAMERA_PERMISSION_FLAG = "camera"
         private const val MICROPHONE_PERMISSION_FLAG = "microPhone"
         private const val INSTRUCTIONS_SHOWN_FLAG = "instructionsFlag"
-
+        private const val RTC_UNIQUE_ID = "uniqueRtcId"
+        private const val APP_ID = "appId"
         private const val STORE_URL = "storeUrl"
+
         fun setLoggedInFlag(context: Context, isLoggedIn: Boolean) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
@@ -33,7 +33,6 @@ class SharedPrefUtils private constructor() {
             return sharedPref.getBoolean(LOGGED_IN, false)
         }
 
-
         fun setPublicApiKey(context: Context, apiKey: String?) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
@@ -44,7 +43,6 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-
         fun getPublicApiKey(context: Context): String? {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
@@ -52,7 +50,6 @@ class SharedPrefUtils private constructor() {
             )
             return sharedPref.getString(PUBLIC_API_KEY, null)
         }
-
 
         fun clearSharedPref(context: Context) {
             val sharedPref = context.applicationContext.getSharedPreferences(
@@ -62,15 +59,6 @@ class SharedPrefUtils private constructor() {
             val editor = sharedPref.edit()
             editor.clear()
             editor.commit()
-        }
-
-
-        fun cameraPermissionGranted(context: Context, flag: Boolean) {
-
-        }
-
-        fun microPhonePermissionGranted(context: Context, flag: Boolean) {
-
         }
 
         fun getCameraPermissionFlag(context: Context): Boolean {
@@ -89,7 +77,6 @@ class SharedPrefUtils private constructor() {
             )
             return sharedPref.getBoolean(MICROPHONE_PERMISSION_FLAG, false)
         }
-
 
         fun setInstructionsShownFlag(context: Context, flag: Boolean) {
             val sharedPref = context.applicationContext.getSharedPreferences(
@@ -110,7 +97,6 @@ class SharedPrefUtils private constructor() {
             )
             return sharedPref.getBoolean(INSTRUCTIONS_SHOWN_FLAG, false)
         }
-
 
         fun getStoreUrl(context: Context): String? {
             val sharedPref = context.applicationContext.getSharedPreferences(
@@ -136,7 +122,7 @@ class SharedPrefUtils private constructor() {
                 Context.MODE_PRIVATE
             )
             val editor = sharedPref.edit()
-            editor.putString("appID", appId)
+            editor.putString(APP_ID, appId)
             editor.commit()
         }
 
@@ -145,7 +131,7 @@ class SharedPrefUtils private constructor() {
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
             )
-            return sharedPref.getString("appID", null)
+            return sharedPref.getString(APP_ID, null)
         }
 
         fun setUniqueId(context: Context, id: Long) {
@@ -154,7 +140,7 @@ class SharedPrefUtils private constructor() {
                 Context.MODE_PRIVATE
             )
             val editor = sharedPref.edit()
-            editor.putLong("uniqueRtcId", id)
+            editor.putLong(RTC_UNIQUE_ID, id)
             editor.commit()
         }
 
@@ -163,11 +149,8 @@ class SharedPrefUtils private constructor() {
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
             )
-            return sharedPref.getLong("uniqueRtcId", 0)
-
+            return sharedPref.getLong(RTC_UNIQUE_ID, 0)
         }
-
     }
-
 
 }

@@ -13,14 +13,12 @@ class BaseApplication : Application(), Injector {
 
         fun setInstance(application: BaseApplication) {
             appContext = application
-
         }
 
         @JvmStatic
         fun getInstance(): BaseApplication {
             return appContext as BaseApplication
         }
-
     }
 
     private lateinit var applicationComponent: ApplicationComponent
@@ -36,10 +34,10 @@ class BaseApplication : Application(), Injector {
                 LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL
             )
         ).build()
-
     }
 
     override fun createAppComponent(): ApplicationComponent {
         return applicationComponent
     }
+
 }

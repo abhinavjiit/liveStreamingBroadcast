@@ -4,10 +4,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,28 +17,23 @@ import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.AppIdGetService
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
+import com.squareup.picasso.Picasso
+import java.lang.Exception
 
 abstract class BaseActivity : AppCompatActivity() {
 
     private lateinit var toast: Toast
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-
-    fun showToast(context: Context, msg: String) {
+    fun showToast(context: Context, msg: String?) {
         if (::toast.isInitialized) {
             toast.cancel()
         }
-        if (msg.isNotBlank()) {
+        if (!msg.isNullOrBlank()) {
             toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
             toast.show()
         }
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
-
 
     fun progressDialog(context: Context, text: String = "", onlyText: Boolean = false): Dialog {
         val dialog = Dialog(context)
@@ -49,12 +44,12 @@ abstract class BaseActivity : AppCompatActivity() {
         if (onlyText) {
             textView.text = text
             textView.visibility = View.VISIBLE
-            dialog.window!!.setBackgroundDrawable(
+            dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.transparent))
             )
         } else {
             progressBar.visibility = View.VISIBLE
-            dialog.window!!.setBackgroundDrawable(
+            dialog.window?.setBackgroundDrawable(
                 ColorDrawable(ContextCompat.getColor(context, R.color.transparent))
             )
         }
@@ -70,11 +65,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     fun showAlertDialogBox(msg: String, title: String) {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(msg)
@@ -85,7 +75,6 @@ abstract class BaseActivity : AppCompatActivity() {
             dialog.dismiss()
             Log.i("TAG", "Clicked")
         }
-
         val dialog = builder.create()
         dialog.show()
     }

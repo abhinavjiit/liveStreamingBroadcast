@@ -5,7 +5,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -15,14 +14,18 @@ import androidx.core.app.NotificationManagerCompat
 import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import javax.inject.Inject
 
+const val LIVE_BROADCAST = "live-broadcast"
+const val JOB_ID = 1
+
 class AppIdGetService : JobIntentService() {
     companion object {
         fun enqueueWork(context: Context, intent: Intent) {
-            enqueueWork(context, AppIdGetService::class.java, 1, intent)
+            enqueueWork(context, AppIdGetService::class.java, JOB_ID, intent)
         }
     }
 
@@ -53,7 +56,7 @@ class AppIdGetService : JobIntentService() {
             channelId,
             channelName, NotificationManager.IMPORTANCE_NONE
         )
-        channel.lightColor = Color.BLUE
+        channel.lightColor = R.color.app_blue
         channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
         val manager: NotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -67,26 +70,25 @@ class AppIdGetService : JobIntentService() {
 
     private fun onHandleIntent() {
         try {
-            GlobalScope.launch(Dispatchers.IO) {
-                val response = retrofit.create(LSCApiCallInterface::class.java)
-                    .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
-                response.forEach {
-                    if (it.identifier == "live-broadcast") {
-                        it.settings.forEach {
-                            if (it.key == "appId") {
-                                launch(Dispatchers.Main) {
-                                    SharedPrefUtils.setAppID(
-                                        BaseApplication.getInstance(),
-                                        it.value
-                                    )
-                                }
-                            }
-                        }
-                    }
+            GlobalScope.launch(Dispatchers.Main) {
+                val response = async {
+                    retrofit.create(LSCApiCallInterface::class.java)
+                        .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
+                }
+                response.await().find { baseResponse ->
+                    baseResponse.identifier == LIVE_BROADCAST
+                }?.settings?.find { appSettingResponse ->
+                    appSettingResponse.key == LiveBroadcasterConstants.APP_ID
+                }?.value?.let { appId ->
+                    SharedPrefUtils.setAppID(
+                        BaseApplication.getInstance(),
+                        appId
+                    )
                 }
             }
         } catch (e: Exception) {
             Log.d("AppIDServiceException", e.message.toString())
         }
     }
+
 }

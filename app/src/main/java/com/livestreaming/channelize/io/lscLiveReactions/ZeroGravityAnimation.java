@@ -12,8 +12,6 @@ import android.widget.FrameLayout;
 public class ZeroGravityAnimation {
 
     private static final int RANDOM_DURATION = -1;
-
-
     private Direction mOriginationDirection = Direction.RANDOM;
     private Direction mDestinationDirection = Direction.RANDOM;
     private int mDuration = RANDOM_DURATION;
@@ -21,7 +19,6 @@ public class ZeroGravityAnimation {
     private int mImageResId;
     private float mScalingFactor = 1f;
     private Animation.AnimationListener mAnimationListener;
-
 
     /**
      * Sets the orignal direction. The animation will originate from the given direction.
@@ -102,37 +99,24 @@ public class ZeroGravityAnimation {
      * @param ottParent
      */
     public void play(Activity activity, ViewGroup ottParent) {
-
         DirectionGenerator generator = new DirectionGenerator();
-
         if (mCount > 0) {
-
             for (int i = 0; i < mCount; i++) {
-
-
                 final int iDupe = i;
-
                 Direction origin = mOriginationDirection == Direction.RANDOM ? generator.getRandomDirection() : mOriginationDirection;
                 Direction destination = mDestinationDirection == Direction.RANDOM ? generator.getRandomDirection(origin) : mDestinationDirection;
-
                 int[] startingPoints = generator.getPointsInDirection(activity, origin);
                 int[] endPoints = generator.getPointsInDirection(activity, destination);
-
-
                 Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), mImageResId);
-
                 Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * mScalingFactor), (int) (bitmap.getHeight() * mScalingFactor), false);
-
                 switch (origin) {
                     case LEFT:
                         startingPoints[0] -= scaledBitmap.getWidth();
                         break;
-
                     case RIGHT:
                         startingPoints[0] += scaledBitmap.getWidth();
                         break;
-
-                    case TOP:
+                        case TOP:
                         startingPoints[1] -= scaledBitmap.getHeight();
                         break;
                     case BOTTOM:
@@ -144,11 +128,9 @@ public class ZeroGravityAnimation {
                     case LEFT:
                         endPoints[0] -= scaledBitmap.getWidth();
                         break;
-
-                    case RIGHT:
+                        case RIGHT:
                         endPoints[0] += scaledBitmap.getWidth();
                         break;
-
                     case TOP:
                         endPoints[1] -= scaledBitmap.getHeight();
                         break;
@@ -157,35 +139,27 @@ public class ZeroGravityAnimation {
                         break;
                 }
 
-
                 final OverTheTopLayer layer = new OverTheTopLayer();
-
                 FrameLayout ottLayout = layer.with(activity)
                         .scale(mScalingFactor)
                         .attachTo(ottParent)
                         .setBitmap(scaledBitmap, startingPoints)
                         .create();
-
-
                 switch (origin) {
                     case LEFT:
-
                 }
 
                 int deltaX = endPoints[0] - startingPoints[0];
                 int deltaY = endPoints[1] - startingPoints[1];
-
                 int duration = mDuration;
                 if (duration == RANDOM_DURATION) {
                     duration = RandomUtil.generateRandomBetween(3500, 12500);
                 }
-
                 TranslateAnimation animation = new TranslateAnimation(0, deltaX, 0, deltaY);
                 animation.setDuration(duration);
                 animation.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
-
                         if (iDupe == 0) {
                             if (mAnimationListener != null) {
                                 mAnimationListener.onAnimationStart(animation);
@@ -195,20 +169,16 @@ public class ZeroGravityAnimation {
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-
                         layer.destroy();
-
                         if (iDupe == (mCount - 1)) {
                             if (mAnimationListener != null) {
                                 mAnimationListener.onAnimationEnd(animation);
                             }
                         }
-
                     }
 
                     @Override
                     public void onAnimationRepeat(Animation animation) {
-
                     }
                 });
                 layer.applyAnimation(animation);
@@ -225,8 +195,7 @@ public class ZeroGravityAnimation {
      * @param activity - activity on which the zero gravity animation should take place.
      */
     public void play(Activity activity) {
-
         play(activity, null);
-
     }
+
 }

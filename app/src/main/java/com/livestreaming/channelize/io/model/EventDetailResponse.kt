@@ -30,8 +30,6 @@ data class EventDetailResponse(
     val products: List<Product>,
     @SerializedName("published")
     val published: Boolean,
-    @SerializedName("reactionsCount")
-    val reactionsCount: ReactionsCount,
     @SerializedName("recording")
     val recording: Boolean,
     @SerializedName("startTime")
