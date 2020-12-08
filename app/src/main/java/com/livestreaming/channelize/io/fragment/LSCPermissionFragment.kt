@@ -16,9 +16,12 @@ import androidx.fragment.app.FragmentActivity
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import kotlinx.android.synthetic.main.fragment_permission_lsc.*
+import kotlinx.android.synthetic.main.fragment_permission_lsc.view.*
 
 const val RECORD_REQUEST_CODE = 101
 const val CAMERA_REQUEST_CODE = 102
+const val CAMERA = "camera"
+const val MICROPHONE = "microPhone"
 
 class LSCPermissionFragment : BaseFragment() {
 
@@ -30,7 +33,11 @@ class LSCPermissionFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_permission_lsc, container, false)
+        return inflater.inflate(R.layout.fragment_permission_lsc, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         activity?.let { activity ->
             if (ContextCompat.checkSelfPermission(
                     activity,
@@ -53,13 +60,12 @@ class LSCPermissionFragment : BaseFragment() {
                 microPhone.isClickable = false
             }
         }
-        microPhone.setOnClickListener {
+        view.microPhone.setOnClickListener {
             showMicroPhonePermission()
         }
-        camera.setOnClickListener {
+        view.camera.setOnClickListener {
             showCameraPermission()
         }
-        return view
     }
 
     private fun showCameraPermission() {
@@ -76,20 +82,19 @@ class LSCPermissionFragment : BaseFragment() {
                     )
                 ) {
                     val builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Permission to access the camera is required for this app to open camera.")
-                        .setTitle("Permission required")
-
+                    builder.setMessage(activity.resources.getString(R.string.camera_permission_required))
+                        .setTitle(activity.resources.getString(R.string.permission_required_title_string))
                     builder.setPositiveButton(
                         "OK"
                     ) { _, _ ->
                         Log.i("TAG", "Clicked")
-                        makeRequest(activity, "camera")
+                        makeRequest(activity, CAMERA)
                     }
 
                     val dialog = builder.create()
                     dialog.show()
                 } else {
-                    makeRequest(activity, "camera")
+                    makeRequest(activity, CAMERA)
                 }
             }
         }
@@ -109,20 +114,18 @@ class LSCPermissionFragment : BaseFragment() {
                     )
                 ) {
                     val builder = AlertDialog.Builder(activity)
-                    builder.setMessage("Permission to access the microphone is required for this app to record audio.")
-                        .setTitle("Permission required")
-
+                    builder.setMessage(activity.resources.getString(R.string.microaPhonr_permission_required_string))
+                        .setTitle(activity.resources.getString(R.string.permission_required_title_string))
                     builder.setPositiveButton(
                         "OK"
                     ) { _, _ ->
                         Log.i("TAG", "Clicked")
-                        makeRequest(activity, "microPhone")
+                        makeRequest(activity, MICROPHONE)
                     }
                     val dialog = builder.create()
                     dialog.show()
                 } else {
-                    makeRequest(activity, "microPhone")
-                    makeRequest(activity, "microPhone")
+                    makeRequest(activity, MICROPHONE)
                 }
             }
         }
@@ -130,14 +133,14 @@ class LSCPermissionFragment : BaseFragment() {
 
     private fun makeRequest(context: FragmentActivity, type: String) {
         when (type) {
-            "camera" -> {
+            CAMERA -> {
                 ActivityCompat.requestPermissions(
                     context,
                     arrayOf(Manifest.permission.CAMERA),
                     CAMERA_REQUEST_CODE
                 )
             }
-            "microPhone" -> {
+            MICROPHONE -> {
                 ActivityCompat.requestPermissions(
                     context,
                     arrayOf(Manifest.permission.RECORD_AUDIO),
@@ -207,6 +210,7 @@ class LSCPermissionFragment : BaseFragment() {
         activity?.let { activity ->
             val gradientDrawable: GradientDrawable =
                 container.background as GradientDrawable
+            gradientDrawable.mutate()
             gradientDrawable.setColor(ContextCompat.getColor(activity, R.color.white))
             container.setTextColor(ContextCompat.getColor(activity, R.color.app_red))
         }

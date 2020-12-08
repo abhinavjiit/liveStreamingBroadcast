@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.network.response.LoginResponse
 
-class ILoginRepositoryImpl : ILoginRepository {
+class ILoginRepositoryImpl : ILoginRepositoryCallBack {
 
     private var logInSuccess = MutableLiveData<LoginResponse>()
 
@@ -22,7 +22,11 @@ class ILoginRepositoryImpl : ILoginRepository {
                 }
             }
         } catch (e: Exception) {
+            logInSuccess.postValue(null)
             Log.d("LogInEx", e.message.toString())
+        } catch (t: Throwable) {
+            logInSuccess.postValue(null)
+            Log.d("LoginThrowable", t.message.toString())
         }
         return logInSuccess
     }

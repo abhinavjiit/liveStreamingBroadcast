@@ -5,16 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import kotlinx.android.synthetic.main.fragment_setting_up_video.*
+import kotlinx.android.synthetic.main.fragment_setting_up_video.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -31,26 +27,26 @@ class LSCSettingUpFragment : BaseFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_setting_up_video, container, false)
         showConnectionCheckingLoader()
-        continueButton.setOnClickListener {
+        view.continueButton.setOnClickListener {
             instructionsContainer.visibility = View.GONE
             goLiveContainer.visibility = View.VISIBLE
         }
-        goLiveButton.setOnClickListener {
+        view.goLiveButton.setOnClickListener {
             activity?.let { context ->
                 (context as LSCBroadCastSettingUpAndLiveActivity).joinChannel(
                     this
                 )
             }
         }
-        cancelTextView.setOnClickListener {
+        view.cancelTextView.setOnClickListener {
             activity?.finish()
         }
-        dontShowAgainTextView.setOnClickListener {
+        view.dontShowAgainTextView.setOnClickListener {
             activity?.let { context ->
                 if (!instructionsChecked) {
                     val selectedCheckBox =
                         ContextCompat.getDrawable(context, R.drawable.ic_check_box)
-                    dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
+                   view.dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
                         selectedCheckBox,
                         null,
                         null,
@@ -61,7 +57,7 @@ class LSCSettingUpFragment : BaseFragment() {
                 } else {
                     val selectedCheckBox =
                         ContextCompat.getDrawable(context, R.drawable.ic_uncheck_box)
-                    dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
+                    view.dontShowAgainTextView.setCompoundDrawablesWithIntrinsicBounds(
                         selectedCheckBox,
                         null,
                         null,
@@ -85,7 +81,7 @@ class LSCSettingUpFragment : BaseFragment() {
 
     private suspend fun showNetworkResult() {
         try {
-            activity.let {activity->
+            activity?.let { activity ->
                 connectionResultContainer.visibility = View.VISIBLE
                 when ((activity as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
                     0 -> {

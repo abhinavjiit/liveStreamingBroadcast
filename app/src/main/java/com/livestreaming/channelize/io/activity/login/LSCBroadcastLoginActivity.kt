@@ -17,14 +17,17 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.channelize.apisdk.Channelize
-import com.channelize.apisdk.ChannelizeConfig
-import com.channelize.apisdk.network.api.ChannelizeOkHttpUtil
-import com.livestreaming.channelize.io.*
+import com.channelize.apisdk.utils.ChannelizePreferences
+import com.livestreaming.channelize.io.BaseApplication
+import com.livestreaming.channelize.io.Injector
+import com.livestreaming.channelize.io.R
+import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
 import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
+const val PUBLIC_KEY = "Public-Key"
 
 class LSCBroadcastLoginActivity : BaseActivity() {
 
@@ -50,13 +53,13 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             publicKeyEditTextView.onFocusChangeListener =
                 View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
-                        setFocusDrawables(
+                        setFocusEditTextDrawables(
                             publicKeyContainer,
                             R.drawable.ic_public_key,
                             publicKeyEditTextView
                         )
                     } else {
-                        setDefaultDrawables(
+                        setDefaultEditTextDrawables(
                             publicKeyContainer,
                             R.drawable.ic_public_key,
                             publicKeyEditTextView
@@ -65,13 +68,13 @@ class LSCBroadcastLoginActivity : BaseActivity() {
                 }
             storeUrlEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusDrawables(
+                    setFocusEditTextDrawables(
                         storeUrlContainer,
                         R.drawable.ic_store_url,
                         storeUrlEditTextView
                     )
                 } else {
-                    setDefaultDrawables(
+                    setDefaultEditTextDrawables(
                         storeUrlContainer,
                         R.drawable.ic_store_url,
                         storeUrlEditTextView
@@ -80,13 +83,13 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             }
             emailEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusDrawables(
+                    setFocusEditTextDrawables(
                         emailContainer,
                         R.drawable.ic_email,
                         emailEditTextView
                     )
                 } else {
-                    setDefaultDrawables(
+                    setDefaultEditTextDrawables(
                         emailContainer,
                         R.drawable.ic_email,
                         emailEditTextView
@@ -95,13 +98,13 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             }
             passwordEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusDrawables(
+                    setFocusEditTextDrawables(
                         passwordContainer,
                         R.drawable.ic_password,
                         passwordEditTextView
                     )
                 } else {
-                    setDefaultDrawables(
+                    setDefaultEditTextDrawables(
                         passwordContainer,
                         R.drawable.ic_password,
                         passwordEditTextView
@@ -119,19 +122,12 @@ class LSCBroadcastLoginActivity : BaseActivity() {
     private fun startLogin() {
         val progressBar = progressDialog(this)
         progressBar.show()
-        val channelizeConfig = if (BuildConfig.DEBUG) {
-            ChannelizeConfig.Builder(this).setAPIKey(publicKeyEditTextView.text.toString())
-                .setLoggingEnabled(true)
-                .build()
-        } else {
-            ChannelizeConfig.Builder(this).setAPIKey(publicKeyEditTextView.text.toString())
-                .setLoggingEnabled(false)
-                .build()
-        }
-        Channelize.initialize(channelizeConfig)
+        SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
+        SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
+        BaseApplication.getInstance().initChannelize()
         Channelize.getInstance().apiKey = publicKeyEditTextView.text.toString()
-        ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).removeHeader()
-        ChannelizeOkHttpUtil.getInstance(BaseApplication.getInstance()).addHeaders()
+        Channelize.getInstance().removeHeaders(PUBLIC_KEY)
+        Channelize.getInstance().addHeaders(PUBLIC_KEY, SharedPrefUtils.getPublicApiKey(this))
         SharedPrefUtils.setUniqueId(this, System.currentTimeMillis())
         loginUserViewModel.onUserLogin(
             emailEditTextView.text.toString(),
@@ -140,9 +136,15 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             Observer { logInSuccess ->
                 progressBar.dismiss()
                 if (logInSuccess != null && logInSuccess.user != null) {
+                    ChannelizePreferences.setCurrentUserName(
+                        BaseApplication.getInstance(),
+                        logInSuccess.user.displayName
+                    )
+                    ChannelizePreferences.setCurrentUserProfileImage(
+                        BaseApplication.getInstance(),
+                        logInSuccess.user.profileImageUrl
+                    )
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
-                    SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
-                    SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
                     Log.d("LOGIN", "success")
                     startAppIdService()
                     gotoEventListingActivity()
@@ -186,7 +188,11 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         return true
     }
 
-    private fun setFocusDrawables(container: RelativeLayout, drawableId: Int, text: TextView) {
+    private fun setFocusEditTextDrawables(
+        container: RelativeLayout,
+        drawableId: Int,
+        text: TextView
+    ) {
         val gradientDrawable: GradientDrawable =
             container.background as GradientDrawable
         gradientDrawable.mutate()
@@ -222,7 +228,11 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         )
     }
 
-    private fun setDefaultDrawables(container: RelativeLayout, drawableId: Int, text: TextView) {
+    private fun setDefaultEditTextDrawables(
+        container: RelativeLayout,
+        drawableId: Int,
+        text: TextView
+    ) {
         val defaultGradientDrawable: GradientDrawable =
             container.background as GradientDrawable
         defaultGradientDrawable.mutate()

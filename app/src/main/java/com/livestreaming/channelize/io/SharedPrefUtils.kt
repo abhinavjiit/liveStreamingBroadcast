@@ -8,8 +8,6 @@ class SharedPrefUtils private constructor() {
         private const val COMMON_PREF_FILE: String = "big_step_LSC_prefs"
         private const val LOGGED_IN: String = "login"
         private const val PUBLIC_API_KEY = "publicApiKey"
-        private const val CAMERA_PERMISSION_FLAG = "camera"
-        private const val MICROPHONE_PERMISSION_FLAG = "microPhone"
         private const val INSTRUCTIONS_SHOWN_FLAG = "instructionsFlag"
         private const val RTC_UNIQUE_ID = "uniqueRtcId"
         private const val APP_ID = "appId"
@@ -61,22 +59,6 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-        fun getCameraPermissionFlag(context: Context): Boolean {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
-            return sharedPref.getBoolean(CAMERA_PERMISSION_FLAG, false)
-
-        }
-
-        fun getMicrophonePermissionFlag(context: Context): Boolean {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
-            return sharedPref.getBoolean(MICROPHONE_PERMISSION_FLAG, false)
-        }
 
         fun setInstructionsShownFlag(context: Context, flag: Boolean) {
             val sharedPref = context.applicationContext.getSharedPreferences(

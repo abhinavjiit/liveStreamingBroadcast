@@ -30,4 +30,15 @@
     <string name="last_reminder_string">Sorry,Your Live Broadcast Time limit has been reached. Your Broadcast will automatically end in the next 30 seconds.</string>
     <string name="first_reminder_string">Your Live Broadcast will end in next 2 minutes. Please ensure you finish the Event for your viewers before the end time.</string>
     <string name="alert_string">Alert</string>
+    <string name="enable_microphone">Enable MicroPhone</string>
+    <string name="enable_camera">Enable Camera</string>
+    <string name="please_enable_camera_and_microphone_permissions_to_start_live_broadcasting">Please enable Camera And Microphone permissions to start Live Broadcasting</string>
+    <string name="checking_connection">Checking Connection</string>
+    <string name="network_quality">Network Quality</string>
+    <string name="instructions">Instructions</string>
+    <string name="_1_please_ensure_that_you_have_a_stable_internet_connection">1. Please ensure that you have a stable Internet Connection.</string>
+    <string name="_2_make_sure_your_device_s_camera_and_microphone_is_turned_on_during_the_live_stream">2. Make sure your device\'s camera and microphone is turned on during the live stream.</string>
+    <string name="microaPhonr_permission_required_string">Permission to access the microphone is required for this app to record audio.</string>
+    <string name="permission_required_title_string">Permission required</string>
+    <string name="camera_permission_required">Permission to access the camera is required for this app to open camera.</string>
 </resources>

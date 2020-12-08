@@ -16,10 +16,9 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:gravity="center"
-            android:text="Please enable Camera And Microphone permissions to start Live Brodcasting"
+            android:text="@string/please_enable_camera_and_microphone_permissions_to_start_live_broadcasting"
             android:textColor="@color/white"
             android:textSize="18sp" />
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/camera"
@@ -31,9 +30,8 @@
             android:gravity="center"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="Enable Camera"
+            android:text="@string/enable_camera"
             android:textColor="@color/white" />
-
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/microPhone"
@@ -45,11 +43,9 @@
             android:gravity="center"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="Enable MicroPhone"
+            android:text="@string/enable_microphone"
             android:textColor="@color/white" />
 
-
     </LinearLayout>
-
 
 </RelativeLayout>

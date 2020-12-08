@@ -22,8 +22,15 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =
-            inflater.inflate(R.layout.bottom_sheet_beautification_customization, container, false)
+        return inflater.inflate(
+            R.layout.bottom_sheet_beautification_customization,
+            container,
+            false
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         beautificationCustomizationValuesClassHolder =
             (activity as LSCBroadCastSettingUpAndLiveActivity).getBeautificationObject()
         smoothnessSlider.value = beautificationCustomizationValuesClassHolder.smoothnessValue
@@ -63,7 +70,6 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
             normalContrastEnabled()
         }
         cancelBeautificationBottomSheet.setOnClickListener { dismiss() }
-        return view
     }
 
     override fun getTheme(): Int {
@@ -92,75 +98,49 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun lowContrastEnabled() {
         activity?.let { activity ->
-            val lowButtonBackground: GradientDrawable = low.background as GradientDrawable
-            lowButtonBackground.setColor(ContextCompat.getColor(activity, R.color.white))
-            lowButtonBackground.setTint(ContextCompat.getColor(activity, R.color.white))
-            val highButtonBackground: GradientDrawable = high.background as GradientDrawable
-            highButtonBackground.setColor(
-                ContextCompat.getColor(
-                    activity,
-                    R.color.grey_light
-                )
-            )
-            highButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
-            val normalButtonBackground: GradientDrawable =
-                normal.background as GradientDrawable
-            normalButtonBackground.setColor(
-                ContextCompat.getColor(
-                    activity,
-                    R.color.grey_light
-                )
-            )
-            normalButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
+            lowContrastDrawable(ContextCompat.getColor(activity, R.color.white))
+            highContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
+            normalContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
         }
     }
 
     private fun highContrastEnabled() {
         activity?.let { activity ->
-            val lowButtonBackground: GradientDrawable =
-                low.background as GradientDrawable
-            lowButtonBackground.setColor(ContextCompat.getColor(activity, R.color.grey_light))
-            lowButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
-
-            val highButtonBackground: GradientDrawable = high.background as GradientDrawable
-            highButtonBackground.setColor(
-                ContextCompat.getColor(activity, R.color.white)
-            )
-            highButtonBackground.setTint(ContextCompat.getColor(activity, R.color.white))
-            val normalButtonBackground: GradientDrawable = normal.background as GradientDrawable
-            normalButtonBackground.setColor(
-                ContextCompat.getColor(activity, R.color.grey_light)
-            )
-            normalButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
+            lowContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
+            highContrastDrawable(ContextCompat.getColor(activity, R.color.white))
+            normalContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
         }
     }
 
 
     private fun normalContrastEnabled() {
         activity?.let { activity ->
-            val lowButtonBackground: GradientDrawable =
-                low.background as GradientDrawable
-            lowButtonBackground.setColor(ContextCompat.getColor(activity, R.color.grey_light))
-            lowButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
-            val highButtonBackground: GradientDrawable =
-                high.background as GradientDrawable
-            highButtonBackground.setColor(
-                ContextCompat.getColor(
-                    activity,
-                    R.color.grey_light
-                )
-            )
-            highButtonBackground.setTint(ContextCompat.getColor(activity, R.color.grey_light))
-            val normalButtonBackground: GradientDrawable =
-                normal.background as GradientDrawable
-            normalButtonBackground.setColor(
-                ContextCompat.getColor(
-                    activity,
-                    R.color.white
-                )
-            )
-            normalButtonBackground.setTint(ContextCompat.getColor(activity, R.color.white))
+            lowContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
+            highContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
+            normalContrastDrawable(ContextCompat.getColor(activity, R.color.white))
         }
     }
 
+    private fun lowContrastDrawable(color: Int) {
+        val lowButtonBackground: GradientDrawable = low.background as GradientDrawable
+        lowButtonBackground.mutate()
+        lowButtonBackground.setColor(color)
+        lowButtonBackground.setTint(color)
+    }
+
+
+    private fun highContrastDrawable(color: Int) {
+        val highButtonBackground: GradientDrawable = high.background as GradientDrawable
+        highButtonBackground.mutate()
+        highButtonBackground.setColor(color)
+        highButtonBackground.setTint(color)
+    }
+
+    private fun normalContrastDrawable(color: Int) {
+        val normalButtonBackground: GradientDrawable =
+            normal.background as GradientDrawable
+        normalButtonBackground.mutate()
+        normalButtonBackground.setColor(color)
+        normalButtonBackground.setTint(color)
+    }
 }

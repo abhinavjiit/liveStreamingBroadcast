@@ -20,7 +20,7 @@ import com.livestreaming.channelize.io.SharedPrefUtils
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-abstract class BaseActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     private lateinit var toast: Toast
 

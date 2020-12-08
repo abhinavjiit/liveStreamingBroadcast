@@ -7,6 +7,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.utils.ChannelizePreferences
 import com.livestreaming.channelize.io.*
 import com.livestreaming.channelize.io.activity.BaseActivity
@@ -48,7 +49,7 @@ class EventBroadCastListingActivity : BaseActivity(),
                 .isNullOrBlank()
         ) {
             val name = ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
-            if (name.isNotBlank()) {
+            if (!name.isNullOrBlank()) {
                 val nameParts = name.split(" ").toTypedArray()
                 val initials = when (nameParts.size) {
                     1 -> {
@@ -106,6 +107,7 @@ class EventBroadCastListingActivity : BaseActivity(),
                     viewModel.onUserLogout().observe(this, Observer { isUserLoggedOut ->
                         if (isUserLoggedOut) {
                             progressBar.dismiss()
+                            Channelize.disconnect()
                             val intent = Intent(this, LSCBroadcastLoginActivity::class.java)
                             intent.flags =
                                 Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

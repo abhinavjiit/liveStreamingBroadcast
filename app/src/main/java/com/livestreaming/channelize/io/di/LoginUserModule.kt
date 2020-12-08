@@ -1,6 +1,6 @@
 package com.livestreaming.channelize.io.di
 
-import com.livestreaming.channelize.io.activity.login.ILoginRepository
+import com.livestreaming.channelize.io.activity.login.ILoginRepositoryCallBack
 import com.livestreaming.channelize.io.activity.login.ILoginRepositoryImpl
 import com.livestreaming.channelize.io.activity.login.LoginUserViewModelFact
 import dagger.Module
@@ -10,13 +10,13 @@ import dagger.Provides
 class LoginUserModule {
 
     @Provides
-    fun providesLoginInstance(): ILoginRepository {
+    fun providesLoginInstance(): ILoginRepositoryCallBack {
         return ILoginRepositoryImpl()
     }
 
     @Provides
-    fun providesLoginViewModelFactInstance(iLoginRepository: ILoginRepository): LoginUserViewModelFact {
-        return LoginUserViewModelFact(iLoginRepository)
+    fun providesLoginViewModelFactInstance(iLoginRepositoryCallBack: ILoginRepositoryCallBack): LoginUserViewModelFact {
+        return LoginUserViewModelFact(iLoginRepositoryCallBack)
     }
 
 }

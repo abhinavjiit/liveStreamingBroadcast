@@ -1,7 +1,8 @@
 package com.livestreaming.channelize.io.di
 
+import com.channelize.apisdk.network.api.ChannelizeApi
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastRepoImpl
-import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastRepoInterface
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.ILscBroadCastRepositoryCallBack
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact
 import dagger.Module
 import dagger.Provides
@@ -14,15 +15,16 @@ class EventListingAndLiveBroadCastModule {
     fun providesEventLiveBroadcastRepoInstance(
         @ProductsListRetrofit retrofit: Retrofit,
         @com.livestreaming.channelize.io.di.Retrofit lscRetrofit: Retrofit,
-        @CoreUrlRetrofit coreUrlRetrofit: Retrofit
-    ): LSCBroadCastRepoInterface {
-        return LSCBroadCastRepoImpl(retrofit, lscRetrofit, coreUrlRetrofit)
+        @CoreUrlRetrofit coreUrlRetrofit: Retrofit, apiClient: ChannelizeApi
+    ): ILscBroadCastRepositoryCallBack {
+        return LSCBroadCastRepoImpl(retrofit, lscRetrofit, coreUrlRetrofit, apiClient)
     }
 
     @Provides
     fun providesLiveBroadcastViewModelFact(
-        lscBroadCastRepoInterface: LSCBroadCastRepoInterface): LSCBroadcastAndLiveViewModelFact {
-        return LSCBroadcastAndLiveViewModelFact(lscBroadCastRepoInterface)
+        ILscBroadCastRepositoryCallBack: ILscBroadCastRepositoryCallBack
+    ): LSCBroadcastAndLiveViewModelFact {
+        return LSCBroadcastAndLiveViewModelFact(ILscBroadCastRepositoryCallBack)
     }
 
 }

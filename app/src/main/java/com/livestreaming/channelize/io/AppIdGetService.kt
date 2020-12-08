@@ -11,7 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.JobIntentService
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
+import com.livestreaming.channelize.io.`interface`.networkCallInterface.ILscApiCallBack
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -72,7 +72,7 @@ class AppIdGetService : JobIntentService() {
         try {
             GlobalScope.launch(Dispatchers.Main) {
                 val response = async {
-                    retrofit.create(LSCApiCallInterface::class.java)
+                    retrofit.create(ILscApiCallBack::class.java)
                         .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
                 }
                 response.await().find { baseResponse ->

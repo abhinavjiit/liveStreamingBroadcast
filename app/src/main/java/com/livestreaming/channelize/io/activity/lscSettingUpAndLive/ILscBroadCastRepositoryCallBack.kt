@@ -1,5 +1,7 @@
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
+import androidx.lifecycle.MutableLiveData
+import com.channelize.apisdk.network.response.RequestResponse
 import com.livestreaming.channelize.io.model.MessageCommentData
 import com.livestreaming.channelize.io.model.StartBroadcastRequiredResponse
 import com.livestreaming.channelize.io.model.lscDetailsModel.LSCBroadCastLiveUpdateDetailsResponse
@@ -7,7 +9,7 @@ import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResp
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import okhttp3.ResponseBody
 
-interface LSCBroadCastRepoInterface {
+interface ILscBroadCastRepositoryCallBack {
 
     suspend fun getProducts(productsIds: String?): Resource<ProductItemsResponse>?
 
@@ -25,8 +27,8 @@ interface LSCBroadCastRepoInterface {
         conversationId: String
     ): Resource<LSCBroadCastLiveUpdateDetailsResponse>
 
-    suspend fun onStartConversation(conversationId: String)
+     fun onStartConversation(conversationId: String):MutableLiveData<RequestResponse>
 
-    suspend fun onStopConversation(conversationId: String)
+     fun onStopConversation(conversationId: String):MutableLiveData<RequestResponse>
 
 }

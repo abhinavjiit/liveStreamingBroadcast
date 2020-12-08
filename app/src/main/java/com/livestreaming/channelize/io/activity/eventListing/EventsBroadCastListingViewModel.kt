@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 
-class EventsBroadCastListingViewModel(private val eventListingRepo: EventListingRepo) :
+class EventsBroadCastListingViewModel(private val eventListingRepo: EventListingDataSource) :
     ViewModel() {
 
     fun getEventList() = liveData {

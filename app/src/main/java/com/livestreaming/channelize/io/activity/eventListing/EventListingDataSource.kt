@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.utils.ChannelizePreferences
 import com.livestreaming.channelize.io.BaseApplication
-import com.livestreaming.channelize.io.`interface`.networkCallInterface.LSCApiCallInterface
+import com.livestreaming.channelize.io.`interface`.networkCallInterface.ILscApiCallBack
 import com.livestreaming.channelize.io.model.EventDetailResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.ResponseHandler
@@ -14,18 +14,19 @@ import kotlinx.coroutines.coroutineScope
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class EventListingRepo @Inject constructor(@com.livestreaming.channelize.io.di.Retrofit private val retrofit: Retrofit) {
+class EventListingDataSource @Inject constructor(@com.livestreaming.channelize.io.di.Retrofit private val retrofit: Retrofit) {
     private var isUserLoggedOut = MutableLiveData<Boolean>()
 
     suspend fun getEvents(): Resource<List<EventDetailResponse>> {
         return try {
             coroutineScope {
                 val res = async(Dispatchers.IO) {
-                    retrofit.create(LSCApiCallInterface::class.java).getEvents(
+                    retrofit.create(ILscApiCallBack::class.java).getEvents(
                         hosts = ChannelizePreferences.getCurrentUserId(BaseApplication.getInstance()),
                         skip = 0,
                         limit = 25,
-                        sort = "startTime ASC"
+                        sort = "startTime ASC",
+                        status = "live"
                     )
                 }
                 ResponseHandler().handleSuccess(res.await())

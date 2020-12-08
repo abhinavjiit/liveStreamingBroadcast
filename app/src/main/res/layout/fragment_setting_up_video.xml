@@ -38,7 +38,7 @@
         android:id="@+id/checkingConnectionContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guideLine3">
@@ -47,7 +47,7 @@
             android:id="@+id/checkingConnectionTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Checking Connection"
+            android:text="@string/checking_connection"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:text="Network Quality"
+            android:text="@string/network_quality"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/guideLine"
@@ -147,7 +147,7 @@
             android:id="@+id/instructions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Instructions"
+            android:text="@string/instructions"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="1. Please ensure that you have a stable Internet Connection."
+                android:text="@string/_1_please_ensure_that_you_have_a_stable_internet_connection"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -177,7 +177,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="2. Make sure your device's camera and microphone is turned on during the live stream."
+                android:text="@string/_2_make_sure_your_device_s_camera_and_microphone_is_turned_on_during_the_live_stream"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 

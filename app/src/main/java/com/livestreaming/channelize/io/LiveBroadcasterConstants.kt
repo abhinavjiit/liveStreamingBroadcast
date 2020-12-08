@@ -5,7 +5,7 @@ class LiveBroadcasterConstants {
     companion object {
         const val CHANNELIZE_LIVE_BROADCAST_URL = "https://live-broadcast-api.channelize.io/"
         const val CHANNELIZE_CORE_BASE_URL = "https://api.channelize.io/v2/"
-        const val CHANNELIZE_LIVE_BROADCAST_SHOPIFY_URL = "https://shopify.channelize.io/"
+        const val CHANNELIZE_LIVE_BROADCAST_SHOPIFY_URL = "https://lsc-sy.channelize.io/ "
         const val BROADCAST_EVENT_STATUS_COMPLETED = "completed"
         const val BROADCAST_ID = "broadCastId"
         const val EVENT_PRODUCT_IDS = "productsIds"

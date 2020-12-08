@@ -16,11 +16,10 @@ import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadcastAndLiveViewModelFact
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.TIME_ELAPSED
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import kotlinx.android.synthetic.main.fragment_lsc_broadcast_detail.*
 import javax.inject.Inject
-
-const val TIME_ELAPSED = "timeElapsed"
 
 class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
 
@@ -39,6 +38,11 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_lsc_broadcast_detail, container, false)
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewModel()
         broadCastId = arguments?.getString(LiveBroadcasterConstants.BROADCAST_ID)
         conversationId = arguments?.getString(LiveBroadcasterConstants.CONVERSATION_ID)
@@ -46,7 +50,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
         eventTitle = arguments?.getString(LiveBroadcasterConstants.EVENT_NAME)
         if (TIME_ELAPSED == comingFrom) {
             onStopBroadCast()
-            (activity as LSCBroadCastSettingUpAndLiveActivity).leaveLSCBroadcast()
+            (activity as LSCBroadCastSettingUpAndLiveActivity).onUnsubscribeTopics()
             cancelLiveBroadCastView.visibility = View.GONE
             headerTextView.text = eventTitle
             lscDetailsView.visibility = View.VISIBLE
@@ -69,7 +73,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
         }
         endNowTextView.setOnClickListener {
             onStopBroadCast()
-            (activity as LSCBroadCastSettingUpAndLiveActivity).leaveLSCBroadcast()
+            (activity as LSCBroadCastSettingUpAndLiveActivity).onUnsubscribeTopics()
             cancelLiveBroadCastView.visibility = View.GONE
             headerTextView.text = eventTitle
             lscDetailsView.visibility = View.VISIBLE
@@ -77,7 +81,6 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
             cancel.visibility = View.GONE
             closeTextView.visibility = View.VISIBLE
         }
-        return view
     }
 
     private fun initViewModel() {

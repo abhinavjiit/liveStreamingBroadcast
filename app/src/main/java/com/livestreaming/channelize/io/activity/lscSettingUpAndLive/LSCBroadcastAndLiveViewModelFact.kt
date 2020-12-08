@@ -5,11 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 
 @Suppress("UNCHECKED_CAST")
 class LSCBroadcastAndLiveViewModelFact(
-    private val lscBroadCastRepoInterface: LSCBroadCastRepoInterface
+    private val ILscBroadCastRepositoryCallBack: ILscBroadCastRepositoryCallBack
 ) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LSCLiveBroadCastViewModel(lscBroadCastRepoInterface) as T
+        return LSCLiveBroadCastViewModel(ILscBroadCastRepositoryCallBack) as T
     }
 
 }

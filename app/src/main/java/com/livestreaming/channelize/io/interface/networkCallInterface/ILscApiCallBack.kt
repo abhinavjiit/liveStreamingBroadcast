@@ -9,14 +9,15 @@ import com.livestreaming.channelize.io.model.productdetailModel.ProductItemsResp
 import okhttp3.ResponseBody
 import retrofit2.http.*
 
-interface LSCApiCallInterface {
+interface ILscApiCallBack {
 
     @GET("/v2/live_broadcasts/")
     suspend fun getEvents(
         @Query("hosts") hosts: String,
         @Query("sort") sort: String,
         @Query("limit") limit: Int,
-        @Query("skip") skip: Int
+        @Query("skip") skip: Int,
+        @Query("status") status: String
     ): List<EventDetailResponse>
 
     @GET("/buyers/products/")
@@ -38,7 +39,7 @@ interface LSCApiCallInterface {
     suspend fun onStartBroadCast(
         @Path("broadcastId") broadcastId: String,
         @Body startBroadcastRequiredResponse: StartBroadcastRequiredResponse
-    ):ResponseBody
+    ): ResponseBody
 
     @POST("conversations/{conversation_id}/start_watching")
     suspend fun onStartConversation(@Path("conversation_id") conversation_id: String)
@@ -53,6 +54,6 @@ interface LSCApiCallInterface {
     suspend fun getAllDetailsOfBroadCast(@Path("broadcastId") broadcastId: String): LSCBroadCastLiveUpdateDetailsResponse
 
     @GET("conversations/{conversation_id}/messages/count")
-    suspend fun getCommentsCount(@Path("conversation_id") conversation_id: String):LSCBroadCastLiveUpdateDetailsResponse
+    suspend fun getCommentsCount(@Path("conversation_id") conversation_id: String): LSCBroadCastLiveUpdateDetailsResponse
 
 }
