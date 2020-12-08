@@ -56,25 +56,27 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
+    private lateinit var lscBroadCastViewModel: LSCLiveBroadCastViewModel
+    private lateinit var countDownTimer: CountDownTimer
+    private var commentListData = ArrayList<MessageCommentData>()
     private lateinit var mLocalVideo: VideoCanvas
     private lateinit var mRtcEngine: RtcEngine
-    private var networkQuality = -1
-    private lateinit var lscBroadCastViewModel: LSCLiveBroadCastViewModel
     private var startTime: String? = null
     private var endTime: String? = null
     private var broadCastId: String? = null
-    private var isLive = false
-    private lateinit var countDownTimer: CountDownTimer
     private var productsIds: ArrayList<String>? = null
     private var conversationId: String? = null
     private var eventTitle: String? = null
-    private var commentListData = ArrayList<MessageCommentData>()
+    private var isLive = false
+    private var networkQuality = -1
+
     private val firstReminderPopUp by lazy {
         showAlertDialogBox(
             msg = getString(R.string.first_reminder_string),
             title = getString(R.string.alert_string)
         )
     }
+
     private val lastReminderPopUp by lazy {
         showAlertDialogBox(
             msg = getString(R.string.last_reminder_string),
@@ -89,6 +91,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
         LSCCommentListAdapter()
     }
+
     private val startBroadcastRequiredResponse: StartBroadcastRequiredResponse by lazy {
         StartBroadcastRequiredResponse()
     }
@@ -397,7 +400,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
             val currentTime = Calendar.getInstance().time
             val differenceInTime: Long? = endTimeFormat?.time?.minus(currentTime.time)
             val differenceInMinutes = ((differenceInTime?.div((1000 * 60)))?.rem(60))
-
             val differenceInHours = ((differenceInTime?.div((1000 * 60 * 60)))?.rem(24))
 
             totalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
@@ -420,7 +422,9 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                             reminderAlertDialogTime
                         )
                         val remainSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
+
                         remainingTimeCounter.text = "${differenceInMinutes1}m /"
+
                         alertDialogBox(reminderAlertDialogTime, remainSeconds)
                         Log.d("RESULT", "see")
                     }
@@ -464,6 +468,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                         isLive = true
                         lscRemainingTime()
                     } else {
+                        showToast(this, resources.getString(R.string.something_went_wrong))
                         Log.d("StartConversationRes", "Failure")
                     }
                 })
@@ -472,19 +477,37 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     override fun onOpenConversationMessageReceived(response: String?) {
         runOnUiThread {
-            Log.d("onMessageCreated", response.toString())
-            val res = Gson().fromJson(response, MessageResponse::class.java)
-            val commentData = MessageCommentData()
-            commentData.body = res.message.body
-            commentData.userName = res.message.owner.displayName
-            commentData.id = res.message.id
-            commentListData.add(commentData)
-            val listOfMessaged = LinkedHashSet(commentListData)
-            commentListData.clear()
-            commentListData.addAll(listOfMessaged)
-            lscCommentListAdapter.setListData(commentListData)
-            lscCommentListAdapter.notifyDataSetChanged()
-            commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
+            response?.let { response ->
+                Log.d("onMessageCreated", response)
+                val res = Gson().fromJson(response, MessageResponse::class.java)
+                val commentData = MessageCommentData()
+                commentData.body = res.message.body
+                commentData.userName = res.message.owner.displayName
+                commentData.id = res.message.id
+                commentListData.add(commentData)
+                val listOfMessaged = LinkedHashSet(commentListData)
+                commentListData.clear()
+                commentListData.addAll(listOfMessaged)
+                lscCommentListAdapter.setListData(commentListData)
+                lscCommentListAdapter.notifyDataSetChanged()
+                commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
+            }
+        }
+    }
+
+    override fun onStartWatching(response: String?) {
+        runOnUiThread {
+            response?.let { liveUserCountResponse ->
+                showLiveUserCount(liveUserCountResponse)
+            }
+        }
+    }
+
+    override fun onStopWatching(response: String?) {
+        runOnUiThread {
+            response?.let { liveUserCountResponse ->
+                showLiveUserCount(liveUserCountResponse)
+            }
         }
     }
 
@@ -495,21 +518,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                     "live_broadcasts/$broadCastId/reaction_added" -> {
                         onLSCReactionsAdded(response)
                     }
-                    "live_broadcasts/$broadCastId/stop_watching" -> {
-                        getLiveUserCount(response)
-                    }
-                    "live_broadcasts/$broadCastId/start_watching" -> {
-                        getLiveUserCount(response)
-                    }
                     else -> {
-                        Log.d("OnRealTimeUpdateError", "Failed")
+                        Log.d("OnRealTimeUpdateError", topicUrl)
                     }
                 }
             }
         }
     }
 
-    private fun getLiveUserCount(response: String?) {
+    private fun showLiveUserCount(response: String?) {
         val res = Gson().fromJson(response, LSCLiveUpdatesResponse::class.java)
         liveViewCount.text = (res.liveBroadcast.watchersCount).toString()
     }
@@ -612,7 +629,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         RtcEngine.destroy()
     }
 
-    fun setAllRequiredVisibility() {
+    private fun setAllRequiredVisibility() {
         beautification.visibility = View.VISIBLE
         liveTextView.visibility = View.VISIBLE
         cancelLiveBroadcast.visibility = View.VISIBLE
@@ -632,7 +649,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         Channelize.getInstance().addSubscriber(
             "live_broadcasts/$broadCastId/start_watching"
         )
-
         Channelize.getInstance().addSubscriber(
             "live_broadcasts/$broadCastId/stop_watching"
         )

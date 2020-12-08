@@ -91,7 +91,6 @@ public class ZeroGravityAnimation {
         return this;
     }
 
-
     /**
      * Starts the Zero gravity animation by creating an OTT and attach it to th given ViewGroup
      *

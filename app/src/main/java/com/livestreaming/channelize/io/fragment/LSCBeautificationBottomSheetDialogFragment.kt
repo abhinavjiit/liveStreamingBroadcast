@@ -128,7 +128,6 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         lowButtonBackground.setTint(color)
     }
 
-
     private fun highContrastDrawable(color: Int) {
         val highButtonBackground: GradientDrawable = high.background as GradientDrawable
         highButtonBackground.mutate()
@@ -143,4 +142,5 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         normalButtonBackground.setColor(color)
         normalButtonBackground.setTint(color)
     }
+
 }

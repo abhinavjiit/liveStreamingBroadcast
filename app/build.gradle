@@ -72,7 +72,7 @@ dependencies {
     implementation 'io.agora.rtc:full-sdk:3.1.3'
     kapt 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.github.ChannelizeIO.Channelize-Android-SDK:channelizeapi:4.3.39'
+    implementation 'com.github.ChannelizeIO.Channelize-Android-SDK:channelizeapi:4.3.40'
 
 
 }

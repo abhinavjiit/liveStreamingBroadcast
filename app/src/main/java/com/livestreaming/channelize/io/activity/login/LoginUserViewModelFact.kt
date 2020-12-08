@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 class LoginUserViewModelFact(private val iLoginRepositoryCallBack: ILoginRepositoryCallBack) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return LoginUserViewModel(iLoginRepository = iLoginRepositoryCallBack) as T
+        return LoginUserViewModel(iLoginRepositoryCallBack) as T
     }
 
 }
