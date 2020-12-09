@@ -41,6 +41,8 @@ class LSCBroadCastRepoImpl(
             }
         } catch (e: Exception) {
             ResponseHandler().handleException(e)
+        } catch (t: Throwable) {
+            ResponseHandler().handleThrowable(t)
         }
     }
 
@@ -72,7 +74,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override  fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
+    override fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
         try {
             channelizeApiClient.startWatching(conversationId) { result, _ ->
                 if (result != null && result.isSuccessful) {
@@ -101,7 +103,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override  fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
+    override fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
         try {
             channelizeApiClient.stopWatching(conversationId) { result, _ ->
                 if (result != null && result.isSuccessful) {

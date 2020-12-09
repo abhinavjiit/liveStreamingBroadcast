@@ -81,18 +81,11 @@ class LSCPermissionFragment : BaseFragment() {
                         Manifest.permission.CAMERA
                     )
                 ) {
-                    val builder = AlertDialog.Builder(activity)
-                    builder.setMessage(activity.resources.getString(R.string.camera_permission_required))
-                        .setTitle(activity.resources.getString(R.string.permission_required_title_string))
-                    builder.setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        Log.i("TAG", "Clicked")
-                        makeRequest(activity, CAMERA)
-                    }
-
-                    val dialog = builder.create()
-                    dialog.show()
+                    showPermissionDialog(
+                        msg = activity.resources.getString(R.string.camera_permission_required),
+                        title = activity.resources.getString(R.string.permission_required_title_string),
+                        permissionType = CAMERA
+                    )
                 } else {
                     makeRequest(activity, CAMERA)
                 }
@@ -113,17 +106,11 @@ class LSCPermissionFragment : BaseFragment() {
                         Manifest.permission.RECORD_AUDIO
                     )
                 ) {
-                    val builder = AlertDialog.Builder(activity)
-                    builder.setMessage(activity.resources.getString(R.string.microaPhonr_permission_required_string))
-                        .setTitle(activity.resources.getString(R.string.permission_required_title_string))
-                    builder.setPositiveButton(
-                        "OK"
-                    ) { _, _ ->
-                        Log.i("TAG", "Clicked")
-                        makeRequest(activity, MICROPHONE)
-                    }
-                    val dialog = builder.create()
-                    dialog.show()
+                    showPermissionDialog(
+                        msg = activity.resources.getString(R.string.microaPhonr_permission_required_string),
+                        title = activity.resources.getString(R.string.permission_required_title_string),
+                        permissionType = MICROPHONE
+                    )
                 } else {
                     makeRequest(activity, MICROPHONE)
                 }
@@ -213,6 +200,22 @@ class LSCPermissionFragment : BaseFragment() {
             gradientDrawable.mutate()
             gradientDrawable.setColor(ContextCompat.getColor(activity, R.color.white))
             container.setTextColor(ContextCompat.getColor(activity, R.color.app_red))
+        }
+    }
+
+    private fun showPermissionDialog(msg: String, title: String, permissionType: String) {
+        activity?.let { activity ->
+            val builder = AlertDialog.Builder(activity)
+            builder.setMessage(msg)
+                .setTitle(title)
+            builder.setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                Log.i("TAG", "Clicked")
+                makeRequest(activity, permissionType)
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
     }
 

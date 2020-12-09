@@ -73,7 +73,7 @@ class AppIdGetService : JobIntentService() {
             GlobalScope.launch(Dispatchers.Main) {
                 val response = async {
                     retrofit.create(ILscApiCallBack::class.java)
-                        .getAppID(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
+                        .getAppId(LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL + "/modules/")
                 }
                 response.await().find { baseResponse ->
                     baseResponse.identifier == LIVE_BROADCAST

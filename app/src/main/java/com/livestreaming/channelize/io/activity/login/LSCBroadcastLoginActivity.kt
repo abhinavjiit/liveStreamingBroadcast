@@ -151,7 +151,6 @@ class LSCBroadcastLoginActivity : BaseActivity() {
                 } else if (logInSuccess == null) {
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
                     Log.d("LOGIN", "failed")
-                    showToast(this, "Login Failed")
                 } else {
                     SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
                     Log.d("LOGIN", "failed")

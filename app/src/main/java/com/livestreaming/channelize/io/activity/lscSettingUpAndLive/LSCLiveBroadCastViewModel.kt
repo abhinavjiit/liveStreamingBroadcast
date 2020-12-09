@@ -41,8 +41,8 @@ class LSCLiveBroadCastViewModel(
     }
 
     fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
-            startStopConversationResponse =
-                ILscBroadCastRepoImpl.onStartConversation(conversationId = conversationId)
+        startStopConversationResponse =
+            ILscBroadCastRepoImpl.onStartConversation(conversationId = conversationId)
         return startStopConversationResponse
     }
 
@@ -52,9 +52,9 @@ class LSCLiveBroadCastViewModel(
         }
     }
 
-    fun onStopConversation(conversationId: String):  MutableLiveData<RequestResponse> {
-            startStopConversationResponse =
-                ILscBroadCastRepoImpl.onStopConversation(conversationId = conversationId)
+    fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
+        startStopConversationResponse =
+            ILscBroadCastRepoImpl.onStopConversation(conversationId = conversationId)
         return startStopConversationResponse
     }
 

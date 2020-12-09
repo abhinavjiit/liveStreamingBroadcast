@@ -138,7 +138,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/storeUrlContainer" />
 
-
         <RelativeLayout
             android:id="@+id/emailContainer"
             android:layout_width="0dp"
@@ -203,7 +202,7 @@
             android:gravity="center_horizontal"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            android:text="Login"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"

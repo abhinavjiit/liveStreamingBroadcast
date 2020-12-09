@@ -16,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class LSCSettingUpFragment : BaseFragment() {
+class LSCSettingUpLiveStreamingFragment : BaseFragment() {
 
     private var instructionsChecked = false
 

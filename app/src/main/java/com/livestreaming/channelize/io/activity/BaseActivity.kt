@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -17,8 +16,6 @@ import androidx.core.content.ContextCompat
 import com.livestreaming.channelize.io.AppIdGetService
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
-import com.squareup.picasso.Picasso
-import java.lang.Exception
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -65,12 +62,12 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showAlertDialogBox(msg: String, title: String) {
+    fun showAlertDialogBox(msg: String, title: String, clickButtonText: String = "DONE") {
         val builder = AlertDialog.Builder(this)
         builder.setMessage(msg)
             .setTitle(title)
         builder.setPositiveButton(
-            "DONE"
+            clickButtonText
         ) { dialog, _ ->
             dialog.dismiss()
             Log.i("TAG", "Clicked")

@@ -11,7 +11,7 @@
     <string name="email_validation_string">Email is not valid</string>
     <string name="password_validation_string">Password is not valid</string>
     <string name="camera_enabled_string">Camera Enabled</string>
-    <string name="microphone_enable_string">MicroPhone Enabled</string>
+    <string name="microphone_enable_string">Microphone Enabled</string>
     <string name="excellent_connection_string">Excellent</string>
     <string name="very_good_connection_string">Very Good</string>
     <string name="good_connection_string">Good</string>
@@ -30,7 +30,7 @@
     <string name="last_reminder_string">Sorry,Your Live Broadcast Time limit has been reached. Your Broadcast will automatically end in the next 30 seconds.</string>
     <string name="first_reminder_string">Your Live Broadcast will end in next 2 minutes. Please ensure you finish the Event for your viewers before the end time.</string>
     <string name="alert_string">Alert</string>
-    <string name="enable_microphone">Enable MicroPhone</string>
+    <string name="enable_microphone">Enable Microphone</string>
     <string name="enable_camera">Enable Camera</string>
     <string name="please_enable_camera_and_microphone_permissions_to_start_live_broadcasting">Please enable Camera And Microphone permissions to start Live Broadcasting</string>
     <string name="checking_connection">Checking Connection</string>
@@ -42,4 +42,9 @@
     <string name="permission_required_title_string">Permission required</string>
     <string name="camera_permission_required">Permission to access the camera is required for this app to open camera.</string>
     <string name="something_went_wrong">something went wrong</string>
+    <string name="login">Login</string>
+    <string name="broadcast_your_events">Broadcast your Events</string>
+    <string name="store">Store</string>
+    <string name="below_are_the_upcoming_events_for_which_you_are_the_host">Below are the Upcoming Events for which you are the Host</string>
+    <string name="no_events_available">No Events Available</string>
 </resources>

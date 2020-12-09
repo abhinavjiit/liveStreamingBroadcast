@@ -21,33 +21,40 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Products to promote in this Events"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/cancelProductsList"
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productListRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/productsHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@id/cancelProductsList" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/noProductsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="no Products"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productsHeaderTextView" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

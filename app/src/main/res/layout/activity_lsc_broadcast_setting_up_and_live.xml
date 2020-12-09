@@ -30,7 +30,7 @@
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/trans_gray"
         android:gravity="center_vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/flipCamera"
         app:layout_constraintTop_toTopOf="parent">
 

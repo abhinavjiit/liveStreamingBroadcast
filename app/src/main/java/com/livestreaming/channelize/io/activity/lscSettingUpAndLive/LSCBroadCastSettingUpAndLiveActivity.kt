@@ -42,6 +42,7 @@ import io.agora.rtc.video.VideoCanvas
 import io.agora.rtc.video.VideoEncoderConfiguration
 import kotlinx.android.synthetic.main.activity_lsc_broadcast_setting_up_and_live.*
 import kotlinx.android.synthetic.main.adapter_event_broadcast_item_layout.*
+import kotlinx.android.synthetic.main.bottom_sheet_fragment_product_list_layout.*
 import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,6 +51,8 @@ import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 const val TIME_ELAPSED = "timeElapsed"
+const val VIDEO_FRAME_WIDTH = 720
+const val VIDEO_FRAME_HEIGHT = 1280
 
 class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     ChannelizeConversationEventHandler, ChannelizeConnectionHandler {
@@ -115,7 +118,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 runOnUiThread {
                     Log.i("onFirstLocalVideoFrame", "success")
                     if (!isLive) {
-                        val recordingParams = RecordingParams(width = width, height = height)
+                        val recordingParams =
+                            RecordingParams(width = VIDEO_FRAME_WIDTH, height = VIDEO_FRAME_HEIGHT)
                         startBroadcastRequiredResponse.recordingParams = recordingParams
                         hitStartBroadCastApi()
                         hitStartConversationApi()
@@ -198,7 +202,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         if (fragment != null && fragment is LSCPermissionFragment) {
             removeFragment(fragment)
         }
-        val settingFragment = LSCSettingUpFragment()
+        val settingFragment = LSCSettingUpLiveStreamingFragment()
         supportFragmentManager.beginTransaction()
             .add(R.id.content_frame, settingFragment, "LSCSettingUpFragment")
             .commit()

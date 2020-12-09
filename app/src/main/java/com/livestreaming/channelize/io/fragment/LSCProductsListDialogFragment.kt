@@ -90,23 +90,29 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                                         itemList.toMutableList() as ArrayList<ProductDetailResponse>
                                     if (itemList.isEmpty()) {
                                         productListRecyclerView.visibility = View.GONE
-                                        noProductsTextView.visibility = View.VISIBLE
+                                        view?.noProductsTextView?.visibility = View.VISIBLE
+                                        progressBar.visibility = View.GONE
 
                                     } else {
                                         productListRecyclerView.visibility = View.VISIBLE
-                                        noProductsTextView.visibility -= View.GONE
+                                        view?.noProductsTextView?.visibility = View.GONE
+                                        progressBar.visibility = View.GONE
                                         productsItemAdapter.setListData(itemList)
                                         productsItemAdapter.notifyDataSetChanged()
                                     }
                                 } ?: run {
                                     productListRecyclerView.visibility = View.GONE
-                                    noProductsTextView.visibility -= View.VISIBLE
+                                    view?.noProductsTextView?.visibility = View.VISIBLE
+                                    progressBar.visibility = View.GONE
                                 }
                             }
                         }
                     }
                     Resource.Status.ERROR -> {
                         productsList = null
+                        productListRecyclerView.visibility = View.GONE
+                        view?.noProductsTextView?.visibility = View.VISIBLE
+                        progressBar.visibility = View.GONE
                     }
                     Resource.Status.LOADING -> {
                         Log.d("ProductItemResponse", "Loading")

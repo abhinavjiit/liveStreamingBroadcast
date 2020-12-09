@@ -30,7 +30,7 @@ interface ILscApiCallBack {
     suspend fun sendComment(@Body body: MessageCommentData): ResponseBody
 
     @GET
-    suspend fun getAppID(
+    suspend fun getAppId(
         @Url url: String,
         @Query("enabled") enabled: String = "true"
     ): List<ExtractAppIdResponse>
@@ -41,14 +41,8 @@ interface ILscApiCallBack {
         @Body startBroadcastRequiredResponse: StartBroadcastRequiredResponse
     ): ResponseBody
 
-    @POST("conversations/{conversation_id}/start_watching")
-    suspend fun onStartConversation(@Path("conversation_id") conversation_id: String)
-
     @POST("/v2/live_broadcasts/{broadcastId}/end")
     suspend fun onStopBroadCast(@Path("broadcastId") broadcastId: String)
-
-    @POST("conversations/{conversation_id}/stop_watching")
-    suspend fun onStopConversation(@Path("conversation_id") conversation_id: String)
 
     @GET("/v2/live_broadcasts/{broadcastId}")
     suspend fun getAllDetailsOfBroadCast(@Path("broadcastId") broadcastId: String): LSCBroadCastLiveUpdateDetailsResponse
