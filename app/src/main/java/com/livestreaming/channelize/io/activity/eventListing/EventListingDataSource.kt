@@ -25,8 +25,7 @@ class EventListingDataSource @Inject constructor(@com.livestreaming.channelize.i
                         hosts = ChannelizePreferences.getCurrentUserId(BaseApplication.getInstance()),
                         skip = 0,
                         limit = 25,
-                        sort = "startTime ASC",
-                        status = "upcoming"
+                        sort = "startTime ASC"
                     )
                 }
                 ResponseHandler().handleSuccess(res.await())

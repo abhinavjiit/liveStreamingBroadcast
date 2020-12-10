@@ -63,7 +63,7 @@ class EventsBroadCastListingAdapter(
                 )
                 try {
                     startDateTextView.text =
-                        context.getString(R.string.strat_event_date_string)
+                        context.getString(R.string.start_event_date_string)
                             .plus(" " + eventsList?.get(position)?.startTime?.changeGMTtoIST())
                     endDateTextView.text =
                         context.getString(R.string.end_event_date_string)

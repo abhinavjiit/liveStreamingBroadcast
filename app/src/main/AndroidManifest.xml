@@ -6,14 +6,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:name=".BaseApplication"
@@ -37,10 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activity.eventListing.EventBroadCastListingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
+
         <activity
             android:name=".activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity"
             android:screenOrientation="portrait"

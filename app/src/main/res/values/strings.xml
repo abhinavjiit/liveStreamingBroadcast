@@ -4,7 +4,7 @@
     <string name="view_count">\# of Views: \</string>
     <string name="comment_count">\# of Comments: \</string>
     <string name="live_event_string">Available</string>
-    <string name="strat_event_date_string">Start: </string>
+    <string name="start_event_date_string">Start: </string>
     <string name="end_event_date_string">End: </string>
     <string name="public_key_validation_check">Public Key is not valid</string>
     <string name="store_url_key_validation_string">Store URL is not valid</string>

@@ -16,8 +16,7 @@ interface ILscApiCallBack {
         @Query("hosts") hosts: String,
         @Query("sort") sort: String,
         @Query("limit") limit: Int,
-        @Query("skip") skip: Int,
-        @Query("status") status: String
+        @Query("skip") skip: Int
     ): List<EventDetailResponse>
 
     @GET("/buyers/products/")
