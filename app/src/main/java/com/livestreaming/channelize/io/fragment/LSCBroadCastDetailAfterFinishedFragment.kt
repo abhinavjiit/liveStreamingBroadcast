@@ -111,25 +111,25 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
                     Resource.Status.SUCCESS -> {
                         progressBar.visibility = View.GONE
                         loadingTextView.visibility = View.GONE
-                        res.data?.let { lscBroadcastliveResponse ->
+                        res.data?.let { lscBroadcastLiveResponse ->
                             countContainer.visibility = View.VISIBLE
-                            Log.d("ViewReactionMsgCount", lscBroadcastliveResponse.toString())
+                            Log.d("ViewReactionMsgCount", lscBroadcastLiveResponse.toString())
                             viewsCountTextView.text =
-                                context?.resources?.getString(R.string.view_count) + lscBroadcastliveResponse.viewersCount
+                                context?.resources?.getString(R.string.view_count) + lscBroadcastLiveResponse.viewersCount
                             commentsCountTextView.text =
-                                context?.resources?.getString(R.string.comment_count) + lscBroadcastliveResponse.messageCount
+                                context?.resources?.getString(R.string.comment_count) + lscBroadcastLiveResponse.messageCount
                             reactionsCountTextView.text =
-                                context?.resources?.getString(R.string.reaction_count) + (lscBroadcastliveResponse.reactionsCount.angry +
-                                        lscBroadcastliveResponse.reactionsCount.clap +
-                                        lscBroadcastliveResponse.reactionsCount.dislike +
-                                        lscBroadcastliveResponse.reactionsCount.heart +
-                                        lscBroadcastliveResponse.reactionsCount.insightfull +
-                                        lscBroadcastliveResponse.reactionsCount.laugh +
-                                        lscBroadcastliveResponse.reactionsCount.like +
-                                        lscBroadcastliveResponse.reactionsCount.sad +
-                                        lscBroadcastliveResponse.reactionsCount.smiley +
-                                        lscBroadcastliveResponse.reactionsCount.thankyou +
-                                        lscBroadcastliveResponse.reactionsCount.wow)
+                                context?.resources?.getString(R.string.reaction_count) + (lscBroadcastLiveResponse.reactionsCount.angry +
+                                        lscBroadcastLiveResponse.reactionsCount.clap +
+                                        lscBroadcastLiveResponse.reactionsCount.dislike +
+                                        lscBroadcastLiveResponse.reactionsCount.heart +
+                                        lscBroadcastLiveResponse.reactionsCount.insightfull +
+                                        lscBroadcastLiveResponse.reactionsCount.laugh +
+                                        lscBroadcastLiveResponse.reactionsCount.like +
+                                        lscBroadcastLiveResponse.reactionsCount.sad +
+                                        lscBroadcastLiveResponse.reactionsCount.smiley +
+                                        lscBroadcastLiveResponse.reactionsCount.thankyou +
+                                        lscBroadcastLiveResponse.reactionsCount.wow)
                         }
                     }
                     Resource.Status.LOADING -> {

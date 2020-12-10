@@ -25,6 +25,7 @@ class EventsBroadCastListingAdapter(
     private val listenerI: IRecyclerViewClickListener
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private var eventsList: List<EventDetailResponse>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -41,7 +42,6 @@ class EventsBroadCastListingAdapter(
                     ImageLoader.showImage(eventsList?.get(position)?.bannerImageUrl, eventImageView)
                 } catch (e: Exception) {
                     Log.d("EventListingAdapterEx", e.toString())
-                    TODO("Can show default image for null")
                 }
                 eventStatus.text = eventsList?.get(position)?.status?.capitalize()
                 eventStatus.setBackgroundColor(

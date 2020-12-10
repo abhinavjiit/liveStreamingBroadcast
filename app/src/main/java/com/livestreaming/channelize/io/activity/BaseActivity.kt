@@ -37,7 +37,6 @@ open class BaseActivity : AppCompatActivity() {
         val inflate = LayoutInflater.from(context).inflate(R.layout.progress_dialog, null)
         val textView: TextView = inflate.findViewById(R.id.text)
         val progressBar: ProgressBar = inflate.findViewById(R.id.progressBar)
-
         if (onlyText) {
             textView.text = text
             textView.visibility = View.VISIBLE

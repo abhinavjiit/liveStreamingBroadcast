@@ -47,4 +47,5 @@
     <string name="store">Store</string>
     <string name="below_are_the_upcoming_events_for_which_you_are_the_host">Below are the Upcoming Events for which you are the Host</string>
     <string name="no_events_available">No Events Available</string>
+    <string name="null_user_name_string">null</string>
 </resources>

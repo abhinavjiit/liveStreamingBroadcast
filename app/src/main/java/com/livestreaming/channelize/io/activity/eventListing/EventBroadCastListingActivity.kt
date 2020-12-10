@@ -59,12 +59,12 @@ class EventBroadCastListingActivity : BaseActivity(),
                         nameParts[0][0].toString() + nameParts[1][0]
                     }
                     else -> {
-                        "null"
+                        getString(R.string.null_user_name_string)
                     }
                 }
                 nameTextView.text = initials
             } else {
-                nameTextView.text = "null"
+                nameTextView.text = getString(R.string.null_user_name_string)
             }
             userImageView.visibility = View.GONE
             nameTextView.visibility = View.VISIBLE

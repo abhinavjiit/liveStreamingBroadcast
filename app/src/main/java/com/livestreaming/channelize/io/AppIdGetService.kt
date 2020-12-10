@@ -36,7 +36,7 @@ class AppIdGetService : JobIntentService() {
     override fun onCreate() {
         super.onCreate()
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
-        var channelId: String = ""
+        var channelId = ""
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             channelId = createNotificationChannel()
         }

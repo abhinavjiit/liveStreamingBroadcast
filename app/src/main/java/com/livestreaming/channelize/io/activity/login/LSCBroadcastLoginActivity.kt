@@ -50,8 +50,7 @@ class LSCBroadcastLoginActivity : BaseActivity() {
 
     private val initUi: Unit
         get() {
-            publicKeyEditTextView.onFocusChangeListener =
-                View.OnFocusChangeListener { _, hasFocus ->
+            publicKeyEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         setFocusEditTextDrawables(
                             publicKeyContainer,
