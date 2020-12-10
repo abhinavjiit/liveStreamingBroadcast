@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
+<resources>
     <color name="app_light_black">#545454</color>
     <color name="app_dark_black">#333333</color>
     <color name="app_grey">#9c9dac</color>
@@ -380,4 +380,5 @@
 
     <color name="complete_blogger_profile.complete_label">#545454</color>
     <color name="upcoming_event_color_code">#565656</color>
+
 </resources>

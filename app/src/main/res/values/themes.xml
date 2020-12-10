@@ -20,13 +20,12 @@
     </style>
 
     <style name="SwitchTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        ...
-        <!-- Active thumb color & Active track color(30% transparency) -->
+        ...<!-- Active thumb color & Active track color(30% transparency) -->
         <item name="colorControlActivated">@color/btn_bg_blue</item>
         <!-- Inactive thumb color -->
         <item name="colorSwitchThumbNormal">@color/white</item>
         <!-- Inactive track color(30% transparency) -->
-        <item name="android:colorForeground">@color/grey</item>
-        ...
+        <item name="android:colorForeground">@color/grey</item>...
     </style>
+
 </resources>

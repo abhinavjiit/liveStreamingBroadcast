@@ -1,3 +1,4 @@
+
 package com.livestreaming.channelize.io
 
 import androidx.test.platform.app.InstrumentationRegistry
@@ -15,6 +16,7 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
     @Test
     fun useAppContext() {
         // Context of the app under test.

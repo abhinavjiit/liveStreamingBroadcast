@@ -1,3 +1,4 @@
+
 package com.livestreaming.channelize.io.model.productdetailModel
 
 import com.google.gson.annotations.SerializedName
