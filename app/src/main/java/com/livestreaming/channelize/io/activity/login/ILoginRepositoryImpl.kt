@@ -4,21 +4,25 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.network.response.LoginResponse
+import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 
 class ILoginRepositoryImpl : ILoginRepositoryCallBack {
 
-    private var logInResponse = MutableLiveData<LoginResponse>()
+    private var logInResponse = MutableLiveData<Resource<LoginResponse>>()
 
-    override fun onUserLogin(email: String, password: String): MutableLiveData<LoginResponse> {
+    override fun onUserLogin(
+        email: String,
+        password: String
+    ): MutableLiveData<Resource<LoginResponse>> {
         try {
             Channelize.getInstance().loginWithEmailPassword(
                 email, password
             )
             { result, _ ->
                 if (result != null && result.user != null) {
-                    logInResponse.postValue(result)
+                    logInResponse.postValue(Resource.success(result))
                 } else {
-                    logInResponse.postValue(null)
+                    logInResponse.postValue(Resource.error("error", null))
                 }
             }
         } catch (e: Exception) {

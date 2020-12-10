@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.login
 
 import android.content.Intent
@@ -25,6 +24,7 @@ import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import com.livestreaming.channelize.io.activity.BaseActivity
 import com.livestreaming.channelize.io.activity.eventListing.EventBroadCastListingActivity
+import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
@@ -51,7 +51,8 @@ class LSCBroadcastLoginActivity : BaseActivity() {
 
     private val initUi: Unit
         get() {
-            publicKeyEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            publicKeyEditTextView.onFocusChangeListener =
+                View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         setFocusEditTextDrawables(
                             publicKeyContainer,
@@ -134,27 +135,33 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             passwordEditTextView.text.toString()
         ).observe(this,
             Observer { logInSuccess ->
-                progressBar.dismiss()
-                if (logInSuccess != null && logInSuccess.user != null) {
-                    ChannelizePreferences.setCurrentUserName(
-                        BaseApplication.getInstance(),
-                        logInSuccess.user.displayName
-                    )
-                    ChannelizePreferences.setCurrentUserProfileImage(
-                        BaseApplication.getInstance(),
-                        logInSuccess.user.profileImageUrl
-                    )
-                    SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
-                    Log.d("LOGIN", "success")
-                    startAppIdService()
-                    gotoEventListingActivity()
-                } else if (logInSuccess == null) {
-                    SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
-                    Log.d("LOGIN", "failed")
-                } else {
-                    SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
-                    Log.d("LOGIN", "failed")
-                    showToast(this, "Login Failed")
+                when (logInSuccess.status) {
+                    Resource.Status.SUCCESS -> {
+                        progressBar.dismiss()
+                        logInSuccess.data?.user?.let { user ->
+                            ChannelizePreferences.setCurrentUserName(
+                                BaseApplication.getInstance(),
+                                user.displayName
+                            )
+                            ChannelizePreferences.setCurrentUserProfileImage(
+                                BaseApplication.getInstance(),
+                                user.profileImageUrl
+                            )
+                            SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
+                            Log.d("LOGIN", "success")
+                            startAppIdService()
+                            gotoEventListingActivity()
+                        }
+                    }
+                    Resource.Status.LOADING -> {
+                        progressBar.show()
+                    }
+                    Resource.Status.ERROR -> {
+                        progressBar.dismiss()
+                        SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
+                        Log.d("LOGIN", "failed")
+                        showToast(this, "Login Failed")
+                    }
                 }
             })
     }
