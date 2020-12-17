@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.eventListing
 
 import android.content.Intent
@@ -139,6 +138,8 @@ class EventBroadCastListingActivity : BaseActivity(),
             when (eventDetailResource.status) {
                 Resource.Status.SUCCESS -> {
                     if (!eventDetailResource.data.isNullOrEmpty()) {
+                        noEventContainer.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
                         val formatList = ArrayList<EventDetailResponse>()
                         val listData =
                             eventDetailResource.data.toMutableList() as ArrayList<EventDetailResponse>
@@ -147,6 +148,10 @@ class EventBroadCastListingActivity : BaseActivity(),
                                 formatList.addAll(filteredData)
                             }
                         eventListResponse = formatList
+                        if (eventListResponse.isNullOrEmpty()) {
+                            noEventContainer.visibility = View.VISIBLE
+                            recyclerView.visibility = View.GONE
+                        }
                         eventsBroadCastListingAdapter.setEventList(eventListResponse)
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
                         progressBar.dismiss()
@@ -158,9 +163,9 @@ class EventBroadCastListingActivity : BaseActivity(),
                 }
                 Resource.Status.ERROR -> {
                     progressBar.dismiss()
-                    showToast(this, eventDetailResource?.message)
                     noEventContainer.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
+                    showToast(this, eventDetailResource?.message)
                 }
                 Resource.Status.LOADING -> {
                     progressBar.show()

@@ -1,9 +1,9 @@
-
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -135,6 +135,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 networkState(quality)
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -291,8 +295,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     override fun onStart() {
         super.onStart()
-        initRTCEngine()
-        initLocalVideoConfig()
+        if (!::mRtcEngine.isInitialized) {
+            initRTCEngine()
+            initLocalVideoConfig()
+        }
     }
 
     // throw RuntimeException("Need to check RTC sdk init fatal")

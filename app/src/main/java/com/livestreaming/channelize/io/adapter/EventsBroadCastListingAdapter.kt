@@ -78,7 +78,9 @@ class EventsBroadCastListingAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (eventsList.isNullOrEmpty()) 0 else
+        return if (eventsList.isNullOrEmpty())
+            0
+        else
             eventsList?.size!!
     }
 

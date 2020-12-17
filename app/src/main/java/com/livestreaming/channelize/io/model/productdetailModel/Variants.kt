@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.model.productdetailModel
 
 import com.google.gson.annotations.SerializedName
@@ -11,8 +10,6 @@ data class Variants(
 data class PresentmentPrices(
     @SerializedName("price")
     val price: Price,
-    @SerializedName("compare_at_price")
-    val compare_at_price: String
 )
 
 data class Price(

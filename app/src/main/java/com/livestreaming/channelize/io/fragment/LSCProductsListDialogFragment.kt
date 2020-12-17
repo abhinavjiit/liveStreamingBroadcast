@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.fragment
 
 import android.os.Bundle

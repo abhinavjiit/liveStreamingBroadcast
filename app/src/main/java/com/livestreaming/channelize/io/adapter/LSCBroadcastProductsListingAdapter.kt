@@ -78,7 +78,6 @@ class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.V
 }
 
 fun List<PresentmentPrices>.getCurrencySymbolAndPrice(): String {
-    val localCurrency = Currency.getInstance(Locale.getDefault())
     this.firstOrNull { presentmentPrice ->
         presentmentPrice.price.currency_code == "INR"
     }?.let { presentmentPrice ->
