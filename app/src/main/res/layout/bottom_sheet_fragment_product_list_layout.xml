@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/cancelProductsList"
+        android:id="@+id/ivCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -16,14 +16,14 @@
         app:srcCompat="@drawable/ic_cancel" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/productsHeaderTextView"
+        android:id="@+id/tvProductsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Products to promote in this Events"
+        android:text="@string/products_to_promote_in_this_events"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cancelProductsList"
+        app:layout_constraintStart_toEndOf="@id/ivCancel"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -37,24 +37,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/productListRecyclerView"
+        android:id="@+id/rvProductList"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_marginTop="16dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cancelProductsList" />
+        app:layout_constraintTop_toBottomOf="@id/ivCancel" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/noProductsTextView"
+        android:id="@+id/tvNoProducts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Products"
+        android:text="@string/no_products"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productsHeaderTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvProductsHeader" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

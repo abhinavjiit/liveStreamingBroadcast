@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,20 +42,18 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<ConstraintLayout>(R.id.root).maxHeight =
-            (resources.displayMetrics.heightPixels * 0.5).toInt()
         productsIds = arguments?.getStringArrayList(LiveBroadcasterConstants.EVENT_PRODUCT_IDS)
         setupRecyclerView(view)
         iniViewModel()
-        cancelProductsList.setOnClickListener {
+        ivCancel.setOnClickListener {
             dismiss()
         }
     }
 
     private fun setupRecyclerView(view: View) {
         activity?.let { activity ->
-            view.productListRecyclerView.layoutManager = LinearLayoutManager(activity)
-            view.productListRecyclerView.adapter = productsItemAdapter
+            view.rvProductList.layoutManager = LinearLayoutManager(activity)
+            view.rvProductList.adapter = productsItemAdapter
             productsItemAdapter.setListData(null)
             productsItemAdapter.notifyDataSetChanged()
         }
@@ -89,20 +86,19 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                                     productsList =
                                         itemList.toMutableList() as ArrayList<ProductDetailResponse>
                                     if (itemList.isEmpty()) {
-                                        productListRecyclerView.visibility = View.GONE
-                                        view?.noProductsTextView?.visibility = View.VISIBLE
+                                        rvProductList.visibility = View.GONE
+                                        view?.tvNoProducts?.visibility = View.VISIBLE
                                         progressBar.visibility = View.GONE
-
                                     } else {
-                                        productListRecyclerView.visibility = View.VISIBLE
-                                        view?.noProductsTextView?.visibility = View.GONE
+                                        rvProductList.visibility = View.VISIBLE
+                                        view?.tvNoProducts?.visibility = View.GONE
                                         progressBar.visibility = View.GONE
                                         productsItemAdapter.setListData(itemList)
                                         productsItemAdapter.notifyDataSetChanged()
                                     }
                                 } ?: run {
-                                    productListRecyclerView.visibility = View.GONE
-                                    view?.noProductsTextView?.visibility = View.VISIBLE
+                                    rvProductList.visibility = View.GONE
+                                    view?.tvNoProducts?.visibility = View.VISIBLE
                                     progressBar.visibility = View.GONE
                                 }
                             }
@@ -110,8 +106,8 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                     }
                     Resource.Status.ERROR -> {
                         productsList = null
-                        productListRecyclerView.visibility = View.GONE
-                        view?.noProductsTextView?.visibility = View.VISIBLE
+                        rvProductList.visibility = View.GONE
+                        view?.tvNoProducts?.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                     }
                     Resource.Status.LOADING -> {

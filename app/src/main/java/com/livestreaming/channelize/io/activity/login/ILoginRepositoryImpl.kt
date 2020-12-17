@@ -8,12 +8,13 @@ import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resourc
 
 class ILoginRepositoryImpl : ILoginRepositoryCallBack {
 
-    private var logInResponse = MutableLiveData<Resource<LoginResponse>>()
 
     override fun onUserLogin(
         email: String,
         password: String
     ): MutableLiveData<Resource<LoginResponse>> {
+        val logInResponse = MutableLiveData<Resource<LoginResponse>>()
+
         try {
             Channelize.getInstance().loginWithEmailPassword(
                 email, password

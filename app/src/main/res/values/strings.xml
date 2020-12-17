@@ -48,5 +48,31 @@
     <string name="below_are_the_upcoming_events_for_which_you_are_the_host">Below are the Upcoming Events for which you are the Host</string>
     <string name="no_events_available">No Events Available</string>
     <string name="null_user_name_string">null</string>
+    <string name="logout">LogOut</string>
+    <string name="refresh">Refresh</string>
+    <string name="cancel">Cancel</string>
+    <string name="connection_result">Connection Result</string>
+    <string name="_3_plug_in_your_device_so_that_the_battery_doesn_t_die">3. Plug in your device so that the battery doesn\'t die .</string>
+    <string name="_4_position_your_device_for_maximum_visibility_use_chat_feature_to_interact_with_the_audience">4. Position your device for maximum visibility. Use Chat feature to interact with the audience.</string>
+    <string name="_5_turn_on_some_good_lights_eliminate_interfering_sounds_and_other_noises">5. Turn on some good lights. Eliminate interfering sounds and other noises.</string>
+    <string name="don_t_show_this_to_me_again">Don\'t show this to me again</string>
+    <string name="ready_get_set_go">Ready, Get Set, Go</string>
+    <string name="click_on_the_button_go_live_we_will_notify_the_users_who_are_waiting_for_this_event">Click on the button go Live, We will notify the users who are waiting for this Event</string>
+    <string name="go_live">Go Live</string>
+    <string name="continue_string">Continue</string>
+    <string name="close">Close</string>
+    <string name="no_products">No Products</string>
+    <string name="products_to_promote_in_this_events">Products to promote in this Events</string>
+    <string name="beauty_options">Beauty Options</string>
+    <string name="lightening_contrast">Lightening Contrast</string>
+    <string name="low">Low</string>
+    <string name="normal">Normal</string>
+    <string name="high">High</string>
+    <string name="lightening">Lightening</string>
+    <string name="smoothness">Smoothness</string>
+    <string name="redness">Redness</string>
+    <string name="live">Live</string>
+    <string name="_0">0</string>
+    <string name="say_something">Say something...</string>
 
 </resources>

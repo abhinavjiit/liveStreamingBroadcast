@@ -45,26 +45,26 @@ class LSCPermissionFragment : BaseFragment() {
                     Manifest.permission.CAMERA
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                setDrawables(camera)
-                camera.text = context?.resources?.getString(R.string.camera_enabled_string)
-                camera.isEnabled = false
-                camera.isClickable = false
+                setDrawables(tvCamera)
+                tvCamera.text = context?.resources?.getString(R.string.camera_enabled_string)
+                tvCamera.isEnabled = false
+                tvCamera.isClickable = false
             }
             if (ContextCompat.checkSelfPermission(
                     activity,
                     Manifest.permission.RECORD_AUDIO
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                setDrawables(microPhone)
-                microPhone.text = context?.resources?.getString(R.string.microphone_enable_string)
-                microPhone.isEnabled = false
-                microPhone.isClickable = false
+                setDrawables(tvMicrophone)
+                tvMicrophone.text = context?.resources?.getString(R.string.microphone_enable_string)
+                tvMicrophone.isEnabled = false
+                tvMicrophone.isClickable = false
             }
         }
-        view.microPhone.setOnClickListener {
+        view.tvMicrophone.setOnClickListener {
             showMicroPhonePermission()
         }
-        view.camera.setOnClickListener {
+        view.tvCamera.setOnClickListener {
             showCameraPermission()
         }
     }
@@ -151,8 +151,8 @@ class LSCPermissionFragment : BaseFragment() {
                             Log.i("TAG", "Permission has been denied by user")
                             false
                         } else {
-                            setDrawables(camera)
-                            camera.text =
+                            setDrawables(tvCamera)
+                            tvCamera.text =
                                 context?.resources?.getString(R.string.camera_enabled_string)
                             Log.i("TAG", "Permission has been granted by user")
                             true
@@ -165,8 +165,8 @@ class LSCPermissionFragment : BaseFragment() {
                             false
                         } else {
                             Log.i("TAG", "Permission has been granted by user")
-                            setDrawables(microPhone)
-                            microPhone.text =
+                            setDrawables(tvMicrophone)
+                            tvMicrophone.text =
                                 context?.resources?.getString(R.string.microphone_enable_string)
                             true
                         }

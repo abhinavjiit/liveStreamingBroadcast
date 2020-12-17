@@ -44,7 +44,7 @@ class EventBroadCastListingActivity : BaseActivity(),
     private fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = eventsBroadCastListingAdapter
-        storeURLTextView.text = SharedPrefUtils.getStoreUrl(BaseApplication.getInstance())
+        tvStoreURL.text = SharedPrefUtils.getStoreUrl(BaseApplication.getInstance())
         if (ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
                 .isNullOrBlank()
         ) {
@@ -62,18 +62,18 @@ class EventBroadCastListingActivity : BaseActivity(),
                         getString(R.string.null_user_name_string)
                     }
                 }
-                nameTextView.text = initials
+                tvUserName.text = initials
             } else {
-                nameTextView.text = getString(R.string.null_user_name_string)
+                tvUserName.text = getString(R.string.null_user_name_string)
             }
-            userImageView.visibility = View.GONE
-            nameTextView.visibility = View.VISIBLE
+            ivUserProfile.visibility = View.GONE
+            tvUserName.visibility = View.VISIBLE
         } else {
-            userImageView.visibility = View.VISIBLE
-            nameTextView.visibility = View.GONE
+            ivUserProfile.visibility = View.VISIBLE
+            tvUserName.visibility = View.GONE
             ImageLoader.showImage(
                 imageUrl = ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance()),
-                viewId = userImageView
+                viewId = ivUserProfile
             )
         }
         onClick
@@ -81,23 +81,23 @@ class EventBroadCastListingActivity : BaseActivity(),
 
     private val onClick: Unit
         get() {
-            nameTextView.setOnClickListener {
-                logoutPopUp.visibility = View.VISIBLE
+            tvUserName.setOnClickListener {
+                viewLogoutPopUp.visibility = View.VISIBLE
             }
-            userImageView.setOnClickListener {
-                logoutPopUp.visibility = View.VISIBLE
+            ivUserProfile.setOnClickListener {
+                viewLogoutPopUp.visibility = View.VISIBLE
             }
-            logoutPopUp.setOnClickListener {
-                logoutPopUp.visibility = View.GONE
+            viewLogoutPopUp.setOnClickListener {
+                viewLogoutPopUp.visibility = View.GONE
             }
-            refreshTextView.setOnClickListener {
+            tvRefresh.setOnClickListener {
                 eventListResponse?.clear()
                 eventsBroadCastListingAdapter.setEventList(eventListResponse)
                 eventsBroadCastListingAdapter.notifyDataSetChanged()
                 getEventsList()
-                logoutPopUp.visibility = View.GONE
+                viewLogoutPopUp.visibility = View.GONE
             }
-            logoutTextView.setOnClickListener {
+            tvLogout.setOnClickListener {
                 try {
                     val progressBar = progressDialog(this)
                     progressBar.show()
@@ -138,7 +138,7 @@ class EventBroadCastListingActivity : BaseActivity(),
             when (eventDetailResource.status) {
                 Resource.Status.SUCCESS -> {
                     if (!eventDetailResource.data.isNullOrEmpty()) {
-                        noEventContainer.visibility = View.GONE
+                        rlNoEventContainer.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         val formatList = ArrayList<EventDetailResponse>()
                         val listData =
@@ -149,7 +149,7 @@ class EventBroadCastListingActivity : BaseActivity(),
                             }
                         eventListResponse = formatList
                         if (eventListResponse.isNullOrEmpty()) {
-                            noEventContainer.visibility = View.VISIBLE
+                            rlNoEventContainer.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
                         }
                         eventsBroadCastListingAdapter.setEventList(eventListResponse)
@@ -157,13 +157,13 @@ class EventBroadCastListingActivity : BaseActivity(),
                         progressBar.dismiss()
                     } else {
                         progressBar.dismiss()
-                        noEventContainer.visibility = View.VISIBLE
+                        rlNoEventContainer.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
                     }
                 }
                 Resource.Status.ERROR -> {
                     progressBar.dismiss()
-                    noEventContainer.visibility = View.VISIBLE
+                    rlNoEventContainer.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                     showToast(this, eventDetailResource?.message)
                 }
@@ -216,11 +216,11 @@ class EventBroadCastListingActivity : BaseActivity(),
                         filteredList.toMutableList() as ArrayList<EventDetailResponse>
                 }
                 if (eventListResponse.isNullOrEmpty()) {
-                    noEventContainer.visibility = View.VISIBLE
+                    rlNoEventContainer.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                 } else {
                     recyclerView.visibility = View.VISIBLE
-                    noEventContainer.visibility = View.GONE
+                    rlNoEventContainer.visibility = View.GONE
                     eventsBroadCastListingAdapter.setEventList(eventListResponse)
                     eventsBroadCastListingAdapter.notifyDataSetChanged()
                 }

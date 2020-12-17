@@ -181,7 +181,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val fragment = LSCPermissionFragment()
         val fm = supportFragmentManager
         val transaction =
-            fm.beginTransaction().add(R.id.content_frame, fragment, "LSCPermissionFragment")
+            fm.beginTransaction().add(R.id.flContentFrame, fragment, "LSCPermissionFragment")
                 .addToBackStack(null)
         transaction.commit()
     }
@@ -209,7 +209,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         }
         val settingFragment = LSCSettingUpLiveStreamingFragment()
         supportFragmentManager.beginTransaction()
-            .add(R.id.content_frame, settingFragment, "LSCSettingUpFragment")
+            .add(R.id.flContentFrame, settingFragment, "LSCSettingUpFragment")
             .commit()
     }
 
@@ -221,12 +221,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     private val clickListener: Unit
         get() {
-            beautification.setOnClickListener {
+            ivBeautification.setOnClickListener {
                 val beautificationView =
                     LSCBeautificationBottomSheetDialogFragment()
                 beautificationView.show(supportFragmentManager, "beauty_sheet")
             }
-            productListView.setOnClickListener {
+            ivProductListView.setOnClickListener {
                 val lscProductsListDialogFragment = LSCProductsListDialogFragment()
                 val bundle = Bundle()
                 bundle.putStringArrayList(LiveBroadcasterConstants.EVENT_PRODUCT_IDS, productsIds)
@@ -236,10 +236,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                     "LSCProductsListDialogFragment"
                 )
             }
-            post.setOnClickListener {
-                if (writeSomethingEditText.text.toString().trim().isNotBlank()) {
-                    sendCommentData(writeSomethingEditText.text.toString())
-                    writeSomethingEditText.setText("")
+            ivPost.setOnClickListener {
+                if (etWriteSomething.text.toString().trim().isNotBlank()) {
+                    sendCommentData(etWriteSomething.text.toString())
+                    etWriteSomething.setText("")
                     try {
                         val imm: InputMethodManager =
                             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -249,13 +249,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                     }
                 }
             }
-            cancelLiveBroadcast.setOnClickListener {
+            ivCancelLiveBroadcast.setOnClickListener {
                 if (isLive)
                     showCancelLiveBroadCastFragment()
                 else
                     finish()
             }
-            flipCamera.setOnClickListener {
+            ivFlipCamera.setOnClickListener {
                 switchCamera()
             }
         }
@@ -335,7 +335,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private fun setLocalVideo() {
         val view = RtcEngine.CreateRendererView(BaseApplication.getInstance())
         view.setZOrderMediaOverlay(true)
-        broadCasterContainer.addView(view)
+        rlBroadcastContainer.addView(view)
         mLocalVideo = VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, 0)
         mRtcEngine.setupLocalVideo(mLocalVideo)
     }
@@ -363,7 +363,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val fm = supportFragmentManager
         val transaction =
             fm.beginTransaction()
-                .add(R.id.content_frame, fragment, "LSCBroadCastDetailAfterEndingFragment")
+                .add(R.id.flContentFrame, fragment, "LSCBroadCastDetailAfterEndingFragment")
                 .addToBackStack(null)
         transaction.commit()
     }
@@ -413,13 +413,13 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
             val differenceInMinutes = ((differenceInTime?.div((1000 * 60)))?.rem(60))
             val differenceInHours = ((differenceInTime?.div((1000 * 60 * 60)))?.rem(24))
 
-            totalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
+            tvTotalTimeLeft.text = " ${differenceInHours}h ${differenceInMinutes}m"
 
             differenceInTime?.let { timeDiff ->
                 countDownTimer = object : CountDownTimer(timeDiff, 1000) {
                     override fun onFinish() {
                         Log.d("TimeCounter", "TimeFinishedCounterLiveActivity")
-                        remainingTimeCounter.visibility = View.GONE
+                        tvRemainingTimeCounter.visibility = View.GONE
                     }
 
                     override fun onTick(millisUntilFinished: Long) {
@@ -434,7 +434,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                         )
                         val remainSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
 
-                        remainingTimeCounter.text = "${differenceInMinutes1}m /"
+                        tvRemainingTimeCounter.text = "${differenceInMinutes1}m /"
 
                         alertDialogBox(reminderAlertDialogTime, remainSeconds)
                         Log.d("RESULT", "see")
@@ -539,7 +539,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     private fun showLiveUserCount(response: String?) {
         val res = Gson().fromJson(response, LSCLiveUpdatesResponse::class.java)
-        liveViewCount.text = (res.liveBroadcast.watchersCount).toString()
+        tvLiveViewCount.text = (res.liveBroadcast.watchersCount).toString()
     }
 
     private fun onLSCReactionsAdded(response: String?) {
@@ -595,7 +595,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
             override fun onAnimationRepeat(animation: Animation?) {}
         }
         )
-        val container: ViewGroup = findViewById(R.id.animatorLoader)
+        val container: ViewGroup = findViewById(R.id.flAnimatorLoader)
         animation.play(this, container)
     }
 
@@ -641,16 +641,16 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     private fun setAllRequiredVisibility() {
-        beautification.visibility = View.VISIBLE
-        liveTextView.visibility = View.VISIBLE
-        cancelLiveBroadcast.visibility = View.VISIBLE
-        liveViewCount.visibility = View.VISIBLE
-        productListView.visibility = View.VISIBLE
-        writeSomethingEditText.visibility = View.VISIBLE
-        bottomContainer.visibility = View.VISIBLE
+        ivBeautification.visibility = View.VISIBLE
+        tvLive.visibility = View.VISIBLE
+        ivCancelLiveBroadcast.visibility = View.VISIBLE
+        tvLiveViewCount.visibility = View.VISIBLE
+        ivProductListView.visibility = View.VISIBLE
+        etWriteSomething.visibility = View.VISIBLE
+        cslBottomContainer.visibility = View.VISIBLE
         commentRecyclerView.visibility = View.VISIBLE
-        flipCamera.visibility = View.VISIBLE
-        timerContainer.visibility = View.VISIBLE
+        ivFlipCamera.visibility = View.VISIBLE
+        rlTimerContainer.visibility = View.VISIBLE
     }
 
     private fun onSubscribeTopics() {

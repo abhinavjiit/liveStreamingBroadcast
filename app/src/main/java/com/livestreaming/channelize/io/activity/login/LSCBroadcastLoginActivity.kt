@@ -42,7 +42,7 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
         initUi
         initViewModel
-        loginButton.setOnClickListener {
+        tvLogin.setOnClickListener {
             if (isValid()) {
                 startLogin()
             }
@@ -51,64 +51,64 @@ class LSCBroadcastLoginActivity : BaseActivity() {
 
     private val initUi: Unit
         get() {
-            publicKeyEditTextView.onFocusChangeListener =
+            etPublicKey.onFocusChangeListener =
                 View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         setFocusEditTextDrawables(
-                            publicKeyContainer,
+                            rlPublicKeyContainer,
                             R.drawable.ic_public_key,
-                            publicKeyEditTextView
+                            etPublicKey
                         )
                     } else {
                         setDefaultEditTextDrawables(
-                            publicKeyContainer,
+                            rlPublicKeyContainer,
                             R.drawable.ic_public_key,
-                            publicKeyEditTextView
+                            etPublicKey
                         )
                     }
                 }
-            storeUrlEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            etStoreUrl.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     setFocusEditTextDrawables(
-                        storeUrlContainer,
+                        rlStoreUrlContainer,
                         R.drawable.ic_store_url,
-                        storeUrlEditTextView
+                        etStoreUrl
                     )
                 } else {
                     setDefaultEditTextDrawables(
-                        storeUrlContainer,
+                        rlStoreUrlContainer,
                         R.drawable.ic_store_url,
-                        storeUrlEditTextView
+                        etStoreUrl
                     )
                 }
             }
-            emailEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            etEmail.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     setFocusEditTextDrawables(
-                        emailContainer,
+                        rlEmailContainer,
                         R.drawable.ic_email,
-                        emailEditTextView
+                        etEmail
                     )
                 } else {
                     setDefaultEditTextDrawables(
-                        emailContainer,
+                        rlEmailContainer,
                         R.drawable.ic_email,
-                        emailEditTextView
+                        etEmail
                     )
                 }
             }
-            passwordEditTextView.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            etPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     setFocusEditTextDrawables(
-                        passwordContainer,
+                        rlPasswordContainer,
                         R.drawable.ic_password,
-                        passwordEditTextView
+                        etPassword
                     )
                 } else {
                     setDefaultEditTextDrawables(
-                        passwordContainer,
+                        rlPasswordContainer,
                         R.drawable.ic_password,
-                        passwordEditTextView
+                        etPassword
                     )
                 }
             }
@@ -123,17 +123,17 @@ class LSCBroadcastLoginActivity : BaseActivity() {
     private fun startLogin() {
         val progressBar = progressDialog(this)
         progressBar.show()
-        SharedPrefUtils.setPublicApiKey(this, publicKeyEditTextView.text.toString())
-        SharedPrefUtils.setStoreUrl(this, storeUrlEditTextView.text.toString())
+        SharedPrefUtils.setPublicApiKey(this, etPublicKey.text.toString())
+        SharedPrefUtils.setStoreUrl(this, etStoreUrl.text.toString())
         BaseApplication.getInstance().initChannelize()
-        Channelize.getInstance().apiKey = publicKeyEditTextView.text.toString()
+        Channelize.getInstance().apiKey = etPublicKey.text.toString()
         Channelize.getInstance().removeHeaders(PUBLIC_KEY)
         Channelize.getInstance().addHeaders(PUBLIC_KEY, SharedPrefUtils.getPublicApiKey(this))
         SharedPrefUtils.setUniqueId(this, System.currentTimeMillis())
         loginUserViewModel.onUserLogin(
-            emailEditTextView.text.toString(),
-            passwordEditTextView.text.toString()
-        ).observe(this,
+            etEmail.text.toString(),
+            etPassword.text.toString()
+        )?.observe(this,
             Observer { logInSuccess ->
                 when (logInSuccess.status) {
                     Resource.Status.SUCCESS -> {
@@ -153,9 +153,6 @@ class LSCBroadcastLoginActivity : BaseActivity() {
                             gotoEventListingActivity()
                         }
                     }
-                    Resource.Status.LOADING -> {
-                        progressBar.show()
-                    }
                     Resource.Status.ERROR -> {
                         progressBar.dismiss()
                         SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
@@ -173,21 +170,21 @@ class LSCBroadcastLoginActivity : BaseActivity() {
     }
 
     private fun isValid(): Boolean {
-        if (publicKeyEditTextView.text.toString().isBlank()) {
+        if (etPublicKey.text.toString().isBlank()) {
             showToast(this, getString(R.string.public_key_validation_check))
             return false
         }
-        if (storeUrlEditTextView.text.toString().isBlank()) {
+        if (etStoreUrl.text.toString().isBlank()) {
             showToast(this, getString(R.string.store_url_key_validation_string))
             return false
         }
-        if (emailEditTextView.text.toString().isBlank() || !emailEditTextView.text.toString()
+        if (etEmail.text.toString().isBlank() || !etEmail.text.toString()
                 .trim().isEmailValid()
         ) {
             showToast(this, getString(R.string.email_validation_string))
             return false
         }
-        if (passwordEditTextView.text.toString().isBlank()) {
+        if (etPassword.text.toString().isBlank()) {
             showToast(this, getString(R.string.password_validation_string))
             return false
         }

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/channelizeImageView"
+            android:id="@+id/ivChannelizeLiveStreaming"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
@@ -21,7 +21,7 @@
             app:srcCompat="@drawable/app_logo_svg" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/broadcastYourEventHeaderTextView"
+            android:id="@+id/tvBroadcastYourEventHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -34,10 +34,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/channelizeImageView" />
+            app:layout_constraintTop_toBottomOf="@id/ivChannelizeLiveStreaming" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/loginToExpressTextView"
+            android:id="@+id/tvLoginToExpress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -49,10 +49,10 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/broadcastYourEventHeaderTextView" />
+            app:layout_constraintTop_toBottomOf="@id/tvBroadcastYourEventHeader" />
 
         <RelativeLayout
-            android:id="@+id/publicKeyContainer"
+            android:id="@+id/rlPublicKeyContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -61,24 +61,24 @@
             android:background="@drawable/rectangular_rounded_corner_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginToExpressTextView">
+            app:layout_constraintTop_toBottomOf="@id/tvLoginToExpress">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/publicKeyEditTextView"
+                android:id="@+id/etPublicKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/white"
                 android:drawableStart="@drawable/ic_public_key"
                 android:drawablePadding="7dp"
-                android:inputType="text"
                 android:drawableTint="@color/dark_grey"
                 android:hint="@string/your_public_key"
+                android:inputType="text"
                 android:textSize="16sp" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/publicKeyInfoTextView"
+            android:id="@+id/tvPublicKeyInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -92,10 +92,10 @@
             android:textColor="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/publicKeyContainer" />
+            app:layout_constraintTop_toBottomOf="@id/rlPublicKeyContainer" />
 
         <RelativeLayout
-            android:id="@+id/storeUrlContainer"
+            android:id="@+id/rlStoreUrlContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -104,25 +104,25 @@
             android:background="@drawable/rectangular_rounded_corner_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/publicKeyInfoTextView">
+            app:layout_constraintTop_toBottomOf="@id/tvPublicKeyInfo">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/storeUrlEditTextView"
+                android:id="@+id/etStoreUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:inputType="text"
                 android:background="@color/white"
                 android:drawableStart="@drawable/ic_store_url"
                 android:drawablePadding="7dp"
                 android:drawableTint="@color/dark_grey"
                 android:hint="@string/store_url"
+                android:inputType="text"
                 android:textAllCaps="true"
                 android:textSize="16sp" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/storeUrlInfoTextView"
+            android:id="@+id/tvStoreUrlInfo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -136,10 +136,10 @@
             android:textColor="@color/dark_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/storeUrlContainer" />
+            app:layout_constraintTop_toBottomOf="@id/rlStoreUrlContainer" />
 
         <RelativeLayout
-            android:id="@+id/emailContainer"
+            android:id="@+id/rlEmailContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -148,10 +148,10 @@
             android:background="@drawable/rectangular_rounded_corner_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/storeUrlInfoTextView">
+            app:layout_constraintTop_toBottomOf="@id/tvStoreUrlInfo">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/emailEditTextView"
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -165,7 +165,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/passwordContainer"
+            android:id="@+id/rlPasswordContainer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -174,10 +174,10 @@
             android:background="@drawable/rectangular_rounded_corner_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/emailContainer">
+            app:layout_constraintTop_toBottomOf="@id/rlEmailContainer">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/passwordEditTextView"
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -191,7 +191,7 @@
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/loginButton"
+            android:id="@+id/tvLogin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -208,7 +208,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordContainer" />
+            app:layout_constraintTop_toBottomOf="@id/rlPasswordContainer" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

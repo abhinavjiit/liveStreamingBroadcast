@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.fragment
 
 import android.graphics.drawable.GradientDrawable
@@ -34,43 +33,43 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         beautificationCustomizationValuesClassHolder =
             (activity as LSCBroadCastSettingUpAndLiveActivity).getBeautificationObject()
-        smoothnessSlider.value = beautificationCustomizationValuesClassHolder.smoothnessValue
-        lightnessSlider.value = beautificationCustomizationValuesClassHolder.lightingValue
-        rednessSlider.value = beautificationCustomizationValuesClassHolder.rednessValue
-        muteVideoSwitch.isChecked = beautificationCustomizationValuesClassHolder.isEnabled
+        slrSmoothness.value = beautificationCustomizationValuesClassHolder.smoothnessValue
+        slrLightness.value = beautificationCustomizationValuesClassHolder.lightingValue
+        slrRedness.value = beautificationCustomizationValuesClassHolder.rednessValue
+        swhMuteVideo.isChecked = beautificationCustomizationValuesClassHolder.isEnabled
         setContrastButtonState()
-        smoothnessSlider.addOnChangeListener { _, value, _ ->
+        slrSmoothness.addOnChangeListener { _, value, _ ->
             beautificationCustomizationValuesClassHolder.smoothnessValue = value
             changeBeautification()
         }
-        lightnessSlider.addOnChangeListener { _, value, _ ->
+        slrLightness.addOnChangeListener { _, value, _ ->
             beautificationCustomizationValuesClassHolder.lightingValue = value
             changeBeautification()
         }
-        rednessSlider.addOnChangeListener { _, value, _ ->
+        slrRedness.addOnChangeListener { _, value, _ ->
             beautificationCustomizationValuesClassHolder.rednessValue = value
             changeBeautification()
         }
-        muteVideoSwitch.setOnCheckedChangeListener { _, isChecked ->
+        swhMuteVideo.setOnCheckedChangeListener { _, isChecked ->
             beautificationCustomizationValuesClassHolder.isEnabled = isChecked
             changeBeautification()
         }
-        low.setOnClickListener {
+        tvLow.setOnClickListener {
             contrastValue = 0
             beautificationCustomizationValuesClassHolder.contrastValue = 0
             lowContrastEnabled()
         }
-        high.setOnClickListener {
+        tvHigh.setOnClickListener {
             contrastValue = 2
             beautificationCustomizationValuesClassHolder.contrastValue = 2
             highContrastEnabled()
         }
-        normal.setOnClickListener {
+        tvNormal.setOnClickListener {
             contrastValue = 1
             beautificationCustomizationValuesClassHolder.contrastValue = 1
             normalContrastEnabled()
         }
-        cancelBeautificationBottomSheet.setOnClickListener { dismiss() }
+        ivCancel.setOnClickListener { dismiss() }
     }
 
     override fun getTheme(): Int {
@@ -113,7 +112,6 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-
     private fun normalContrastEnabled() {
         activity?.let { activity ->
             lowContrastDrawable(ContextCompat.getColor(activity, R.color.grey_light))
@@ -123,14 +121,14 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun lowContrastDrawable(color: Int) {
-        val lowButtonBackground: GradientDrawable = low.background as GradientDrawable
+        val lowButtonBackground: GradientDrawable = tvLow.background as GradientDrawable
         lowButtonBackground.mutate()
         lowButtonBackground.setColor(color)
         lowButtonBackground.setTint(color)
     }
 
     private fun highContrastDrawable(color: Int) {
-        val highButtonBackground: GradientDrawable = high.background as GradientDrawable
+        val highButtonBackground: GradientDrawable = tvHigh.background as GradientDrawable
         highButtonBackground.mutate()
         highButtonBackground.setColor(color)
         highButtonBackground.setTint(color)
@@ -138,7 +136,7 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun normalContrastDrawable(color: Int) {
         val normalButtonBackground: GradientDrawable =
-            normal.background as GradientDrawable
+            tvNormal.background as GradientDrawable
         normalButtonBackground.mutate()
         normalButtonBackground.setColor(color)
         normalButtonBackground.setTint(color)

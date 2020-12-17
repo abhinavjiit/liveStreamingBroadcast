@@ -43,7 +43,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <RelativeLayout
-                        android:id="@+id/imageOrUserNameContainer"
+                        android:id="@+id/rlUserDetailContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -52,7 +52,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.mikhaellopez.circularimageview.CircularImageView
-                            android:id="@+id/userImageView"
+                            android:id="@+id/ivUserProfile"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:layout_alignParentTop="true"
@@ -60,7 +60,7 @@
                             app:srcCompat="@drawable/ic_launcher_background" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/nameTextView"
+                            android:id="@+id/tvUserName"
                             android:layout_width="wrap_content"
                             android:layout_height="30dp"
                             android:background="@drawable/circular_blue_background"
@@ -86,7 +86,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/headerInfoContainer"
+                android:id="@+id/cvHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -100,14 +100,14 @@
                     android:background="@drawable/event_listing_border_layout">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/headerText"
+                        android:id="@+id/clHeaderDescriptionContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/storeTextView"
+                            android:id="@+id/tvStore"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:background="#808080"
@@ -121,7 +121,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/storeURLTextView"
+                            android:id="@+id/tvStoreURL"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
@@ -131,12 +131,12 @@
                             android:textSize="12sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/shopifyImageView"
-                            app:layout_constraintStart_toEndOf="@id/storeTextView"
+                            app:layout_constraintEnd_toStartOf="@id/ivShopify"
+                            app:layout_constraintStart_toEndOf="@id/tvStore"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/shopifyImageView"
+                            android:id="@+id/ivShopify"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_marginEnd="3dp"
@@ -147,7 +147,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/infoImageView"
+                        android:id="@+id/ivInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -155,7 +155,7 @@
                         android:paddingEnd="5dp"
                         android:tint="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/headerText"
+                        app:layout_constraintTop_toBottomOf="@id/clHeaderDescriptionContainer"
                         app:srcCompat="@drawable/ic_info_outline" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -167,8 +167,8 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/infoImageView"
-                        app:layout_constraintTop_toBottomOf="@id/headerText" />
+                        app:layout_constraintStart_toEndOf="@+id/ivInfo"
+                        app:layout_constraintTop_toBottomOf="@id/clHeaderDescriptionContainer" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -181,20 +181,20 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerInfoContainer" />
+                app:layout_constraintTop_toBottomOf="@id/cvHeaderInfoContainer" />
 
             <RelativeLayout
-                android:id="@+id/noEventContainer"
+                android:id="@+id/rlNoEventContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerInfoContainer">
+                app:layout_constraintTop_toBottomOf="@id/cvHeaderInfoContainer">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/noEventImageView"
+                    android:id="@+id/ivNoEvent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_no_event" />
@@ -202,7 +202,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/noEventImageView"
+                    android:layout_below="@id/ivNoEvent"
                     android:layout_centerHorizontal="true"
                     android:text="@string/no_events_available"
                     android:textSize="20sp" />
@@ -212,7 +212,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <include
-        android:id="@+id/logoutPopUp"
+        android:id="@+id/viewLogoutPopUp"
         layout="@layout/over_lay_refresh_logout_pop_up_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

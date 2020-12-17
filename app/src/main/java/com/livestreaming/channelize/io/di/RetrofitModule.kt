@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.di
 
 import android.content.Context
@@ -26,7 +25,8 @@ import okhttp3.Interceptor as Interceptor1
 @Module
 class RetrofitModule(
     private val lscBaseUrl: String,
-    private val context: Context, private val productListBaseUrl: String,
+    private val context: Context,
+    private val productListBaseUrl: String,
     private val channelizeCorBaseUrl: String
 ) {
 

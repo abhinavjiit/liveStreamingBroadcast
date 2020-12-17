@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/headerView"
+        android:id="@+id/cslHeaderContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -15,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/cancelBeautificationBottomSheet"
+            android:id="@+id/ivCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -25,23 +24,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_cancel" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/beautyOptionsTextView"
+            android:id="@+id/tvBeautyOptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Beauty Options"
+            android:text="@string/beauty_options"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/muteVideoSwitch"
-            app:layout_constraintStart_toEndOf="@id/cancelBeautificationBottomSheet"
+            app:layout_constraintEnd_toStartOf="@id/swhMuteVideo"
+            app:layout_constraintStart_toEndOf="@id/ivCancel"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/muteVideoSwitch"
+            android:id="@+id/swhMuteVideo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -59,24 +56,23 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/greytxt_color"
-        app:layout_constraintTop_toBottomOf="@id/headerView" />
-
+        app:layout_constraintTop_toBottomOf="@id/cslHeaderContainer" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/lighteningContrastTextView"
+        android:id="@+id/tvLighteningContrast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="25dp"
-        android:text="Lightening Contrast"
+        android:text="@string/lightening_contrast"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/div" />
 
     <LinearLayout
-        android:id="@+id/contrastSetButton"
+        android:id="@+id/llSetContrast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -85,10 +81,10 @@
         android:background="@drawable/rounded_button_border"
         android:backgroundTint="@color/grey_light"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/lighteningContrastTextView">
+        app:layout_constraintTop_toBottomOf="@id/tvLighteningContrast">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/low"
+            android:id="@+id/tvLow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -97,11 +93,11 @@
             android:backgroundTint="@color/grey_light"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Low"
+            android:text="@string/low"
             android:textColor="@color/greytxt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/normal"
+            android:id="@+id/tvNormal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -110,12 +106,11 @@
             android:backgroundTint="@color/grey_light"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Normal"
-
+            android:text="@string/normal"
             android:textColor="@color/greytxt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/high"
+            android:id="@+id/tvHigh"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -124,110 +119,105 @@
             android:backgroundTint="@color/white"
             android:gravity="center"
             android:padding="10dp"
-            android:text="High"
-
+            android:text="@string/high"
             android:textColor="@color/greytxt_color" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lightingContainer"
+        android:id="@+id/cslLightingContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contrastSetButton">
+        app:layout_constraintTop_toBottomOf="@+id/llSetContrast">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/lightingTextView"
+            android:id="@+id/tvLighting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lightening"
+            android:text="@string/lightening"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <com.google.android.material.slider.Slider
-            android:id="@+id/lightnessSlider"
+            android:id="@+id/slrLightness"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lightingTextView"
+            app:layout_constraintTop_toBottomOf="@id/tvLighting"
             app:thumbColor="@color/btn_bg_blue"
             app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/smoothnessContainer"
+        android:id="@+id/cslSmoothnessContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lightingContainer">
+        app:layout_constraintTop_toBottomOf="@+id/cslLightingContainer">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/smoothnessTextView"
+            android:id="@+id/tvSmoothness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Smoothness"
+            android:text="@string/smoothness"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <com.google.android.material.slider.Slider
-            android:id="@+id/smoothnessSlider"
+            android:id="@+id/slrSmoothness"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/smoothnessTextView"
+            app:layout_constraintTop_toBottomOf="@id/tvSmoothness"
             app:thumbColor="@color/btn_bg_blue"
             app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rednessContainer"
+        android:id="@+id/cslRednessContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/smoothnessContainer">
+        app:layout_constraintTop_toBottomOf="@+id/cslSmoothnessContainer">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/rednessTextView"
+            android:id="@+id/tvRedness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Redness"
+            android:text="@string/redness"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <com.google.android.material.slider.Slider
-            android:id="@+id/rednessSlider"
+            android:id="@+id/slrRedness"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rednessTextView"
+            app:layout_constraintTop_toBottomOf="@id/tvRedness"
             app:thumbColor="@color/btn_bg_blue"
             app:trackColorActive="@color/btn_bg_blue"
             app:trackColorInactive="@color/grey_light" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.fragment
 
 import android.annotation.SuppressLint
@@ -52,35 +51,35 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
         if (TIME_ELAPSED == comingFrom) {
             onStopBroadCast()
             (activity as LSCBroadCastSettingUpAndLiveActivity).onUnsubscribeTopics()
-            cancelLiveBroadCastView.visibility = View.GONE
-            headerTextView.text = eventTitle
-            lscDetailsView.visibility = View.VISIBLE
-            endNowTextView.visibility = View.GONE
-            cancel.visibility = View.GONE
-            closeTextView.visibility = View.VISIBLE
+            clCancelLiveBroadCastView.visibility = View.GONE
+            tvHeader.text = eventTitle
+            clLscDetailsContainer.visibility = View.VISIBLE
+            tvEndNow.visibility = View.GONE
+            tvCancel.visibility = View.GONE
+            tvClose.visibility = View.VISIBLE
         } else {
-            cancelLiveBroadCastView.visibility = View.VISIBLE
+            clCancelLiveBroadCastView.visibility = View.VISIBLE
         }
-        closeTextView.setOnClickListener {
-            lscDetailsView.visibility = View.GONE
+        tvClose.setOnClickListener {
+            clLscDetailsContainer.visibility = View.GONE
             val intent = Intent()
             intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, broadCastId)
             activity?.setResult(-1, intent)
             (activity as LSCBroadCastSettingUpAndLiveActivity).finish()
         }
-        cancel.setOnClickListener {
-            cancelLiveBroadCastView.visibility = View.GONE
+        tvCancel.setOnClickListener {
+            clCancelLiveBroadCastView.visibility = View.GONE
             (activity as LSCBroadCastSettingUpAndLiveActivity).removeFragment(this)
         }
-        endNowTextView.setOnClickListener {
+        tvEndNow.setOnClickListener {
             onStopBroadCast()
             (activity as LSCBroadCastSettingUpAndLiveActivity).onUnsubscribeTopics()
-            cancelLiveBroadCastView.visibility = View.GONE
-            headerTextView.text = eventTitle
-            lscDetailsView.visibility = View.VISIBLE
-            endNowTextView.visibility = View.GONE
-            cancel.visibility = View.GONE
-            closeTextView.visibility = View.VISIBLE
+            clCancelLiveBroadCastView.visibility = View.GONE
+            tvHeader.text = eventTitle
+            clLscDetailsContainer.visibility = View.VISIBLE
+            tvEndNow.visibility = View.GONE
+            tvCancel.visibility = View.GONE
+            tvClose.visibility = View.VISIBLE
         }
     }
 
@@ -111,15 +110,15 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
                 when (res.status) {
                     Resource.Status.SUCCESS -> {
                         progressBar.visibility = View.GONE
-                        loadingTextView.visibility = View.GONE
+                        tvLoading.visibility = View.GONE
                         res.data?.let { lscBroadcastLiveResponse ->
-                            countContainer.visibility = View.VISIBLE
+                            llCountContainer.visibility = View.VISIBLE
                             Log.d("ViewReactionMsgCount", lscBroadcastLiveResponse.toString())
-                            viewsCountTextView.text =
+                            tvViewsCount.text =
                                 context?.resources?.getString(R.string.view_count) + lscBroadcastLiveResponse.viewersCount
-                            commentsCountTextView.text =
+                            tvCommentsCount.text =
                                 context?.resources?.getString(R.string.comment_count) + lscBroadcastLiveResponse.messageCount
-                            reactionsCountTextView.text =
+                            tvReactionsCount.text =
                                 context?.resources?.getString(R.string.reaction_count) + (lscBroadcastLiveResponse.reactionsCount.angry +
                                         lscBroadcastLiveResponse.reactionsCount.clap +
                                         lscBroadcastLiveResponse.reactionsCount.dislike +
@@ -135,12 +134,12 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
                     }
                     Resource.Status.LOADING -> {
                         progressBar.visibility = View.VISIBLE
-                        loadingTextView.visibility = View.VISIBLE
+                        tvLoading.visibility = View.VISIBLE
                     }
                     Resource.Status.ERROR -> {
                         Log.d("ViewReactionMsgCountEx", res.message.toString())
                         progressBar.visibility = View.GONE
-                        loadingTextView.visibility = View.GONE
+                        tvLoading.visibility = View.GONE
                     }
                 }
             })

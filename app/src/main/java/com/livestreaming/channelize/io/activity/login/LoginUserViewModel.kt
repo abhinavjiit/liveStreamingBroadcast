@@ -9,10 +9,10 @@ import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resourc
 class LoginUserViewModel(private val iLoginRepositoryCallBack: ILoginRepositoryCallBack) :
     ViewModel() {
 
-    var mutableLoginResponseLiveData = MutableLiveData<Resource<LoginResponse>>()
+    var mutableLoginResponseLiveData: MutableLiveData<Resource<LoginResponse>>? = null
 
-    fun onUserLogin(email: String, password: String): LiveData<Resource<LoginResponse>> {
-        mutableLoginResponseLiveData.value = Resource.loading(null)
+    fun onUserLogin(email: String, password: String): LiveData<Resource<LoginResponse>>? {
+        // mutableLoginResponseLiveData.value = Resource.loading(null)
         mutableLoginResponseLiveData = iLoginRepositoryCallBack.onUserLogin(email, password)
         return mutableLoginResponseLiveData
     }

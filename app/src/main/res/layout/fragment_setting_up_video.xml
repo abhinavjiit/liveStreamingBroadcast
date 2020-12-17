@@ -14,10 +14,10 @@
         app:layout_constraintGuide_percent=".3" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/cancelTextView"
+        android:id="@+id/tvCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:visibility="gone"
@@ -35,7 +35,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/checkingConnectionContainer"
+        android:id="@+id/clCheckingConnectionContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
@@ -44,7 +44,7 @@
         app:layout_constraintTop_toBottomOf="@id/guideLine3">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/checkingConnectionTextView"
+            android:id="@+id/tvCheckingConnection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/checking_connection"
@@ -53,14 +53,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!--  <androidx.constraintlayout.widget.Guideline
-              android:id="@+id/guideLine"
-              android:layout_width="1dp"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:visibility="gone"
-              app:layout_constraintGuide_percent=".5" />-->
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -73,14 +65,13 @@
             android:indeterminateTintMode="src_atop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/checkingConnectionTextView"
+            app:layout_constraintStart_toEndOf="@id/tvCheckingConnection"
             app:layout_constraintTop_toTopOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/connectionResultContainer"
+        android:id="@+id/clConnectionResultContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -93,7 +84,7 @@
             android:id="@+id/connectionResultTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Connection Result"
+            android:text="@string/connection_result"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +103,7 @@
             app:layout_constraintTop_toBottomOf="@id/connectionResultTextView" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/netWorkQuality"
+            android:id="@+id/tvNetworkQuality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -133,7 +124,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/instructionsContainer"
+        android:id="@+id/clInstructionsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -142,9 +133,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/instructions"
+            android:id="@+id/tvInstructions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/instructions"
@@ -155,7 +145,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/instructionsList"
+            android:id="@+id/llInstructionsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -163,7 +153,7 @@
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/instructions">
+            app:layout_constraintTop_toBottomOf="@+id/tvInstructions">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
@@ -185,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="3. Plug in your device so that the battery doesn't die ."
+                android:text="@string/_3_plug_in_your_device_so_that_the_battery_doesn_t_die"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -193,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="4. Position your device for maximum visibility. Use Chat feature to interact with the audience."
+                android:text="@string/_4_position_your_device_for_maximum_visibility_use_chat_feature_to_interact_with_the_audience"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -201,16 +191,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="5. Turn on some good lights. Eliminate interfering sounds and other noises."
+                android:text="@string/_5_turn_on_some_good_lights_eliminate_interfering_sounds_and_other_noises"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
-
 
         </LinearLayout>
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/dontShowAgainTextView"
+            android:id="@+id/tvNotShowAgain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -218,15 +206,14 @@
             android:drawablePadding="10dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="Don't show this to me again"
+            android:text="@string/don_t_show_this_to_me_again"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/instructionsList" />
-
+            app:layout_constraintTop_toBottomOf="@id/llInstructionsList" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/continueButton"
+            android:id="@+id/btnContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -236,17 +223,16 @@
             android:paddingTop="16dp"
             android:paddingEnd="30dp"
             android:paddingBottom="16dp"
-            android:text="Continue"
+            android:text="@string/continue_string"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dontShowAgainTextView" />
-
+            app:layout_constraintTop_toBottomOf="@id/tvNotShowAgain" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/goLiveContainer"
+        android:id="@+id/clGoLiveContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -256,32 +242,31 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/readySetGoTextView"
+            android:id="@+id/tvReadySetGo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ready, Get Set, Go"
+            android:text="@string/ready_get_set_go"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/notifyTextView"
+            android:id="@+id/tvNotify"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:gravity="center"
-            android:text="Click on the button go Live, We will notify the users who are waiting for this Event"
+            android:text="@string/click_on_the_button_go_live_we_will_notify_the_users_who_are_waiting_for_this_event"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/readySetGoTextView" />
+            app:layout_constraintTop_toBottomOf="@id/tvReadySetGo" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/goLiveButton"
+            android:id="@+id/btnGoLiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
@@ -291,11 +276,12 @@
             android:paddingTop="10dp"
             android:paddingEnd="40dp"
             android:paddingBottom="10dp"
-            android:text="Go Live"
+            android:text="@string/go_live"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notifyTextView" />
+            app:layout_constraintTop_toBottomOf="@id/tvNotify" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
