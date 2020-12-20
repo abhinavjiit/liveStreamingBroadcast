@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.adapter
 
 import android.util.Log
@@ -15,9 +14,12 @@ import com.livestreaming.channelize.io.model.productdetailModel.ProductDetailRes
 import kotlinx.android.synthetic.main.adapter_products_list_item_layout.view.*
 import java.util.*
 
-class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+const val CURRENCY_INR = "INR"
+const val CURRENCY_USD = "USD"
 
-    private var listData: List<ProductDetailResponse>? = null
+class LSCBroadcastProductsListingAdapter(private val listData: ArrayList<ProductDetailResponse>?) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -26,10 +28,7 @@ class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.V
     }
 
     override fun getItemCount(): Int {
-        return if (listData.isNullOrEmpty())
-            0
-        else
-            listData?.size!!
+        return listData?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -39,7 +38,7 @@ class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.V
                     when {
                         listData?.get(position)?.image != null -> {
                             ImageLoader.showImage(
-                                listData?.get(position)?.image?.src,
+                                listData[position].image.src,
                                 itemImageView
                             )
                         }
@@ -65,10 +64,6 @@ class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    fun setListData(list: List<ProductDetailResponse>?) {
-        this.listData = list
-    }
-
     class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         internal val itemImageView: ImageView = mView.itemImageView
         internal val productTitleTextView: TextView = mView.productTitleTextView
@@ -79,13 +74,13 @@ class LSCBroadcastProductsListingAdapter() : RecyclerView.Adapter<RecyclerView.V
 
 fun List<PresentmentPrices>.getCurrencySymbolAndPrice(): String {
     this.firstOrNull { presentmentPrice ->
-        presentmentPrice.price.currency_code == "INR"
+        presentmentPrice.price.currency_code == CURRENCY_INR
     }?.let { presentmentPrice ->
-        return Currency.getInstance("INR").symbol
+        return Currency.getInstance(CURRENCY_INR).symbol
             .plus(" " + presentmentPrice.price.amount)
     }
     this.firstOrNull { presentmentPrice ->
-        (presentmentPrice.price.currency_code == "USD")
+        (presentmentPrice.price.currency_code == CURRENCY_USD)
     }?.let { presentmentPrice ->
         return Currency.getInstance(Locale.US).getSymbol(Locale.US)
             .plus(" " + presentmentPrice.price.amount)

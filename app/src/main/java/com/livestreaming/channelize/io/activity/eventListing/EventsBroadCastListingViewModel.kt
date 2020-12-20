@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.eventListing
 
 import androidx.lifecycle.MutableLiveData
@@ -13,8 +12,8 @@ class EventsBroadCastListingViewModel(private val eventListingRepo: EventListing
         emit(res)
     }
 
-    fun onUserLogout():MutableLiveData<Boolean>{
-       return eventListingRepo.onUserLogout()
+    fun onUserLogout(): MutableLiveData<Boolean> {
+        return eventListingRepo.onUserLogout()
     }
 
 }

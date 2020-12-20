@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/dimen_10">
 
     <RelativeLayout
         android:id="@+id/imageOrUserNameContainer"
@@ -12,47 +12,46 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/userImageView"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:visibility="gone"
+            android:layout_width="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_30"
             android:layout_alignParentTop="true"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_launcher_background" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/dimen_30"
             android:background="@drawable/circular_blue_background"
             android:backgroundTint="@color/btn_bg_blue"
-            android:visibility="gone"
-            android:text="a b"
             android:gravity="center"
-            android:padding="2dp"
+            android:padding="@dimen/dimen_2"
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="@dimen/dimen_12sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:textAllCaps="true" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="@dimen/dimen_3"
         android:layout_toEndOf="@id/imageOrUserNameContainer"
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/transparent_black_90"
-        android:paddingStart="15dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="5dp">
+        android:paddingStart="@dimen/dimen_15"
+        android:paddingTop="@dimen/dimen_5"
+        android:paddingEnd="@dimen/dimen_15"
+        android:paddingBottom="@dimen/dimen_5">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/userNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Abhinav"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="12sp"
+            android:textSize="@dimen/dimen_12sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -60,10 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/userNameTextView"
-            android:layout_marginTop="5dp"
-            android:text="hi everyone! kjkjkjbkj "
+            android:layout_marginTop="@dimen/dimen_5"
+            android:text=""
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="@dimen/dimen_12sp" />
 
     </RelativeLayout>
 </RelativeLayout>

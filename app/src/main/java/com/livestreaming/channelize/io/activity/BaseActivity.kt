@@ -41,14 +41,10 @@ open class BaseActivity : AppCompatActivity() {
         if (onlyText) {
             textView.text = text
             textView.visibility = View.VISIBLE
-            dialog.window?.setBackgroundDrawable(
-                ColorDrawable(ContextCompat.getColor(context, R.color.transparent))
-            )
+            dialog.window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context, R.color.transparent)))
         } else {
             progressBar.visibility = View.VISIBLE
-            dialog.window?.setBackgroundDrawable(
-                ColorDrawable(ContextCompat.getColor(context, R.color.transparent))
-            )
+            dialog.window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(context, R.color.transparent)))
         }
         dialog.setContentView(inflate)
         dialog.setCancelable(false)
@@ -62,13 +58,10 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun showAlertDialogBox(msg: String, title: String, clickButtonText: String = "DONE") {
+    fun showAlertDialogBox(msg: String, title: String, clickButtonText: String = getString(R.string.done)) {
         val builder = AlertDialog.Builder(this)
-        builder.setMessage(msg)
-            .setTitle(title)
-        builder.setPositiveButton(
-            clickButtonText
-        ) { dialog, _ ->
+        builder.setMessage(msg).setTitle(title)
+        builder.setPositiveButton(clickButtonText) { dialog, _ ->
             dialog.dismiss()
             Log.i("TAG", "Clicked")
         }

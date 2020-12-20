@@ -12,9 +12,13 @@ import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.Beautificati
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import kotlinx.android.synthetic.main.bottom_sheet_beautification_customization.*
 
+const val LOW_CONTRAST = 0
+const val NORMAL_CONTRAST = 1
+const val HIGH_CONTRAST = 2
+
 class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private var contrastValue = 2
+    private var contrastValue = HIGH_CONTRAST
     private lateinit var beautificationCustomizationValuesClassHolder: BeautificationCustomizationValuesClassHolder
 
     override fun onCreateView(
@@ -22,11 +26,7 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            R.layout.bottom_sheet_beautification_customization,
-            container,
-            false
-        )
+        return inflater.inflate(R.layout.bottom_sheet_beautification_customization, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,21 +55,23 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
             changeBeautification()
         }
         tvLow.setOnClickListener {
-            contrastValue = 0
-            beautificationCustomizationValuesClassHolder.contrastValue = 0
+            contrastValue = LOW_CONTRAST
+            beautificationCustomizationValuesClassHolder.contrastValue = LOW_CONTRAST
             lowContrastEnabled()
         }
         tvHigh.setOnClickListener {
-            contrastValue = 2
-            beautificationCustomizationValuesClassHolder.contrastValue = 2
+            contrastValue = HIGH_CONTRAST
+            beautificationCustomizationValuesClassHolder.contrastValue = HIGH_CONTRAST
             highContrastEnabled()
         }
         tvNormal.setOnClickListener {
-            contrastValue = 1
-            beautificationCustomizationValuesClassHolder.contrastValue = 1
+            contrastValue = NORMAL_CONTRAST
+            beautificationCustomizationValuesClassHolder.contrastValue = NORMAL_CONTRAST
             normalContrastEnabled()
         }
-        ivCancel.setOnClickListener { dismiss() }
+        ivCancel.setOnClickListener {
+            dismiss()
+        }
     }
 
     override fun getTheme(): Int {
@@ -84,13 +86,13 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun setContrastButtonState() {
         when (beautificationCustomizationValuesClassHolder.contrastValue) {
-            0 -> {
+            LOW_CONTRAST -> {
                 lowContrastEnabled()
             }
-            1 -> {
+            NORMAL_CONTRAST -> {
                 normalContrastEnabled()
             }
-            2 -> {
+            HIGH_CONTRAST -> {
                 highContrastEnabled()
             }
         }
@@ -121,22 +123,21 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun lowContrastDrawable(color: Int) {
-        val lowButtonBackground: GradientDrawable = tvLow.background as GradientDrawable
+        val lowButtonBackground = tvLow.background as GradientDrawable
         lowButtonBackground.mutate()
         lowButtonBackground.setColor(color)
         lowButtonBackground.setTint(color)
     }
 
     private fun highContrastDrawable(color: Int) {
-        val highButtonBackground: GradientDrawable = tvHigh.background as GradientDrawable
+        val highButtonBackground = tvHigh.background as GradientDrawable
         highButtonBackground.mutate()
         highButtonBackground.setColor(color)
         highButtonBackground.setTint(color)
     }
 
     private fun normalContrastDrawable(color: Int) {
-        val normalButtonBackground: GradientDrawable =
-            tvNormal.background as GradientDrawable
+        val normalButtonBackground = tvNormal.background as GradientDrawable
         normalButtonBackground.mutate()
         normalButtonBackground.setColor(color)
         normalButtonBackground.setTint(color)

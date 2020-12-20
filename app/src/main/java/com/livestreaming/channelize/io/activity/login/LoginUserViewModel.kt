@@ -6,14 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.channelize.apisdk.network.response.LoginResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 
-class LoginUserViewModel(private val iLoginRepositoryCallBack: ILoginRepositoryCallBack) :
+class LoginUserViewModel(private val userLoginRepository: UserLoginRepository) :
     ViewModel() {
 
     var mutableLoginResponseLiveData: MutableLiveData<Resource<LoginResponse>>? = null
 
     fun onUserLogin(email: String, password: String): LiveData<Resource<LoginResponse>>? {
-        // mutableLoginResponseLiveData.value = Resource.loading(null)
-        mutableLoginResponseLiveData = iLoginRepositoryCallBack.onUserLogin(email, password)
+        mutableLoginResponseLiveData = userLoginRepository.onUserLogin(email, password)
         return mutableLoginResponseLiveData
     }
 

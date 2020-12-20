@@ -54,6 +54,11 @@ import kotlin.collections.ArrayList
 const val TIME_ELAPSED = "timeElapsed"
 const val VIDEO_FRAME_WIDTH = 720
 const val VIDEO_FRAME_HEIGHT = 1280
+const val USER_ID = 0
+const val DELAY = 2000L
+const val ANIMATION_COUNT = 1
+const val ANIMATION_SCALING_FACTOR = 0.2f
+const val LAST_REMINDER_POPUP = 30000L
 
 class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     ChannelizeConversationEventHandler, ChannelizeConnectionHandler {
@@ -75,25 +80,19 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private var networkQuality = -1
 
     private val firstReminderPopUp by lazy {
-        showAlertDialogBox(
-            msg = getString(R.string.first_reminder_string),
-            title = getString(R.string.alert_string)
-        )
+        showAlertDialogBox(msg = getString(R.string.first_reminder_string), title = getString(R.string.alert_string))
     }
 
     private val lastReminderPopUp by lazy {
-        showAlertDialogBox(
-            msg = getString(R.string.last_reminder_string),
-            title = getString(R.string.alert_string)
-        )
+        showAlertDialogBox(msg = getString(R.string.last_reminder_string), title = getString(R.string.alert_string))
         CoroutineScope(Dispatchers.Main).launch {
-            delay(30000)
+            delay(LAST_REMINDER_POPUP)
             showCancelLiveBroadCastFragment(TIME_ELAPSED)
         }
     }
 
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
-        LSCCommentListAdapter()
+        LSCCommentListAdapter(commentListData)
     }
 
     private val startBroadcastRequiredResponse: StartBroadcastRequiredResponse by lazy {
@@ -119,8 +118,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 runOnUiThread {
                     Log.i("onFirstLocalVideoFrame", "success")
                     if (!isLive) {
-                        val recordingParams =
-                            RecordingParams(width = VIDEO_FRAME_WIDTH, height = VIDEO_FRAME_HEIGHT)
+                        val recordingParams = RecordingParams(width = VIDEO_FRAME_WIDTH, height = VIDEO_FRAME_HEIGHT)
                         startBroadcastRequiredResponse.recordingParams = recordingParams
                         hitStartBroadCastApi()
                         hitStartConversationApi()
@@ -153,13 +151,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         productsIds = intent?.getStringArrayListExtra(LiveBroadcasterConstants.EVENT_PRODUCT_IDS)
         conversationId = intent?.getStringExtra(LiveBroadcasterConstants.CONVERSATION_ID)
         eventTitle = intent.getStringExtra(LiveBroadcasterConstants.EVENT_NAME)
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.RECORD_AUDIO
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+            || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            != PackageManager.PERMISSION_GRANTED
         ) {
             showPermissionFragment()
         } else {
@@ -173,7 +168,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private fun initCommentRecyclerView() {
         commentRecyclerView.layoutManager = LinearLayoutManager(this)
         commentRecyclerView.adapter = lscCommentListAdapter
-        lscCommentListAdapter.setListData(null)
         lscCommentListAdapter.notifyDataSetChanged()
     }
 
@@ -181,8 +175,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val fragment = LSCPermissionFragment()
         val fm = supportFragmentManager
         val transaction =
-            fm.beginTransaction().add(R.id.flContentFrame, fragment, "LSCPermissionFragment")
-                .addToBackStack(null)
+            fm.beginTransaction().add(R.id.flContentFrame, fragment, "LSCPermissionFragment").addToBackStack(null)
         transaction.commit()
     }
 
@@ -196,10 +189,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     private fun setupViewModel() {
-        lscBroadCastViewModel = ViewModelProvider(
-            this,
-            lscBroadcastAndLiveViewModelFact
-        ).get(LSCLiveBroadCastViewModel::class.java)
+        lscBroadCastViewModel =
+            ViewModelProvider(this, lscBroadcastAndLiveViewModelFact).get(LSCLiveBroadCastViewModel::class.java)
     }
 
     fun settingUpFragment() {
@@ -208,8 +199,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
             removeFragment(fragment)
         }
         val settingFragment = LSCSettingUpLiveStreamingFragment()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.flContentFrame, settingFragment, "LSCSettingUpFragment")
+        supportFragmentManager.beginTransaction().add(R.id.flContentFrame, settingFragment, "LSCSettingUpFragment")
             .commit()
     }
 
@@ -222,8 +212,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private val clickListener: Unit
         get() {
             ivBeautification.setOnClickListener {
-                val beautificationView =
-                    LSCBeautificationBottomSheetDialogFragment()
+                val beautificationView = LSCBeautificationBottomSheetDialogFragment()
                 beautificationView.show(supportFragmentManager, "beauty_sheet")
             }
             ivProductListView.setOnClickListener {
@@ -231,10 +220,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 val bundle = Bundle()
                 bundle.putStringArrayList(LiveBroadcasterConstants.EVENT_PRODUCT_IDS, productsIds)
                 lscProductsListDialogFragment.arguments = bundle
-                lscProductsListDialogFragment.show(
-                    supportFragmentManager,
-                    "LSCProductsListDialogFragment"
-                )
+                lscProductsListDialogFragment.show(supportFragmentManager, "LSCProductsListDialogFragment")
             }
             ivPost.setOnClickListener {
                 if (etWriteSomething.text.toString().trim().isNotBlank()) {
@@ -250,10 +236,11 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 }
             }
             ivCancelLiveBroadcast.setOnClickListener {
-                if (isLive)
+                if (isLive) {
                     showCancelLiveBroadCastFragment()
-                else
+                } else {
                     finish()
+                }
             }
             ivFlipCamera.setOnClickListener {
                 switchCamera()
@@ -277,15 +264,15 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                     "",
                     SharedPrefUtils.getUniqueId(this@LSCBroadCastSettingUpAndLiveActivity).toInt()
                 )
-                delay(2000)
+                delay(DELAY)
                 progress.dismiss()
                 val progress2 = progressDialog(
                     this@LSCBroadCastSettingUpAndLiveActivity,
                     onlyText = true,
-                    text = "You are now live!"
+                    text = getString(R.string.you_are_live_now)
                 )
                 progress2.show()
-                delay(1000)
+                delay(DELAY.div(2))
                 progress2.dismiss()
             }
         } catch (e: Exception) {
@@ -304,16 +291,14 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     // throw RuntimeException("Need to check RTC sdk init fatal")
     private fun initRTCEngine() {
         try {
-            Log.d("AppId", SharedPrefUtils.getAppId(this)!!)
-            mRtcEngine = RtcEngine.create(
-                BaseApplication.getInstance(),
-                SharedPrefUtils.getAppId(this),
-                mEventHandler
-            )
-            mRtcEngine.enableLastmileTest()
-            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
-            mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
-            changeBeautification(beautificationValues)
+            SharedPrefUtils.getAppId(this)?.let { appId ->
+                Log.d("AppId", appId)
+                mRtcEngine = RtcEngine.create(BaseApplication.getInstance(), appId, mEventHandler)
+                mRtcEngine.enableLastmileTest()
+                mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
+                mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
+                changeBeautification(beautificationValues)
+            }
         } catch (e: Exception) {
             startAppIdService()
             Log.d("RTC_FATAL_EXCEPTION", e.toString())
@@ -336,7 +321,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val view = RtcEngine.CreateRendererView(BaseApplication.getInstance())
         view.setZOrderMediaOverlay(true)
         rlBroadcastContainer.addView(view)
-        mLocalVideo = VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, 0)
+        mLocalVideo = VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, USER_ID)
         mRtcEngine.setupLocalVideo(mLocalVideo)
     }
 
@@ -389,12 +374,9 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         commentData.id = UUID.randomUUID().toString()
         commentData.body = message
         commentData.conversationId = conversationId
-        commentData.userName =
-            ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
-        commentData.userImage =
-            ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
+        commentData.userName = ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
+        commentData.userImage = ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
         commentListData.add(commentData)
-        lscCommentListAdapter.setListData(commentListData)
         lscCommentListAdapter.notifyDataSetChanged()
         commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
         lscBroadCastViewModel.postComment(commentData).observe(this, Observer {
@@ -404,8 +386,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     private fun lscRemainingTime() {
         endTime?.let { endingTime ->
-            val outputFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             outputFormat.timeZone = TimeZone.getTimeZone("IST")
             val endTimeFormat = outputFormat.parse(endingTime)
             val currentTime = Calendar.getInstance().time
@@ -499,7 +480,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 val listOfMessaged = LinkedHashSet(commentListData)
                 commentListData.clear()
                 commentListData.addAll(listOfMessaged)
-                lscCommentListAdapter.setListData(commentListData)
                 lscCommentListAdapter.notifyDataSetChanged()
                 commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
             }
@@ -507,31 +487,25 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     override fun onStartWatching(response: String?) {
-        runOnUiThread {
-            response?.let { liveUserCountResponse ->
-                showLiveUserCount(liveUserCountResponse)
-            }
+        response?.let { liveUserCountResponse ->
+            showLiveUserCount(liveUserCountResponse)
         }
     }
 
     override fun onStopWatching(response: String?) {
-        runOnUiThread {
-            response?.let { liveUserCountResponse ->
-                showLiveUserCount(liveUserCountResponse)
-            }
+        response?.let { liveUserCountResponse ->
+            showLiveUserCount(liveUserCountResponse)
         }
     }
 
     override fun onRealTimeDataUpdate(topic: String?, response: String?) {
-        runOnUiThread {
-            topic?.let { topicUrl ->
-                when (topicUrl) {
-                    "live_broadcasts/$broadCastId/reaction_added" -> {
-                        onLSCReactionsAdded(response)
-                    }
-                    else -> {
-                        Log.d("OnRealTimeUpdateError", topicUrl)
-                    }
+        topic?.let { topicUrl ->
+            when (topicUrl) {
+                "live_broadcasts/$broadCastId/reaction_added" -> {
+                    onLSCReactionsAdded(response)
+                }
+                else -> {
+                    Log.d("OnRealTimeUpdateError", topicUrl)
                 }
             }
         }
@@ -583,8 +557,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
 
     private fun onFlyReactions(resId: Int) {
         val animation = ZeroGravityAnimation()
-        animation.setCount(1)
-        animation.setScalingFactor(0.2f)
+        animation.setCount(ANIMATION_COUNT)
+        animation.setScalingFactor(ANIMATION_SCALING_FACTOR)
         animation.setOriginationDirection(Direction.BOTTOM)
         animation.setDestinationDirection(Direction.TOP)
         animation.setImage(resId)
@@ -600,13 +574,14 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     private fun alertDialogBox(remainingMinuteTime: Long, remainingSeconds: Long) {
-        (remainingMinuteTime == 2L || remainingMinuteTime == 0L).also { flag ->
-            when (flag) {
+        (remainingMinuteTime == 2L || remainingMinuteTime == 0L).also { isTimeReached ->
+            when (isTimeReached) {
                 true -> {
-                    if (remainingMinuteTime == 2L && remainingSeconds == 0L)
+                    if (remainingMinuteTime == 2L && remainingSeconds == 0L) {
                         firstReminderPopUp
-                    else if (remainingMinuteTime == 0L && remainingSeconds == 0L)
+                    } else if (remainingMinuteTime == 0L && remainingSeconds == 0L) {
                         lastReminderPopUp
+                    }
                 }
                 else -> {
                     Log.d("REMINDER_TIME", "FALSE")
@@ -615,16 +590,11 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         }
     }
 
-    override fun onStop() {
-        Log.d("OnStop", "OnStop")
-        super.onStop()
-    }
-
     override fun onBackPressed() {
         Log.d("onBackPressed", "onBackPressed")
-        if (isLive)
+        if (isLive) {
             showCancelLiveBroadCastFragment()
-        else {
+        } else {
             finish()
         }
     }
@@ -633,10 +603,12 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         super.onDestroy()
         Log.d("onDestroy", "onDestroy")
         onUnsubscribeTopics()
-        if (::countDownTimer.isInitialized)
+        if (::countDownTimer.isInitialized) {
             countDownTimer.cancel()
-        if (::mRtcEngine.isInitialized)
+        }
+        if (::mRtcEngine.isInitialized) {
             mRtcEngine.leaveChannel()
+        }
         RtcEngine.destroy()
     }
 
@@ -654,33 +626,22 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     private fun onSubscribeTopics() {
-        Channelize.getInstance().addSubscriber(
-            "conversations/$conversationId/message_created"
-        )
-        Channelize.getInstance().addSubscriber(
-            "live_broadcasts/$broadCastId/start_watching"
-        )
-        Channelize.getInstance().addSubscriber(
-            "live_broadcasts/$broadCastId/stop_watching"
-        )
-        Channelize.getInstance().addSubscriber(
-            "live_broadcasts/$broadCastId/reaction_added"
-        )
+        Channelize.getInstance().addSubscriber("conversations/$conversationId/message_created")
+        Channelize.getInstance().addSubscriber("live_broadcasts/$broadCastId/start_watching")
+        Channelize.getInstance().addSubscriber("live_broadcasts/$broadCastId/stop_watching")
+        Channelize.getInstance().addSubscriber("live_broadcasts/$broadCastId/reaction_added")
     }
 
     fun onUnsubscribeTopics() {
         try {
-            Channelize.getInstance()
-                .unSubscribeTopic("live_broadcasts/$broadCastId/start_watching")
-            Channelize.getInstance()
-                .unSubscribeTopic("live_broadcasts/$broadCastId/stop_watching")
-            Channelize.getInstance()
-                .unSubscribeTopic("live_broadcasts/$broadCastId/reaction_added")
-            Channelize.getInstance()
-                .unSubscribeTopic("conversations/$conversationId/message_created")
+            Channelize.getInstance().unSubscribeTopic("live_broadcasts/$broadCastId/start_watching")
+            Channelize.getInstance().unSubscribeTopic("live_broadcasts/$broadCastId/stop_watching")
+            Channelize.getInstance().unSubscribeTopic("live_broadcasts/$broadCastId/reaction_added")
+            Channelize.getInstance().unSubscribeTopic("conversations/$conversationId/message_created")
         } catch (e: Exception) {
             Log.d("Tag", e.toString())
         }
     }
 
 }
+

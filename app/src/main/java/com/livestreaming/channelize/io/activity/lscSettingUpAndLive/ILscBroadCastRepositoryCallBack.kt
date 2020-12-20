@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import androidx.lifecycle.MutableLiveData
@@ -28,8 +27,8 @@ interface ILscBroadCastRepositoryCallBack {
         conversationId: String
     ): Resource<LSCBroadCastLiveUpdateDetailsResponse>
 
-     fun onStartConversation(conversationId: String):MutableLiveData<RequestResponse>
+    fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse>
 
-     fun onStopConversation(conversationId: String):MutableLiveData<RequestResponse>
+    fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse>
 
 }

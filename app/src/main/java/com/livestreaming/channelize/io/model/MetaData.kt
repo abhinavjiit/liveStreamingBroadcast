@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.model
 
 
@@ -8,12 +7,12 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MetaData(
+
     @SerializedName("platform")
     val platform: String,
+
     @SerializedName("conversationId")
     val conversationId: String
-) : Parcelable {
-
-}
+) : Parcelable
 
 

@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import androidx.lifecycle.MutableLiveData
@@ -13,27 +12,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LSCLiveBroadCastViewModel(
-    private var ILscBroadCastRepoImpl: ILscBroadCastRepositoryCallBack
-) : ViewModel() {
+class LSCLiveBroadCastViewModel(private var ILscBroadCastRepoImpl: ILscBroadCastRepositoryCallBack) : ViewModel() {
 
     private var startStopConversationResponse = MutableLiveData<RequestResponse>()
 
-    fun getProductItems(productsIds: String?) =
-        liveData<Resource<ProductItemsResponse>?>
-        {
-            val productItemsData = ILscBroadCastRepoImpl.getProducts(productsIds = productsIds)
-            emit(productItemsData)
-        }
+    fun getProductItems(productsIds: String?) = liveData<Resource<ProductItemsResponse>?> {
+        val productItemsData = ILscBroadCastRepoImpl.getProducts(productsIds = productsIds)
+        emit(productItemsData)
+    }
 
     fun postComment(messageCommentData: MessageCommentData) = liveData<Unit> {
         ILscBroadCastRepoImpl.sendComment(messageCommentData = messageCommentData)
     }
 
-    fun onStartLSCBroadCast(
-        broadcastId: String,
-        broadcastResponse: StartBroadcastRequiredResponse
-    ) = liveData {
+    fun onStartLSCBroadCast(broadcastId: String, broadcastResponse: StartBroadcastRequiredResponse) = liveData {
         val res = ILscBroadCastRepoImpl.onStartLSCBroadCast(
             broadcastId = broadcastId,
             broadcastRequiredResponse = broadcastResponse
@@ -42,8 +34,7 @@ class LSCLiveBroadCastViewModel(
     }
 
     fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
-        startStopConversationResponse =
-            ILscBroadCastRepoImpl.onStartConversation(conversationId = conversationId)
+        startStopConversationResponse = ILscBroadCastRepoImpl.onStartConversation(conversationId = conversationId)
         return startStopConversationResponse
     }
 
@@ -54,16 +45,12 @@ class LSCLiveBroadCastViewModel(
     }
 
     fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
-        startStopConversationResponse =
-            ILscBroadCastRepoImpl.onStopConversation(conversationId = conversationId)
+        startStopConversationResponse = ILscBroadCastRepoImpl.onStopConversation(conversationId = conversationId)
         return startStopConversationResponse
     }
 
     fun getAllDetailsOfBroadCast(broadcastId: String, conversationId: String) = liveData {
-        val res = ILscBroadCastRepoImpl.getBroadCastDetails(
-            broadcastId = broadcastId,
-            conversationId = conversationId
-        )
+        val res = ILscBroadCastRepoImpl.getBroadCastDetails(broadcastId = broadcastId, conversationId = conversationId)
         emit(res)
     }
 

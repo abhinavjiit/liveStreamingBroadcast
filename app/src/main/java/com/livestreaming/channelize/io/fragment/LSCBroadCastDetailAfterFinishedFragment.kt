@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.livestreaming.channelize.io.BaseApplication
@@ -21,11 +23,11 @@ import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resourc
 import kotlinx.android.synthetic.main.fragment_lsc_broadcast_detail.*
 import javax.inject.Inject
 
-class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
+class LSCBroadCastDetailAfterFinishedFragment : Fragment() {
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
-    private lateinit var viewModel: LSCLiveBroadCastViewModel
+    private lateinit var lscLiveBroadCastViewModel: LSCLiveBroadCastViewModel
     private var broadCastId: String? = null
     private var conversationId: String? = null
     private var eventTitle: String? = null
@@ -64,7 +66,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
             clLscDetailsContainer.visibility = View.GONE
             val intent = Intent()
             intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, broadCastId)
-            activity?.setResult(-1, intent)
+            activity?.setResult(AppCompatActivity.RESULT_OK, intent)
             (activity as LSCBroadCastSettingUpAndLiveActivity).finish()
         }
         tvCancel.setOnClickListener {
@@ -84,7 +86,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(
+        lscLiveBroadCastViewModel = ViewModelProvider(
             this,
             lscBroadcastAndLiveViewModelFact
         ).get(LSCLiveBroadCastViewModel::class.java)
@@ -92,10 +94,10 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
 
     private fun onStopBroadCast() {
         broadCastId?.let { broadcastId ->
-            viewModel.onStopLSCBroadCast(broadcastId = broadcastId)
+            lscLiveBroadCastViewModel.onStopLSCBroadCast(broadcastId = broadcastId)
         }
         conversationId?.let { conversationId ->
-            viewModel.onStopConversation(conversationId = conversationId)
+            lscLiveBroadCastViewModel.onStopConversation(conversationId = conversationId)
         }
         getAllDetailsOfBroadCast()
     }
@@ -103,7 +105,7 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     private fun getAllDetailsOfBroadCast() {
         safeLet(broadCastId, conversationId) { broadCastId, conversationId ->
-            viewModel.getAllDetailsOfBroadCast(
+            lscLiveBroadCastViewModel.getAllDetailsOfBroadCast(
                 broadcastId = broadCastId,
                 conversationId = conversationId
             ).observe(viewLifecycleOwner, Observer { res ->
@@ -131,10 +133,6 @@ class LSCBroadCastDetailAfterFinishedFragment : BaseFragment() {
                                         lscBroadcastLiveResponse.reactionsCount.thankyou +
                                         lscBroadcastLiveResponse.reactionsCount.wow)
                         }
-                    }
-                    Resource.Status.LOADING -> {
-                        progressBar.visibility = View.VISIBLE
-                        tvLoading.visibility = View.VISIBLE
                     }
                     Resource.Status.ERROR -> {
                         Log.d("ViewReactionMsgCountEx", res.message.toString())

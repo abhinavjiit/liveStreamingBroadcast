@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io
 
 import android.app.Notification
@@ -22,6 +21,8 @@ import javax.inject.Inject
 
 const val LIVE_BROADCAST = "live-broadcast"
 const val JOB_ID = 1
+const val CHANNEL_ID = "my_app_id_service"
+const val CHANNEL_NAME = "My Background Service"
 
 class AppIdGetService : JobIntentService() {
     companion object {
@@ -49,18 +50,11 @@ class AppIdGetService : JobIntentService() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createNotificationChannel(
-        channelId: String = "my_app_id_service",
-        channelName: String = "My Background Service"
-    ): String {
-        val channel = NotificationChannel(
-            channelId,
-            channelName, NotificationManager.IMPORTANCE_NONE
-        )
+    private fun createNotificationChannel(channelId: String = CHANNEL_ID, channelName: String = CHANNEL_NAME): String {
+        val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE)
         channel.lightColor = R.color.app_blue
         channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-        val manager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager: NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(channel)
         return channelId
     }
@@ -81,10 +75,7 @@ class AppIdGetService : JobIntentService() {
                 }?.settings?.find { appSettingResponse ->
                     appSettingResponse.key == LiveBroadcasterConstants.APP_ID
                 }?.value?.let { appId ->
-                    SharedPrefUtils.setAppID(
-                        BaseApplication.getInstance(),
-                        appId
-                    )
+                    SharedPrefUtils.setAppId(BaseApplication.getInstance(), appId)
                 }
             }
         } catch (e: Exception) {

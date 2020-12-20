@@ -14,7 +14,7 @@ class SharedPrefUtils private constructor() {
         private const val APP_ID = "appId"
         private const val STORE_URL = "storeUrl"
 
-        fun setLoggedInFlag(context: Context, isLoggedIn: Boolean) {
+        fun isUserLoggedIn(context: Context, isLoggedIn: Boolean) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
@@ -24,7 +24,7 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-        fun getLoggedInFlag(context: Context): Boolean {
+        fun isUserLoggedIn(context: Context): Boolean {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
@@ -50,7 +50,7 @@ class SharedPrefUtils private constructor() {
             return sharedPref.getString(PUBLIC_API_KEY, null)
         }
 
-        fun clearSharedPref(context: Context) {
+        fun onClearSharedPref(context: Context) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
@@ -61,7 +61,7 @@ class SharedPrefUtils private constructor() {
         }
 
 
-        fun setInstructionsShownFlag(context: Context, flag: Boolean) {
+        fun showInstructions(context: Context, flag: Boolean) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE
@@ -71,7 +71,7 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-        fun getInstructionsShownFlag(
+        fun showInstructions(
             context: Context
         ): Boolean {
             val sharedPref = context.applicationContext.getSharedPreferences(
@@ -99,7 +99,7 @@ class SharedPrefUtils private constructor() {
             editor.commit()
         }
 
-        fun setAppID(context: Context, appId: String) {
+        fun setAppId(context: Context, appId: String) {
             val sharedPref = context.applicationContext.getSharedPreferences(
                 COMMON_PREF_FILE,
                 Context.MODE_PRIVATE

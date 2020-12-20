@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.livestreaming.channelize.io.LiveBroadcasterConstants
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.DELAY
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import kotlinx.android.synthetic.main.fragment_setting_up_video.*
 import kotlinx.android.synthetic.main.fragment_setting_up_video.view.*
@@ -16,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class LSCSettingUpLiveStreamingFragment : BaseFragment() {
+class LSCSettingUpLiveStreamingFragment : Fragment() {
 
     private var instructionsChecked = false
 
@@ -44,26 +47,24 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
         view.tvNotShowAgain.setOnClickListener {
             activity?.let { context ->
                 if (!instructionsChecked) {
-                    val selectedCheckBox =
-                        ContextCompat.getDrawable(context, R.drawable.ic_check_box)
+                    val selectedCheckBox = ContextCompat.getDrawable(context, R.drawable.ic_check_box)
                     view.tvNotShowAgain.setCompoundDrawablesWithIntrinsicBounds(
                         selectedCheckBox,
                         null,
                         null,
                         null
                     )
-                    SharedPrefUtils.setInstructionsShownFlag(context, true)
+                    SharedPrefUtils.showInstructions(context, true)
                     instructionsChecked = true
                 } else {
-                    val selectedCheckBox =
-                        ContextCompat.getDrawable(context, R.drawable.ic_uncheck_box)
+                    val selectedCheckBox = ContextCompat.getDrawable(context, R.drawable.ic_uncheck_box)
                     view.tvNotShowAgain.setCompoundDrawablesWithIntrinsicBounds(
                         selectedCheckBox,
                         null,
                         null,
                         null
                     )
-                    SharedPrefUtils.setInstructionsShownFlag(context, false)
+                    SharedPrefUtils.showInstructions(context, false)
                     instructionsChecked = false
                 }
             }
@@ -73,7 +74,7 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
 
     private fun showConnectionCheckingLoader() {
         CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
+            delay(DELAY)
             clCheckingConnectionContainer.visibility = View.GONE
             showNetworkResult()
         }
@@ -82,13 +83,11 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
     private suspend fun showNetworkResult() {
         try {
             activity?.let { activity ->
-                clCheckingConnectionContainer.visibility = View.VISIBLE
                 when ((activity as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
-                    0 -> {
-                        tvNetworkQuality.text =
-                            context?.resources?.getString(R.string.excellent_connection_string)
-                        delay(2000)
-                        if (SharedPrefUtils.getInstructionsShownFlag(activity)) {
+                    LiveBroadcasterConstants.EXCELLENT_NETWORK_QUALITY -> {
+                        tvNetworkQuality.text = context?.resources?.getString(R.string.excellent_connection_string)
+                        delay(DELAY)
+                        if (SharedPrefUtils.showInstructions(activity)) {
                             clCheckingConnectionContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
                             clGoLiveContainer.visibility = View.VISIBLE
@@ -96,12 +95,10 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
                             showInstructionsList()
                         }
                     }
-                    1 -> {
-                        tvNetworkQuality.text =
-                            context?.resources?.getString(R.string.very_good_connection_string)
-                        delay(2000)
-
-                        if (SharedPrefUtils.getInstructionsShownFlag(activity)) {
+                    LiveBroadcasterConstants.VERY_GOOD_NETWORK_QUALITY -> {
+                        tvNetworkQuality.text = context?.resources?.getString(R.string.very_good_connection_string)
+                        delay(DELAY)
+                        if (SharedPrefUtils.showInstructions(activity)) {
                             clConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
                             clGoLiveContainer.visibility = View.VISIBLE
@@ -109,11 +106,10 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
                             showInstructionsList()
                         }
                     }
-                    2 -> {
-                        tvNetworkQuality.text =
-                            context?.resources?.getString(R.string.good_connection_string)
-                        delay(2000)
-                        if (SharedPrefUtils.getInstructionsShownFlag(activity)) {
+                    LiveBroadcasterConstants.GOOD_NETWORK_QUALITY -> {
+                        tvNetworkQuality.text = context?.resources?.getString(R.string.good_connection_string)
+                        delay(DELAY)
+                        if (SharedPrefUtils.showInstructions(activity)) {
                             clConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
                             clGoLiveContainer.visibility = View.VISIBLE
@@ -122,8 +118,7 @@ class LSCSettingUpLiveStreamingFragment : BaseFragment() {
                         }
                     }
                     else -> {
-                        tvNetworkQuality.text =
-                            context?.resources?.getString(R.string.poor_connection_string)
+                        tvNetworkQuality.text = context?.resources?.getString(R.string.poor_connection_string)
                     }
                 }
             }

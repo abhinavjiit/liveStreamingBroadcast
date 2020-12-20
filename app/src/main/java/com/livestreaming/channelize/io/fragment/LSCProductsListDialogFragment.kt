@@ -20,24 +20,16 @@ import kotlinx.android.synthetic.main.bottom_sheet_fragment_product_list_layout.
 
 class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
 
-    private var productsList: ArrayList<ProductDetailResponse>? = null
+    private val productsList = ArrayList<ProductDetailResponse>()
     private lateinit var lscBroadCastViewModel: LSCLiveBroadCastViewModel
     private var productsIds: ArrayList<String>? = null
 
     private val productsItemAdapter: LSCBroadcastProductsListingAdapter by lazy {
-        LSCBroadcastProductsListingAdapter()
+        LSCBroadcastProductsListingAdapter(productsList)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(
-            R.layout.bottom_sheet_fragment_product_list_layout,
-            container,
-            false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.bottom_sheet_fragment_product_list_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,14 +46,12 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
         activity?.let { activity ->
             view.rvProductList.layoutManager = LinearLayoutManager(activity)
             view.rvProductList.adapter = productsItemAdapter
-            productsItemAdapter.setListData(null)
             productsItemAdapter.notifyDataSetChanged()
         }
     }
 
     private fun iniViewModel() {
-        lscBroadCastViewModel =
-            ViewModelProvider(requireActivity()).get(LSCLiveBroadCastViewModel::class.java)
+        lscBroadCastViewModel = ViewModelProvider(requireActivity()).get(LSCLiveBroadCastViewModel::class.java)
         getProductsList()
     }
 
@@ -69,10 +59,11 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
         val productsIdsCommaSeparated: String? = productsIds?.let { productsId ->
             var id = ""
             productsId.forEach { productIds ->
-                id = if (id.isBlank())
+                id = if (id.isBlank()) {
                     id.plus(productIds)
-                else
+                } else {
                     id.plus(",$productIds")
+                }
             }
             id
         }
@@ -81,11 +72,10 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                 when (productItemsResource?.status) {
                     Resource.Status.SUCCESS -> {
                         productItemsResource.data?.let { productItemsRes ->
-                            if (productItemsRes.statusCode == 200 && productItemsRes.success == "OK") {
+                            if (productItemsRes.statusCode == LiveBroadcasterConstants.SUCCESS_CODE && productItemsRes.success == LiveBroadcasterConstants.SUCCESS) {
                                 productItemsRes.data.products?.let { itemList ->
-                                    productsList =
-                                        itemList.toMutableList() as ArrayList<ProductDetailResponse>
-                                    if (itemList.isEmpty()) {
+                                    productsList.addAll(itemList)
+                                    if (productsList.isEmpty()) {
                                         rvProductList.visibility = View.GONE
                                         view?.tvNoProducts?.visibility = View.VISIBLE
                                         progressBar.visibility = View.GONE
@@ -93,7 +83,6 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                                         rvProductList.visibility = View.VISIBLE
                                         view?.tvNoProducts?.visibility = View.GONE
                                         progressBar.visibility = View.GONE
-                                        productsItemAdapter.setListData(itemList)
                                         productsItemAdapter.notifyDataSetChanged()
                                     }
                                 } ?: run {
@@ -105,7 +94,6 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                         }
                     }
                     Resource.Status.ERROR -> {
-                        productsList = null
                         rvProductList.visibility = View.GONE
                         view?.tvNoProducts?.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE

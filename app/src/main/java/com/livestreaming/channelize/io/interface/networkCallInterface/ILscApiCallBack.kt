@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.`interface`.networkCallInterface
 
 import com.livestreaming.channelize.io.model.EventDetailResponse
@@ -14,8 +13,7 @@ interface ILscApiCallBack {
 
     @GET("/v2/live_broadcasts/")
     suspend fun getEvents(
-        @Query("hosts") hosts: String,
-        @Query("sort") sort: String,
+        @Query("hosts") hosts: String, @Query("sort") sort: String,
         @Query("limit") limit: Int,
         @Query("skip") skip: Int
     ): List<EventDetailResponse>
@@ -30,10 +28,7 @@ interface ILscApiCallBack {
     suspend fun sendComment(@Body body: MessageCommentData): ResponseBody
 
     @GET
-    suspend fun getAppId(
-        @Url url: String,
-        @Query("enabled") enabled: String = "true"
-    ): List<ExtractAppIdResponse>
+    suspend fun getAppId(@Url url: String, @Query("enabled") enabled: String = "true"): List<ExtractAppIdResponse>
 
     @POST("/v2/live_broadcasts/{broadcastId}/start")
     suspend fun onStartBroadCast(

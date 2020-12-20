@@ -11,7 +11,6 @@
     <color name="app_light_pink">#E997A8</color>
     <color name="tooltip_solid">#F9F5F5</color>
     <color name="tooltip_border">#F9F5F5</color>
-
     <color name="all_google_share">#DB4A38</color>
     <color name="all_facebook_share">#3B5998</color>
     <color name="all_fb_msngr_share">#0084FF</color>
@@ -22,22 +21,17 @@
     <color name="all_invite_link">#636363</color>
     <color name="all_toolbar_title">#545454</color>
     <color name="short_story_author_name">#465391</color>
-
     <color name="user_tag">#0764CC</color>
-
     <color name="orange_new">#F5A623</color>
-
     <color name="app_red_50_opacity">#80D54058</color>
     <color name="fab_button_bottom_sheet">#FAF6F7</color>
     <color name="switch_button_green_collection">#90BC5F</color>
-
     <color name="app_cyan">#39B47E</color>
     <color name="app_trans_red">#D54058</color>
     <color name="sign_in_out_text_red_color">#FF9BA8</color>
     <color name="app_nav_bg">#f4eded</color>
     <color name="black_15">#26000000</color>
     <color name="followed_topics_background">#FEF4F4</color>
-
     <color name="a_light_blue">#e3eaff</color>
     <color name="a_light_pink">#ffedf0</color>
     <color name="a_bg_blue">#F0F4FF</color>
@@ -71,34 +65,26 @@
     <color name="line_separator_color">#cbcbcb</color>
     <color name="slider_txt_color">#696969</color>
     <color name="hint_txt_color">#CFCFCF</color>
-
     <color name="light_grey1">#E4E8F1</color>
-
     <color name="home_light_blue">#1c55f1</color>
-
     <color name="event_divider_color">#d3d3d3</color>
     <color name="new_background_color">#f0f4ff</color>
-
     <color name="primary_blue">#4185f2</color>
     <color name="primary">#FFFFFF</color>
     <color name="primary_dark">#333333</color>
     <color name="blue_light">#3366f3</color>
     <color name="red_drawer_selected">#ec3b55</color>
     <color name="home_bg">#efefef</color>
-
     <color name="new_grey">#424242</color>
     <color name="canceltxt_color">#bdbdbd</color>
     <color name="greytxt_color">#616161</color>
     <color name="grey_add_video_topic">#888888</color>
     <color name="new_blue">#4056DA</color>
-
     <color name="cool_grey">#9fa6b0</color>
     <color name="tabsScrollColor">#ec3b55</color>
     <color name="transparent_black_90">#99000000</color>
-
     <color name="login_grey">#cccccc</color>
     <color name="login_line_grey">#e0e0e0</color>
-
     <color name="ad.title">#333333</color>
     <color name="ad.tags.text">#507cbe</color>
     <color name="ad.tags.follow_bg">#efefef</color>
@@ -124,61 +110,44 @@
     <color name="ad.related_article.title">#333333</color>
     <color name="ad.trending.title">#333333</color>
     <color name="background">#d3d3d3</color>
-
     <color name="related_article.title">#333333</color>
-
-
     <color name="authortype.colorcode.blogger">#0ea2e8</color>
     <color name="authortype.colorcode.expert">#7db412</color>
     <color name="authortype.colorcode.featured">#7f1109</color>
     <color name="authortype.colorcode.editorial">#e96e01</color>
     <color name="authortype.colorcode.editor">#5d71ca</color>
-
     <color name="fab.pink">#ec3b57</color>
     <color name="fab.white">#ffffff</color>
-
     <color name="colorControlNormal">#333333</color>
-
     <color name="splashtopics.search.topic_item_bg">#ec3b57</color>
     <color name="splashtopics.search.topic_parent_text">#9c9dac</color>
     <color name="splashtopics.search.topic_item_text">#555555</color>
-
     <color name="analytics.engagement.graph">#ABC4F8</color>
-
     <color name="notification_center.title">#515556</color>
     <color name="notification_center.body">#545454</color>
     <color name="notification_center.date">#9c9dac</color>
     <color name="notification_center.read.bg">#FFFFFF</color>
     <color name="notification_center.unread.bg">#FCF8F8</color>
-
     <color name="publish_article.tag_images.selected_bg">#80000000</color>
-
     <color name="toolbar.menu_items">#ec3b57</color>
-
-
     <color name="article_listing.title">#333333</color>
     <color name="article_listing.author_name">#9c9dac</color>
     <color name="article_listing.stats">#9c9dac</color>
-
-
     <color name="bottom_navigation_bar.textColor">#000000</color>
     <color name="home.toolbar.titlecolor">#545454</color>
     <color name="home.trending.tabbar_text">#545454</color>
     <color name="select_option.toolbar.titlecolor">#545454</color>
     <color name="home.trending.tabbar_indicator">#507cbe</color>
-
     <color name="explore_listing.topics.layer">#33000000</color>
     <color name="explore_listing.explore_categories.title">#515556</color>
     <color name="explore_listing.explore_categories.category_name">#FFFFFF</color>
     <color name="explore_listing.tabbar_text">#545454</color>
     <color name="explore_listing.tabbar_indicator">#507cbe</color>
-
     <color name="topic_articles.tabbar_text">#545454</color>
     <color name="topic_articles.tabbar_indicator">#507cbe</color>
     <color name="topic_articles.sub_sub_topics_text">#507cbe</color>
     <color name="topic_articles.sub_sub_topics_selected_border">#e1e2e2</color>
     <color name="topic_articles.sub_sub_topics_selected_text">#515556</color>
-
     <color name="onboarding.title">#333333</color>
     <color name="onboarding.desc">#727272</color>
     <color name="onboarding.sign_in">#507cbe</color>
@@ -187,24 +156,18 @@
     <color name="onboarding.get_started_bg">#507cbe</color>
     <color name="sign_in.welcome_back">#FFFFFF</color>
     <color name="sign_in.sign_up_btn">#507cbe</color>
-
     <color name="sign_up.welcome_back">#FFFFFF</color>
     <color name="sign_up.sign_in_btn">#507cbe</color>
-
     <color name="login_email.login">#FFFFFF</color>
     <color name="login_email.email_hint">#FFFFFF</color>
     <color name="login_email.password_hint">#FFFFFF</color>
-
     <color name="empty_list_msg">#545454</color>
     <color name="various_list.toolbar.title">#507cbe</color>
-
     <color name="for_you.reason.why_label">#545454</color>
     <color name="for_you.reason.body">#545454</color>
     <color name="for_you.reason.okay">#507cbe</color>
     <color name="for_you.reason.dont_want_to_see">#545454</color>
-
     <color name="lang_setting.stories_label">#9c9dac</color>
-
     <color name="search.tabs_bg">#e2e3e3</color>
     <color name="search.tabs_text_label">#545454</color>
     <color name="search.tabs_indicator">#507cbe</color>
@@ -214,23 +177,18 @@
     <color name="search.article_desc">#9c9dac</color>
     <color name="search.author_text">#545454</color>
     <color name="search.show_more">#507cbe</color>
-
     <color name="search_topics.text">#515556</color>
     <color name="search_topics.hint">#515556</color>
     <color name="search_topics.search_bg">#f3f3f3</color>
-
     <color name="common_underline">#9c9dac</color>
     <color name="light_underline">#e5e5e5</color>
-
     <color name="home_screen.trending_list_header.bg">#f3f3f3</color>
     <color name="home_screen.trending_list_header.title">#9c9dac</color>
     <color name="home_screen.trending_list_header.topics_label">#9c9dac</color>
     <color name="home_screen.trending_list_header.take_me_there">#507cbe</color>
-
     <color name="subscribe_topics.toolbar.title">#545454</color>
     <color name="subscribe_topics.cancel">#545454</color>
     <color name="subscribe_topics.save">#507cbe</color>
-
     <color name="myprofile.toolbar.title">#545454</color>
     <color name="myprofile.name">#545454</color>
     <color name="myprofile.author_type">#545454</color>
@@ -242,8 +200,6 @@
     <color name="myprofile.followers_label">#507cbe</color>
     <color name="myprofile.rank_label">#545454</color>
     <color name="myprofile.improve_reach">#d79f9f</color>
-
-
     <color name="blogger_profile.name">#545454</color>
     <color name="blogger_profile.author_type">#545454</color>
     <color name="blogger_profile.bio">#545454</color>
@@ -254,7 +210,6 @@
     <color name="blogger_profile.view_count_label">#545454</color>
     <color name="blogger_profile.article_count_label">#545454</color>
     <color name="blogger_profile.rank_label">#545454</color>
-
     <color name="user_articles.toolbar.title">#545454</color>
     <color name="user_articles.draft.status">#545454</color>
     <color name="user_articles.draft.edit">#507cbe</color>
@@ -262,10 +217,8 @@
     <color name="user_articles.published.title">#545454</color>
     <color name="user_articles.published.date">#9c9dac</color>
     <color name="user_articles.published.stats">#9c9dac</color>
-
     <color name="app_settings.toolbar.title">#545454</color>
     <color name="app_settings.tabbar.text">#545454</color>
-
     <color name="app_settings.edit_profile.edit_text_underline">#cccccc</color>
     <color name="app_settings.edit_profile.hint_fn">#9c9dac</color>
     <color name="app_settings.edit_profile.text_fn">#545454</color>
@@ -284,7 +237,6 @@
     <color name="app_settings.edit_profile.how_many_child">#545454</color>
     <color name="app_settings.edit_profile.dob">#545454</color>
     <color name="app_settings.edit_profile.save">#507cbe</color>
-
     <color name="app_settings.edit_prefs.notifications">#515556</color>
     <color name="app_settings.edit_prefs.subscriptions">#515556</color>
     <color name="app_settings.edit_prefs.add_account">#515556</color>
@@ -301,7 +253,6 @@
     <color name="app_settings.edit_prefs.email_subs_name">#545454</color>
     <color name="app_settings.edit_prefs.follow_topic_text">#507cbe</color>
     <color name="app_settings.edit_prefs.unfollow_topic_text">#ffffff</color>
-
     <color name="app_settings.change_pass.edit_text_underline">#cccccc</color>
     <color name="app_settings.change_pass.hint_current_pass">#9c9dac</color>
     <color name="app_settings.change_pass.hint_new_pass">#9c9dac</color>
@@ -310,11 +261,9 @@
     <color name="app_settings.change_pass.text_new_pass">#545454</color>
     <color name="app_settings.change_pass.text_confirm_pass">#545454</color>
     <color name="app_settings.change_pass.save">#507cbe</color>
-
     <color name="follower_following_list.follow_label">#507cbe</color>
     <color name="follower_following_list.following_label">#507cbe</color>
     <color name="follower_following_list.author_name">#545454</color>
-
     <color name="blog_setup.toolbar.title">#545454</color>
     <color name="blog_setup.get_started_label">#515556</color>
     <color name="blog_setup.get_started_label_2">#98b2d9</color>
@@ -332,7 +281,6 @@
     <color name="blog_setup.profile_pic_add">#507cbe</color>
     <color name="blog_setup.text_city">#545454</color>
     <color name="blog_setup.save_publish">#9c9dac</color>
-
     <color name="ranking.toolbar.title">#545454</color>
     <color name="ranking.tabs_label">#545454</color>
     <color name="ranking.tab_indicator">#507cbe</color>
@@ -353,31 +301,24 @@
     <color name="ranking.boxes_bg">#e0e0e0</color>
     <color name="ranking.improve_view.title">#545454</color>
     <color name="ranking.improve_view.info_text">#545454</color>
-
     <color name="editor.last_saved">#9c9dac</color>
     <color name="editor.publish">#507cbe</color>
-
     <color name="add_article_topics.clear_all">#9c9dac</color>
     <color name="add_article_topics.toolbar.title">#545454</color>
     <color name="add_article_topics.max_topics">#9c9dac</color>
     <color name="add_article_topics.apply">#507cbe</color>
-
     <color name="choose_article_image.toolbar.title">#545454</color>
     <color name="choose_article_image.upload_photo">#545454</color>
     <color name="choose_article_image.publish">#507cbe</color>
-
     <color name="become_blogger.get_started">#545454</color>
     <color name="become_blogger.message">#545454</color>
-
     <color name="upload_video.title">#515556</color>
     <color name="upload_video.desc">#9c9dac</color>
-
     <color name="moderation_or_share.way_to_go">#545454</color>
     <color name="moderation_or_share.moderation_message">#9c9dac</color>
     <color name="moderation_or_share.publish_message">#9c9dac</color>
     <color name="moderation_or_share.later">#9c9dac</color>
     <color name="moderation_or_share.okay">#ffffff</color>
-
     <color name="complete_blogger_profile.complete_label">#545454</color>
     <color name="upcoming_event_color_code">#565656</color>
 

@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="store_text_grey">#808080</color>
+    <color name="event_background_blue_color">#2f54b0</color>
+    <color name="go_live_start_color">#7323A5</color>
+    <color name="go_live_end_color">#EE2B2B</color>
+    <color name="event_listing_border">#cce1e2e2</color>
 </resources>

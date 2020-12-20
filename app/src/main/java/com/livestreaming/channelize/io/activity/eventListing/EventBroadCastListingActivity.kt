@@ -20,15 +20,17 @@ import kotlinx.android.synthetic.main.activity_event_broadcast_listing.*
 import kotlinx.android.synthetic.main.over_lay_refresh_logout_pop_up_layout.*
 import javax.inject.Inject
 
+const val REQUEST_CODE = 1000
+
 class EventBroadCastListingActivity : BaseActivity(),
     EventsBroadCastListingAdapter.IRecyclerViewClickListener {
 
     @Inject
     lateinit var eventListingViewModelFact: EventListingViewModelFact
-    private lateinit var viewModel: EventsBroadCastListingViewModel
-    private var eventListResponse: ArrayList<EventDetailResponse>? = null
+    private lateinit var eventsBroadCastListingViewModel: EventsBroadCastListingViewModel
+    private val eventListResponse = ArrayList<EventDetailResponse>()
     private val eventsBroadCastListingAdapter: EventsBroadCastListingAdapter by lazy {
-        EventsBroadCastListingAdapter(this, this)
+        EventsBroadCastListingAdapter(this, this, eventListResponse)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +47,7 @@ class EventBroadCastListingActivity : BaseActivity(),
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = eventsBroadCastListingAdapter
         tvStoreURL.text = SharedPrefUtils.getStoreUrl(BaseApplication.getInstance())
-        if (ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance())
-                .isNullOrBlank()
-        ) {
+        if (ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance()).isNullOrBlank()) {
             val name = ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
             if (!name.isNullOrBlank()) {
                 val nameParts = name.split(" ").toTypedArray()
@@ -91,8 +91,7 @@ class EventBroadCastListingActivity : BaseActivity(),
                 viewLogoutPopUp.visibility = View.GONE
             }
             tvRefresh.setOnClickListener {
-                eventListResponse?.clear()
-                eventsBroadCastListingAdapter.setEventList(eventListResponse)
+                eventListResponse.clear()
                 eventsBroadCastListingAdapter.notifyDataSetChanged()
                 getEventsList()
                 viewLogoutPopUp.visibility = View.GONE
@@ -102,9 +101,9 @@ class EventBroadCastListingActivity : BaseActivity(),
                     val progressBar = progressDialog(this)
                     progressBar.show()
                     SharedPrefUtils.setPublicApiKey(this, null)
-                    SharedPrefUtils.setLoggedInFlag(this, false)
-                    SharedPrefUtils.clearSharedPref(this)
-                    viewModel.onUserLogout().observe(this, Observer { isUserLoggedOut ->
+                    SharedPrefUtils.isUserLoggedIn(this, false)
+                    SharedPrefUtils.onClearSharedPref(this)
+                    eventsBroadCastListingViewModel.onUserLogout().observe(this, Observer { isUserLoggedOut ->
                         if (isUserLoggedOut) {
                             progressBar.dismiss()
                             Channelize.disconnect()
@@ -126,33 +125,28 @@ class EventBroadCastListingActivity : BaseActivity(),
         }
 
     private fun initViewModel() {
-        viewModel = ViewModelProvider(
-            this, eventListingViewModelFact
-        ).get(EventsBroadCastListingViewModel::class.java)
+        eventsBroadCastListingViewModel =
+            ViewModelProvider(this, eventListingViewModelFact).get(EventsBroadCastListingViewModel::class.java)
     }
 
     private fun getEventsList() {
         val progressBar = progressDialog(this)
         progressBar.show()
-        viewModel.getEventList().observe(this, Observer { eventDetailResource ->
+        eventsBroadCastListingViewModel.getEventList().observe(this, Observer { eventDetailResource ->
             when (eventDetailResource.status) {
                 Resource.Status.SUCCESS -> {
                     if (!eventDetailResource.data.isNullOrEmpty()) {
                         rlNoEventContainer.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
-                        val formatList = ArrayList<EventDetailResponse>()
-                        val listData =
-                            eventDetailResource.data.toMutableList() as ArrayList<EventDetailResponse>
-                        listData.filter { eventDetailResponse -> eventDetailResponse.status != LiveBroadcasterConstants.BROADCAST_EVENT_STATUS_COMPLETED }
+                        eventListResponse.clear()
+                        eventDetailResource.data.filter { eventDetailResponse -> eventDetailResponse.status != LiveBroadcasterConstants.BROADCAST_EVENT_STATUS_COMPLETED }
                             .let { filteredData ->
-                                formatList.addAll(filteredData)
+                                eventListResponse.addAll(filteredData)
                             }
-                        eventListResponse = formatList
                         if (eventListResponse.isNullOrEmpty()) {
                             rlNoEventContainer.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
                         }
-                        eventsBroadCastListingAdapter.setEventList(eventListResponse)
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
                         progressBar.dismiss()
                     } else {
@@ -167,63 +161,41 @@ class EventBroadCastListingActivity : BaseActivity(),
                     recyclerView.visibility = View.GONE
                     showToast(this, eventDetailResource?.message)
                 }
-                Resource.Status.LOADING -> {
-                    progressBar.show()
-                }
             }
         })
     }
 
     override fun onClick(position: Int) {
         val productsList = ArrayList<String>()
-        eventListResponse?.get(position)?.products?.forEach { products ->
-            productsList.add(products.id)
+        eventListResponse[position].products.forEach {
+                products -> productsList.add(products.id)
         }
         val intent = Intent(this, LSCBroadCastSettingUpAndLiveActivity::class.java)
-        intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, eventListResponse?.get(position)?.id)
-        intent.putStringArrayListExtra(
-            LiveBroadcasterConstants.EVENT_PRODUCT_IDS,
-            productsList
-        )
-        intent.putExtra(
-            LiveBroadcasterConstants.START_TIME,
-            eventListResponse?.get(position)?.startTime
-        )
-        intent.putExtra(
-            LiveBroadcasterConstants.STOP_TIME,
-            eventListResponse?.get(position)?.endTime
-        )
-        intent.putExtra(
-            LiveBroadcasterConstants.CONVERSATION_ID,
-            eventListResponse?.get(position)?.metaData?.conversationId
-        )
-        intent.putExtra(
-            LiveBroadcasterConstants.EVENT_NAME,
-            eventListResponse?.get(position)?.title
-        )
-        startActivityForResult(intent, 1000)
+        intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, eventListResponse[position].id)
+        intent.putStringArrayListExtra(LiveBroadcasterConstants.EVENT_PRODUCT_IDS, productsList)
+        intent.putExtra(LiveBroadcasterConstants.START_TIME, eventListResponse[position].startTime)
+        intent.putExtra(LiveBroadcasterConstants.STOP_TIME, eventListResponse[position].endTime)
+        intent.putExtra(LiveBroadcasterConstants.CONVERSATION_ID, eventListResponse[position].metaData.conversationId)
+        intent.putExtra(LiveBroadcasterConstants.EVENT_NAME, eventListResponse[position].title)
+        startActivityForResult(intent, REQUEST_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1000) {
-                eventListResponse?.filter { eventDetailResponse ->
-                    eventDetailResponse.id != data?.getStringExtra(LiveBroadcasterConstants.BROADCAST_ID)
-                }?.let { filteredList ->
-                    eventListResponse?.clear()
-                    eventListResponse =
-                        filteredList.toMutableList() as ArrayList<EventDetailResponse>
-                }
-                if (eventListResponse.isNullOrEmpty()) {
-                    rlNoEventContainer.visibility = View.VISIBLE
-                    recyclerView.visibility = View.GONE
-                } else {
-                    recyclerView.visibility = View.VISIBLE
-                    rlNoEventContainer.visibility = View.GONE
-                    eventsBroadCastListingAdapter.setEventList(eventListResponse)
-                    eventsBroadCastListingAdapter.notifyDataSetChanged()
-                }
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            eventListResponse.filter { eventDetailResponse ->
+                eventDetailResponse.id != data?.getStringExtra(LiveBroadcasterConstants.BROADCAST_ID)
+            }.let { filteredList ->
+                eventListResponse.clear()
+                eventListResponse.addAll(filteredList)
+            }
+            if (eventListResponse.isNullOrEmpty()) {
+                rlNoEventContainer.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                rlNoEventContainer.visibility = View.GONE
+                eventsBroadCastListingAdapter.notifyDataSetChanged()
             }
         }
     }

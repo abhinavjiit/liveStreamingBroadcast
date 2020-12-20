@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 data class BeautificationCustomizationValuesClassHolder(

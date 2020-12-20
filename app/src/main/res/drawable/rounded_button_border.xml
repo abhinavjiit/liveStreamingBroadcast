@@ -4,9 +4,9 @@
     <solid android:color="@color/btn_bg_blue" />
 
     <corners
-        android:bottomLeftRadius="25dp"
-        android:bottomRightRadius="25dp"
-        android:topLeftRadius="25dp"
-        android:topRightRadius="25dp" />
+        android:bottomLeftRadius="@dimen/dimen_25"
+        android:bottomRightRadius="@dimen/dimen_25"
+        android:topLeftRadius="@dimen/dimen_25"
+        android:topRightRadius="@dimen/dimen_25" />
 
 </shape>

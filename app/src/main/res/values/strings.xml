@@ -18,7 +18,6 @@
     <string name="poor_connection_string">Poor Connection</string>
     <string name="are_you_sure_you_want_to_end_your_live_broadcast">Are you sure you want to end your live broadcast?</string>
     <string name="end_now">End Now</string>
-    <string name="cancel">Cancel</string>
     <string name="your_public_key">Your Public Key</string>
     <string name="this_key_can_be_copied_from_your_live_stream_shopping_dashboard">This key can be copied from your Live Stream Shopping dashboard.</string>
     <string name="store_url">Store URL</string>
@@ -74,5 +73,12 @@
     <string name="live">Live</string>
     <string name="_0">0</string>
     <string name="say_something">Say something...</string>
-
+    <string name="loading_statistics">Loading Statistics</string>
+    <string name="of_views"># of Views:</string>
+    <string name="of_reactions"># of Reactions:</string>
+    <string name="of_comments"># of Comments:</string>
+    <string name="done">DONE</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="error">error</string>
+    <string name="you_are_live_now">You are now live!</string>
 </resources>

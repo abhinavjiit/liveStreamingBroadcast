@@ -7,21 +7,21 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f9f9f9"
+        android:background="@color/app_light_grey"
         android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#f9f9f9">
+            android:background="@color/app_light_grey">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dimen_0"
                 android:layout_height="wrap_content"
-                android:elevation="10dp"
-                app:contentInsetEnd="0dp"
-                app:contentInsetStart="0dp"
+                android:elevation="@dimen/dimen_10"
+                app:contentInsetEnd="@dimen/dimen_0"
+                app:contentInsetStart="@dimen/dimen_0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/broadcast_your_events"
                         android:textColor="@color/app_blue"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/dimen_18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -46,15 +46,15 @@
                         android:id="@+id/rlUserDetailContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="@dimen/dimen_16"
+                        android:layout_marginEnd="@dimen/dimen_16"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/ivUserProfile"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="@dimen/dimen_40"
+                            android:layout_height="@dimen/dimen_40"
                             android:layout_alignParentTop="true"
                             android:visibility="gone"
                             app:srcCompat="@drawable/ic_launcher_background" />
@@ -62,14 +62,14 @@
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvUserName"
                             android:layout_width="wrap_content"
-                            android:layout_height="30dp"
+                            android:layout_height="@dimen/dimen_30"
                             android:background="@drawable/circular_blue_background"
                             android:backgroundTint="@color/btn_bg_blue"
                             android:gravity="center"
-                            android:padding="2dp"
+                            android:padding="@dimen/dimen_2"
                             android:text=""
                             android:textColor="@color/white"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/dimen_12sp"
                             android:textStyle="bold"
                             android:visibility="gone"
                             app:textAllCaps="true" />
@@ -81,7 +81,7 @@
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dimen_1"
                 android:background="@color/grey_faded"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
@@ -89,9 +89,9 @@
                 android:id="@+id/cvHeaderInfoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:elevation="5dp"
-                app:cardElevation="5dp"
+                android:layout_margin="@dimen/dimen_10"
+                android:elevation="@dimen/dimen_5"
+                app:cardElevation="@dimen/dimen_5"
                 app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,13 +108,13 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvStore"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/dimen_0"
                             android:layout_height="wrap_content"
-                            android:background="#808080"
-                            android:paddingStart="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="5dp"
+                            android:background="@color/store_text_grey"
+                            android:paddingStart="@dimen/dimen_10"
+                            android:paddingTop="@dimen/dimen_5"
+                            android:paddingEnd="@dimen/dimen_10"
+                            android:paddingBottom="@dimen/dimen_5"
                             android:text="@string/store"
                             android:textColor="@color/white"
                             app:layout_constraintStart_toStartOf="parent"
@@ -122,13 +122,13 @@
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvStoreURL"
-                            android:layout_width="0dp"
+                            android:layout_width="@dimen/dimen_0"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_marginStart="@dimen/dimen_8"
+                            android:layout_marginEnd="@dimen/dimen_8"
                             android:text=""
                             android:textColor="@color/greytxt_color"
-                            android:textSize="12sp"
+                            android:textSize="@dimen/dimen_12sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/ivShopify"
@@ -137,9 +137,9 @@
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivShopify"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_marginEnd="3dp"
+                            android:layout_width="@dimen/dimen_24"
+                            android:layout_height="@dimen/dimen_24"
+                            android:layout_marginEnd="@dimen/dimen_3"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -150,21 +150,21 @@
                         android:id="@+id/ivInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:paddingStart="5dp"
-                        android:paddingEnd="5dp"
+                        android:layout_marginTop="@dimen/dimen_10"
+                        android:paddingStart="@dimen/dimen_5"
+                        android:paddingEnd="@dimen/dimen_5"
                         android:tint="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/clHeaderDescriptionContainer"
                         app:srcCompat="@drawable/ic_info_outline" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/dimen_0"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
+                        android:padding="@dimen/dimen_10"
                         android:text="@string/below_are_the_upcoming_events_for_which_you_are_the_host"
                         android:textColor="@color/greytxt_color"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/dimen_14sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/ivInfo"
@@ -177,7 +177,7 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#f9f9f9"
+                android:background="@color/app_light_grey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +205,7 @@
                     android:layout_below="@id/ivNoEvent"
                     android:layout_centerHorizontal="true"
                     android:text="@string/no_events_available"
-                    android:textSize="20sp" />
+                    android:textSize="@dimen/dimen_20sp" />
 
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

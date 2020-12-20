@@ -13,36 +13,36 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginStart="@dimen/dimen_20"
+            android:layout_marginEnd="@dimen/dimen_20"
             android:gravity="center"
             android:text="@string/please_enable_camera_and_microphone_permissions_to_start_live_broadcasting"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="@dimen/dimen_18sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCamera"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/dimen_200"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dimen_16"
             android:background="@drawable/rounded_button_border"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="@dimen/dimen_15"
+            android:paddingBottom="@dimen/dimen_15"
             android:text="@string/enable_camera"
             android:textColor="@color/white" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMicrophone"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/dimen_200"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dimen_16"
             android:background="@drawable/rounded_button_border"
             android:gravity="center"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:paddingTop="@dimen/dimen_15"
+            android:paddingBottom="@dimen/dimen_15"
             android:text="@string/enable_microphone"
             android:textColor="@color/white" />
 

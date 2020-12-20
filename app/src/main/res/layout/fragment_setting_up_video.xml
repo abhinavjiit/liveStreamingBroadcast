@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLine3"
-        android:layout_width="1dp"
+        android:layout_width="@dimen/dimen_1"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="@dimen/dimen_20sp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLine2"
-        android:layout_width="1dp"
+        android:layout_width="@dimen/dimen_1"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:visibility="gone"
@@ -45,11 +45,11 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCheckingConnection"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
             android:text="@string/checking_connection"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/dimen_18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -57,9 +57,9 @@
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="7dp"
+            android:layout_width="@dimen/dimen_40"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_margin="@dimen/dimen_7"
             android:indeterminate="true"
             android:indeterminateTint="@color/white"
             android:indeterminateTintMode="src_atop"
@@ -72,7 +72,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clConnectionResultContainer"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dimen_0"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:text="@string/connection_result"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/dimen_18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,7 +97,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/network_quality"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintEnd_toStartOf="@id/guideLine"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/connectionResultTextView" />
@@ -108,14 +108,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLine"
             app:layout_constraintTop_toBottomOf="@id/connectionResultTextView" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideLine"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/dimen_1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content"
             android:text="@string/instructions"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/dimen_18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -148,9 +148,9 @@
             android:id="@+id/llInstructionsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/dimen_16"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="@dimen/dimen_16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvInstructions">
@@ -158,42 +158,42 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
+                android:paddingBottom="@dimen/dimen_10"
                 android:text="@string/_1_please_ensure_that_you_have_a_stable_internet_connection"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
+                android:paddingBottom="@dimen/dimen_10"
                 android:text="@string/_2_make_sure_your_device_s_camera_and_microphone_is_turned_on_during_the_live_stream"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
+                android:paddingBottom="@dimen/dimen_10"
                 android:text="@string/_3_plug_in_your_device_so_that_the_battery_doesn_t_die"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
+                android:paddingBottom="@dimen/dimen_10"
                 android:text="@string/_4_position_your_device_for_maximum_visibility_use_chat_feature_to_interact_with_the_audience"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
+                android:paddingBottom="@dimen/dimen_10"
                 android:text="@string/_5_turn_on_some_good_lights_eliminate_interfering_sounds_and_other_noises"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dimen_16sp" />
 
         </LinearLayout>
 
@@ -201,14 +201,14 @@
             android:id="@+id/tvNotShowAgain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/dimen_16"
             android:drawableStart="@drawable/ic_uncheck_box"
-            android:drawablePadding="10dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:drawablePadding="@dimen/dimen_10"
+            android:paddingStart="@dimen/dimen_16"
+            android:paddingEnd="@dimen/dimen_16"
             android:text="@string/don_t_show_this_to_me_again"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/llInstructionsList" />
 
@@ -216,13 +216,13 @@
             android:id="@+id/btnContinue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/dimen_16"
             android:background="@drawable/rounded_button_border"
             android:backgroundTint="@color/btn_bg_blue"
-            android:paddingStart="30dp"
-            android:paddingTop="16dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="16dp"
+            android:paddingStart="@dimen/dimen_30"
+            android:paddingTop="@dimen/dimen_16"
+            android:paddingEnd="@dimen/dimen_30"
+            android:paddingBottom="@dimen/dimen_16"
             android:text="@string/continue_string"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -247,20 +247,20 @@
             android:layout_height="wrap_content"
             android:text="@string/ready_get_set_go"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="@dimen/dimen_20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNotify"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/dimen_16"
             android:gravity="center"
             android:text="@string/click_on_the_button_go_live_we_will_notify_the_users_who_are_waiting_for_this_event"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvReadySetGo" />
@@ -269,13 +269,13 @@
             android:id="@+id/btnGoLiveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="@dimen/dimen_50"
             android:background="@drawable/rounded_button_border"
             android:backgroundTint="@color/btn_bg_blue"
-            android:paddingStart="40dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="40dp"
-            android:paddingBottom="10dp"
+            android:paddingStart="@dimen/dimen_40"
+            android:paddingTop="@dimen/dimen_10"
+            android:paddingEnd="@dimen/dimen_40"
+            android:paddingBottom="@dimen/dimen_10"
             android:text="@string/go_live"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"

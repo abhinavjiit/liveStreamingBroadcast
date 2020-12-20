@@ -7,9 +7,9 @@
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="7dp"
+        android:layout_width="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_margin="@dimen/dimen_7"
         android:indeterminate="true"
         android:indeterminateTint="@color/btn_bg_blue"
         android:indeterminateTintMode="src_atop"
@@ -20,11 +20,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_margin="7dp"
+        android:layout_margin="@dimen/dimen_7"
         android:layout_toEndOf="@+id/progressBar"
-        android:layout_toRightOf="@id/progressBar"
         android:textColor="@color/blue_color"
-        android:textSize="18sp"
+        android:textSize="@dimen/dimen_18sp"
         android:textStyle="bold"
         android:visibility="gone" />
+
 </RelativeLayout>

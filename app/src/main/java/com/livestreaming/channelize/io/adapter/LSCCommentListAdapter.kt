@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.adapter
 
 import android.view.LayoutInflater
@@ -12,8 +11,8 @@ import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.model.MessageCommentData
 import kotlinx.android.synthetic.main.adapter_comment_list_item_layout.view.*
 
-class LSCCommentListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var commentList: ArrayList<MessageCommentData>? = null
+class LSCCommentListAdapter(private val commentList: ArrayList<MessageCommentData>?) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_comment_list_item_layout, parent, false)
@@ -21,14 +20,7 @@ class LSCCommentListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return if (commentList.isNullOrEmpty())
-            0
-        else
-            commentList?.size!!
-    }
-
-    fun setListData(list: ArrayList<MessageCommentData>?) {
-        commentList = list
+        return commentList?.size ?: 0
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

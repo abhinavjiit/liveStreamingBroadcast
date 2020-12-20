@@ -4,12 +4,12 @@
     android:shape="oval">
     <solid android:color="@color/white"/>
 
-    <corners android:bottomRightRadius="4dp"
-        android:bottomLeftRadius="4dp"
-        android:topLeftRadius="4dp"
-        android:topRightRadius="4dp"/>
+    <corners android:bottomRightRadius="@dimen/dimen_4"
+        android:bottomLeftRadius="@dimen/dimen_4"
+        android:topLeftRadius="@dimen/dimen_4"
+        android:topRightRadius="@dimen/dimen_4"/>
     <size
-        android:height="30dp"
-        android:width="30dp"/>
+        android:height="@dimen/dimen_30"
+        android:width="@dimen/dimen_30"/>
 
 </shape>

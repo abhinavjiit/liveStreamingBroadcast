@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.fragment
 
 import android.Manifest
@@ -13,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
@@ -24,7 +24,7 @@ const val CAMERA_REQUEST_CODE = 102
 const val CAMERA = "camera"
 const val MICROPHONE = "microPhone"
 
-class LSCPermissionFragment : BaseFragment() {
+class LSCPermissionFragment : Fragment() {
 
     private var cameraPermission = false
     private var microPhonePermission = false
@@ -119,18 +119,18 @@ class LSCPermissionFragment : BaseFragment() {
         }
     }
 
-    private fun makeRequest(context: FragmentActivity, type: String) {
+    private fun makeRequest(activity: FragmentActivity, type: String) {
         when (type) {
             CAMERA -> {
                 ActivityCompat.requestPermissions(
-                    context,
+                    activity,
                     arrayOf(Manifest.permission.CAMERA),
                     CAMERA_REQUEST_CODE
                 )
             }
             MICROPHONE -> {
                 ActivityCompat.requestPermissions(
-                    context,
+                    activity,
                     arrayOf(Manifest.permission.RECORD_AUDIO),
                     RECORD_REQUEST_CODE
                 )

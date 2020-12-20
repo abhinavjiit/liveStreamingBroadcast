@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io
 
 import android.app.Application
@@ -46,15 +45,10 @@ class BaseApplication : Application(), Injector {
 
     fun initChannelize() {
         if (null != SharedPrefUtils.getPublicApiKey(this)) {
-            val channelizeConfig = if (BuildConfig.DEBUG) {
+            val channelizeConfig =
                 ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
-                    .setLoggingEnabled(true)
+                    .setLoggingEnabled(BuildConfig.DEBUG)
                     .build()
-            } else {
-                ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
-                    .setLoggingEnabled(false)
-                    .build()
-            }
             Channelize.initialize(channelizeConfig)
             Channelize.connect()
         }

@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 const val PUBLIC_KEY = "Public-Key"
+const val DRAWABLE_FOCUS_STROKE=3
+const val DRAWABLE_DEFAULT_STROKE=1
 
 class LSCBroadcastLoginActivity : BaseActivity() {
 
@@ -54,62 +56,30 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             etPublicKey.onFocusChangeListener =
                 View.OnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
-                        setFocusEditTextDrawables(
-                            rlPublicKeyContainer,
-                            R.drawable.ic_public_key,
-                            etPublicKey
-                        )
+                        setFocusEditTextDrawables(rlPublicKeyContainer, R.drawable.ic_public_key, etPublicKey)
                     } else {
-                        setDefaultEditTextDrawables(
-                            rlPublicKeyContainer,
-                            R.drawable.ic_public_key,
-                            etPublicKey
-                        )
+                        setDefaultEditTextDrawables(rlPublicKeyContainer, R.drawable.ic_public_key, etPublicKey)
                     }
                 }
             etStoreUrl.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusEditTextDrawables(
-                        rlStoreUrlContainer,
-                        R.drawable.ic_store_url,
-                        etStoreUrl
-                    )
+                    setFocusEditTextDrawables(rlStoreUrlContainer, R.drawable.ic_store_url, etStoreUrl)
                 } else {
-                    setDefaultEditTextDrawables(
-                        rlStoreUrlContainer,
-                        R.drawable.ic_store_url,
-                        etStoreUrl
-                    )
+                    setDefaultEditTextDrawables(rlStoreUrlContainer, R.drawable.ic_store_url, etStoreUrl)
                 }
             }
             etEmail.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusEditTextDrawables(
-                        rlEmailContainer,
-                        R.drawable.ic_email,
-                        etEmail
-                    )
+                    setFocusEditTextDrawables(rlEmailContainer, R.drawable.ic_email, etEmail)
                 } else {
-                    setDefaultEditTextDrawables(
-                        rlEmailContainer,
-                        R.drawable.ic_email,
-                        etEmail
-                    )
+                    setDefaultEditTextDrawables(rlEmailContainer, R.drawable.ic_email, etEmail)
                 }
             }
             etPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    setFocusEditTextDrawables(
-                        rlPasswordContainer,
-                        R.drawable.ic_password,
-                        etPassword
-                    )
+                    setFocusEditTextDrawables(rlPasswordContainer, R.drawable.ic_password, etPassword)
                 } else {
-                    setDefaultEditTextDrawables(
-                        rlPasswordContainer,
-                        R.drawable.ic_password,
-                        etPassword
-                    )
+                    setDefaultEditTextDrawables(rlPasswordContainer, R.drawable.ic_password, etPassword)
                 }
             }
         }
@@ -130,24 +100,18 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         Channelize.getInstance().removeHeaders(PUBLIC_KEY)
         Channelize.getInstance().addHeaders(PUBLIC_KEY, SharedPrefUtils.getPublicApiKey(this))
         SharedPrefUtils.setUniqueId(this, System.currentTimeMillis())
-        loginUserViewModel.onUserLogin(
-            etEmail.text.toString(),
-            etPassword.text.toString()
-        )?.observe(this,
+        loginUserViewModel.onUserLogin(etEmail.text.toString(), etPassword.text.toString())?.observe(this,
             Observer { logInSuccess ->
                 when (logInSuccess.status) {
                     Resource.Status.SUCCESS -> {
                         progressBar.dismiss()
                         logInSuccess.data?.user?.let { user ->
-                            ChannelizePreferences.setCurrentUserName(
-                                BaseApplication.getInstance(),
-                                user.displayName
-                            )
+                            ChannelizePreferences.setCurrentUserName(BaseApplication.getInstance(), user.displayName)
                             ChannelizePreferences.setCurrentUserProfileImage(
                                 BaseApplication.getInstance(),
                                 user.profileImageUrl
                             )
-                            SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = true)
+                            SharedPrefUtils.isUserLoggedIn(this, isLoggedIn = true)
                             Log.d("LOGIN", "success")
                             startAppIdService()
                             gotoEventListingActivity()
@@ -155,9 +119,9 @@ class LSCBroadcastLoginActivity : BaseActivity() {
                     }
                     Resource.Status.ERROR -> {
                         progressBar.dismiss()
-                        SharedPrefUtils.setLoggedInFlag(this, isLoggedIn = false)
+                        SharedPrefUtils.isUserLoggedIn(this, isLoggedIn = false)
                         Log.d("LOGIN", "failed")
-                        showToast(this, "Login Failed")
+                        showToast(this, getString(R.string.login_failed))
                     }
                 }
             })
@@ -191,83 +155,42 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         return true
     }
 
-    private fun setFocusEditTextDrawables(
-        container: RelativeLayout,
-        drawableId: Int,
-        text: TextView
-    ) {
-        val gradientDrawable: GradientDrawable =
-            container.background as GradientDrawable
+    private fun setFocusEditTextDrawables(container: RelativeLayout, drawableId: Int, text: TextView) {
+        val gradientDrawable = container.background as GradientDrawable
         gradientDrawable.mutate()
         gradientDrawable.setColor(ContextCompat.getColor(this, R.color.white))
-        gradientDrawable.setStroke(3, ContextCompat.getColor(this, R.color.btn_bg_blue))
+        gradientDrawable.setStroke(DRAWABLE_FOCUS_STROKE, ContextCompat.getColor(this, R.color.btn_bg_blue))
         val drawable = ContextCompat.getDrawable(this, drawableId)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             drawable?.colorFilter = BlendModeColorFilter(
-                ContextCompat.getColor(
-                    this,
-                    R.color.btn_bg_blue
-                ), BlendMode.SRC_ATOP
+                ContextCompat.getColor(this, R.color.btn_bg_blue), BlendMode.SRC_ATOP
             )
         } else {
             drawable?.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(
-                    this,
-                    R.color.btn_bg_blue
-                ), PorterDuff.Mode.SRC_ATOP
+                ContextCompat.getColor(this, R.color.btn_bg_blue), PorterDuff.Mode.SRC_ATOP
             )
         }
-        text.setCompoundDrawablesWithIntrinsicBounds(
-            drawable,
-            null,
-            null,
-            null
-        )
-        text.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.btn_bg_blue
-            )
-        )
+        text.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
+        text.setTextColor(ContextCompat.getColor(this, R.color.btn_bg_blue))
     }
 
-    private fun setDefaultEditTextDrawables(
-        container: RelativeLayout,
-        drawableId: Int,
-        text: TextView
-    ) {
-        val defaultGradientDrawable: GradientDrawable =
-            container.background as GradientDrawable
+    private fun setDefaultEditTextDrawables(container: RelativeLayout, drawableId: Int, text: TextView) {
+        val defaultGradientDrawable = container.background as GradientDrawable
         defaultGradientDrawable.mutate()
         defaultGradientDrawable.setColor(ContextCompat.getColor(this, R.color.white))
-        defaultGradientDrawable.setStroke(1, ContextCompat.getColor(this, R.color.dark_grey))
+        defaultGradientDrawable.setStroke(DRAWABLE_DEFAULT_STROKE, ContextCompat.getColor(this, R.color.dark_grey))
         val drawable = ContextCompat.getDrawable(this, drawableId)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            drawable?.colorFilter = BlendModeColorFilter(
-                ContextCompat.getColor(
-                    this,
-                    R.color.dark_grey
-                ), BlendMode.SRC_ATOP
-            )
+            drawable?.colorFilter =
+                BlendModeColorFilter(ContextCompat.getColor(this, R.color.dark_grey), BlendMode.SRC_ATOP)
         } else {
             drawable?.colorFilter = PorterDuffColorFilter(
-                ContextCompat.getColor(
-                    this,
-                    R.color.dark_grey
-                ), PorterDuff.Mode.SRC_ATOP
+                ContextCompat.getColor(this, R.color.dark_grey), PorterDuff.Mode.SRC_ATOP
             )
         }
-        text.setCompoundDrawablesWithIntrinsicBounds(
-            drawable,
-            null,
-            null,
-            null
-        )
+        text.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         text.setTextColor(
-            ContextCompat.getColor(
-                this,
-                R.color.dark_grey
-            )
+            ContextCompat.getColor(this, R.color.dark_grey)
         )
     }
 

@@ -3,10 +3,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="0.7dp"
-        android:color="#cce1e2e2" />
+        android:color="@color/event_listing_border" />
 
     <solid android:color="@color/white_color" />
 
-    <corners android:radius="3dp" />
+    <corners android:radius="@dimen/dimen_3" />
 
 </shape>

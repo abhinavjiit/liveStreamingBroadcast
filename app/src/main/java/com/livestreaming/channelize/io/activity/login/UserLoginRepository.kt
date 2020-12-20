@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import com.channelize.apisdk.Channelize
 import com.channelize.apisdk.network.response.LoginResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
+import javax.inject.Inject
 
-class ILoginRepositoryImpl : ILoginRepositoryCallBack {
+class UserLoginRepository @Inject constructor() {
 
-
-    override fun onUserLogin(
+    fun onUserLogin(
         email: String,
         password: String
     ): MutableLiveData<Resource<LoginResponse>> {
@@ -19,11 +19,11 @@ class ILoginRepositoryImpl : ILoginRepositoryCallBack {
             Channelize.getInstance().loginWithEmailPassword(
                 email, password
             )
-            { result, _ ->
+            { result, error ->
                 if (result != null && result.user != null) {
                     logInResponse.postValue(Resource.success(result))
                 } else {
-                    logInResponse.postValue(Resource.error("error", null))
+                    logInResponse.postValue(Resource.error(error.message, null))
                 }
             }
         } catch (e: Exception) {

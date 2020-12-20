@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.adapter
 
 import android.annotation.SuppressLint
@@ -23,11 +22,11 @@ import java.util.*
 
 class EventsBroadCastListingAdapter(
     private val context: Context,
-    private val listenerI: IRecyclerViewClickListener
+    private val listenerI: IRecyclerViewClickListener,
+    private val eventsList: ArrayList<EventDetailResponse>?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var eventsList: List<EventDetailResponse>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -78,14 +77,7 @@ class EventsBroadCastListingAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (eventsList.isNullOrEmpty())
-            0
-        else
-            eventsList?.size!!
-    }
-
-    fun setEventList(listData: List<EventDetailResponse>?) {
-        this.eventsList = listData
+        return eventsList?.size ?: 0
     }
 
     class ViewHolder(mView: View, private val listenerI: IRecyclerViewClickListener) :

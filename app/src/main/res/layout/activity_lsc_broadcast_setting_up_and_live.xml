@@ -13,9 +13,9 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivFlipCamera"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_margin="@dimen/dimen_10"
         android:tint="@color/dark_grey"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,8 +25,8 @@
     <RelativeLayout
         android:id="@+id/rlTimerContainer"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_margin="@dimen/dimen_10"
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/trans_gray"
         android:gravity="center_vertical"
@@ -40,8 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="false"
             android:gravity="center_vertical"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:paddingStart="@dimen/dimen_5"
+            android:paddingEnd="@dimen/dimen_5"
             android:text=""
             android:textColor="@color/white"
             android:visibility="visible" />
@@ -53,7 +53,7 @@
             android:layout_centerVertical="false"
             android:layout_toEndOf="@id/tvRemainingTimeCounter"
             android:gravity="center_vertical"
-            android:paddingEnd="5dp"
+            android:paddingEnd="@dimen/dimen_5"
             android:text=""
             android:textColor="@color/white"
             android:visibility="visible" />
@@ -61,9 +61,9 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivCancelLiveBroadcast"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_margin="@dimen/dimen_10"
         android:tint="@color/dark_grey"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,13 +73,13 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLive"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_margin="@dimen/dimen_10"
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/app_red"
         android:gravity="center_vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+        android:paddingStart="@dimen/dimen_15"
+        android:paddingEnd="@dimen/dimen_15"
         android:text="@string/live"
         android:textColor="@color/white"
         android:visibility="gone"
@@ -89,15 +89,15 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvLiveViewCount"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
+        android:layout_height="@dimen/dimen_30"
+        android:layout_margin="@dimen/dimen_10"
         android:background="@drawable/rectangular_rounded_corner_border"
         android:backgroundTint="@color/trans_gray"
         android:drawableStart="@drawable/ic_live_count"
-        android:drawablePadding="10dp"
+        android:drawablePadding="@dimen/dimen_10"
         android:gravity="center_vertical"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+        android:paddingStart="@dimen/dimen_15"
+        android:paddingEnd="@dimen/dimen_15"
         android:text="@string/_0"
         android:textColor="@color/white"
         android:visibility="gone"
@@ -106,7 +106,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cslBottomContainer"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dimen_0"
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -115,9 +115,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cslWriteSomethingContainer"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/dimen_5"
             android:background="@drawable/rounded_button_white_backgroud"
             android:backgroundTint="@color/trans_gray"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -127,17 +127,17 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etWriteSomething"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dimen_0"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@color/transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/say_something"
                 android:maxLines="4"
-                android:paddingStart="15dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="10dp"
+                android:paddingStart="@dimen/dimen_15"
+                android:paddingTop="@dimen/dimen_10"
+                android:paddingEnd="@dimen/dimen_15"
+                android:paddingBottom="@dimen/dimen_10"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:visibility="visible"
@@ -148,14 +148,14 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivPost"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/dimen_0"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/etWriteSomething"
-                android:paddingStart="15dp"
-                android:paddingTop="16dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="16dp"
+                android:paddingStart="@dimen/dimen_15"
+                android:paddingTop="@dimen/dimen_16"
+                android:paddingEnd="@dimen/dimen_15"
+                android:paddingBottom="@dimen/dimen_16"
                 android:textColor="@color/white"
                 android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -168,15 +168,15 @@
             android:id="@+id/cslBottomButtonContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/dimen_8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivBeautification"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
                 android:src="@drawable/ic_magic_wand"
                 android:tint="@color/white"
                 android:visibility="visible"
@@ -186,9 +186,9 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivProductListView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="10dp"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_10"
                 android:tint="@color/white"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,7 +209,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/dimen_0"
         app:layout_constraintBottom_toTopOf="@id/cslBottomContainer"
         app:layout_constraintTop_toBottomOf="@id/recyclerViewTopHeight">
 
@@ -224,8 +224,8 @@
 
     <FrameLayout
         android:id="@+id/flAnimatorLoader"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/dimen_0"
+        android:layout_height="@dimen/dimen_0"
         android:background="@color/transparent"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -235,8 +235,8 @@
 
     <FrameLayout
         android:id="@+id/flContentFrame"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/dimen_0"
+        android:layout_height="@dimen/dimen_0"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

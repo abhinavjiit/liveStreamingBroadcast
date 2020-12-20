@@ -41,7 +41,7 @@ class EventListingDataSource @Inject constructor(@com.livestreaming.channelize.i
             if (result.isSuccessful && result != null) {
                 isUserLoggedOut.postValue(true)
             } else {
-                isUserLoggedOut.postValue(null)
+                isUserLoggedOut.postValue(false)
             }
         }
         return isUserLoggedOut

@@ -6,9 +6,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cslHeaderContainer"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/dimen_0"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/dimen_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,7 +17,7 @@
             android:id="@+id/ivCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/dimen_16"
             android:tint="@color/dark_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/beauty_options"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/dimen_18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/swhMuteVideo"
@@ -42,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/dimen_16"
             android:textColor="@color/white_color"
-            android:textSize="14sp"
+            android:textSize="@dimen/dimen_14sp"
             android:theme="@style/SwitchTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +54,7 @@
     <View
         android:id="@+id/div"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/dimen_1"
         android:background="@color/greytxt_color"
         app:layout_constraintTop_toBottomOf="@id/cslHeaderContainer" />
 
@@ -63,11 +63,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_marginEnd="@dimen/dimen_25"
         android:text="@string/lightening_contrast"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="@dimen/dimen_16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/div" />
 
@@ -75,9 +75,9 @@
         android:id="@+id/llSetContrast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/dimen_16"
+        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_marginEnd="@dimen/dimen_16"
         android:background="@drawable/rounded_button_border"
         android:backgroundTint="@color/grey_light"
         android:orientation="horizontal"
@@ -85,40 +85,40 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvLow"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/dimen_5"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_border"
             android:backgroundTint="@color/grey_light"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/dimen_10"
             android:text="@string/low"
             android:textColor="@color/greytxt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvNormal"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/dimen_5"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_border"
             android:backgroundTint="@color/grey_light"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/dimen_10"
             android:text="@string/normal"
             android:textColor="@color/greytxt_color" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHigh"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="@dimen/dimen_5"
             android:layout_weight="1"
             android:background="@drawable/rounded_button_border"
             android:backgroundTint="@color/white"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="@dimen/dimen_10"
             android:text="@string/high"
             android:textColor="@color/greytxt_color" />
     </LinearLayout>
@@ -127,7 +127,7 @@
         android:id="@+id/cslLightingContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llSetContrast">
@@ -138,13 +138,13 @@
             android:layout_height="wrap_content"
             android:text="@string/lightening"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/slrLightness"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -159,7 +159,7 @@
         android:id="@+id/cslSmoothnessContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cslLightingContainer">
@@ -170,13 +170,13 @@
             android:layout_height="wrap_content"
             android:text="@string/smoothness"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/slrSmoothness"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -191,7 +191,7 @@
         android:id="@+id/cslRednessContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/dimen_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cslSmoothnessContainer">
@@ -202,13 +202,13 @@
             android:layout_height="wrap_content"
             android:text="@string/redness"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/dimen_16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/slrRedness"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dimen_0"
             android:layout_height="wrap_content"
             app:haloColor="@color/btn_bg_blue"
             app:layout_constraintBottom_toBottomOf="parent"
