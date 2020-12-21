@@ -29,8 +29,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 
 const val PUBLIC_KEY = "Public-Key"
-const val DRAWABLE_FOCUS_STROKE=3
-const val DRAWABLE_DEFAULT_STROKE=1
+const val DRAWABLE_FOCUS_STROKE = 3
+const val DRAWABLE_DEFAULT_STROKE = 1
 
 class LSCBroadcastLoginActivity : BaseActivity() {
 
@@ -142,9 +142,7 @@ class LSCBroadcastLoginActivity : BaseActivity() {
             showToast(this, getString(R.string.store_url_key_validation_string))
             return false
         }
-        if (etEmail.text.toString().isBlank() || !etEmail.text.toString()
-                .trim().isEmailValid()
-        ) {
+        if (etEmail.text.toString().isBlank() || !etEmail.text.toString().trim().isEmailValid()) {
             showToast(this, getString(R.string.email_validation_string))
             return false
         }

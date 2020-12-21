@@ -82,13 +82,14 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
 
     private suspend fun showNetworkResult() {
         try {
+            clConnectionResultContainer.visibility = View.VISIBLE
             activity?.let { activity ->
                 when ((activity as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
                     LiveBroadcasterConstants.EXCELLENT_NETWORK_QUALITY -> {
                         tvNetworkQuality.text = context?.resources?.getString(R.string.excellent_connection_string)
                         delay(DELAY)
                         if (SharedPrefUtils.showInstructions(activity)) {
-                            clCheckingConnectionContainer.visibility = View.GONE
+                            clConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
                             clGoLiveContainer.visibility = View.VISIBLE
                         } else {
