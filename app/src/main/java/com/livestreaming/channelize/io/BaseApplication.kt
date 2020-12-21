@@ -32,9 +32,9 @@ class BaseApplication : Application(), Injector {
         applicationComponent = DaggerApplicationComponent.builder().retrofitModule(
             RetrofitModule(
                 LiveBroadcasterConstants.CHANNELIZE_LIVE_BROADCAST_URL,
-                this,
                 LiveBroadcasterConstants.CHANNELIZE_LIVE_BROADCAST_SHOPIFY_URL,
-                LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL
+                LiveBroadcasterConstants.CHANNELIZE_CORE_BASE_URL,
+                this
             )
         ).build()
     }
@@ -45,10 +45,9 @@ class BaseApplication : Application(), Injector {
 
     fun initChannelize() {
         if (null != SharedPrefUtils.getPublicApiKey(this)) {
-            val channelizeConfig =
-                ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
-                    .setLoggingEnabled(BuildConfig.DEBUG)
-                    .build()
+            val channelizeConfig = ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
+                .setLoggingEnabled(BuildConfig.DEBUG)
+                .build()
             Channelize.initialize(channelizeConfig)
             Channelize.connect()
         }

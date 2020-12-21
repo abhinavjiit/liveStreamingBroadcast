@@ -82,4 +82,7 @@
     <string name="error">error</string>
     <string name="you_are_live_now">You are now live!</string>
     <string name="ok">OK</string>
+    <string name="public_key">Public-key</string>
+    <string name="content_type">Content_Type</string>
+    <string name="auth_string">Authorization</string>
 </resources>

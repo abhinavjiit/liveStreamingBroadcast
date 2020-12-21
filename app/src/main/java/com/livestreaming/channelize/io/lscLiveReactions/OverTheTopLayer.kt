@@ -14,6 +14,7 @@ import android.widget.ImageView
 import java.lang.ref.WeakReference
 
 class OverTheTopLayer {
+
     class OverTheTopLayerException(msg: String?) : RuntimeException(msg)
 
     private var mWeakActivity: WeakReference<Activity>? = null

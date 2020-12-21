@@ -12,10 +12,12 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [RetrofitModule::class, EventListingAndLiveBroadCastModule::class, LoginUserModule::class])
 interface ApplicationComponent {
+
     fun inject(eventBroadCastListingActivity: EventBroadCastListingActivity)
     fun inject(liveActivity: LSCBroadCastSettingUpAndLiveActivity)
     fun inject(appIdService: AppIdGetService)
     fun inject(lscBroadCastDetailAfterEndingFragment: LSCBroadCastDetailAfterFinishedFragment)
     fun inject(lscLoginActivity:LSCBroadcastLoginActivity)
+
 }
 

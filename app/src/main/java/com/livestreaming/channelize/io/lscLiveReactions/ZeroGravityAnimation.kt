@@ -10,6 +10,7 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 
 class ZeroGravityAnimation {
+
     private var mOriginationDirection = Direction.RANDOM
     private var mDestinationDirection = Direction.RANDOM
     private var mDuration = RANDOM_DURATION
@@ -162,4 +163,5 @@ class ZeroGravityAnimation {
     companion object {
         private const val RANDOM_DURATION = -1
     }
+
 }

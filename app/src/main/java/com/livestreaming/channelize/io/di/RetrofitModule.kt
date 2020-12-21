@@ -8,6 +8,7 @@ import com.channelize.apisdk.utils.ChannelizePreferences
 import com.channelize.apisdk.utils.Logcat
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.livestreaming.channelize.io.BuildConfig
+import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.SharedPrefUtils
 import dagger.Module
 import dagger.Provides
@@ -25,9 +26,9 @@ import okhttp3.Interceptor as Interceptor1
 @Module
 class RetrofitModule(
     private val lscBaseUrl: String,
-    private val context: Context,
     private val productListBaseUrl: String,
-    private val channelizeCorBaseUrl: String
+    private val channelizeCorBaseUrl: String,
+    private val context: Context
 ) {
 
     private lateinit var client: OkHttpClient
@@ -40,8 +41,8 @@ class RetrofitModule(
             val original = chain.request()
             val requestBuilder = original.newBuilder()
             SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
-                requestBuilder.addHeader("Public-key", publicApiKey)
-                requestBuilder.addHeader("Content_Type", "application/json")
+                requestBuilder.addHeader(context.resources.getString(R.string.public_key), publicApiKey)
+                requestBuilder.addHeader(context.resources.getString(R.string.content_type), "application/json")
             }
             addAuthHeader(requestBuilder)
             val request = requestBuilder.build()
@@ -83,7 +84,9 @@ class RetrofitModule(
                 e.printStackTrace()
             }
         }
-        requestBuilder.addHeader("Authorization", "Bearer ".plus(base64EncodedAccessToken))
+        requestBuilder.addHeader(context.resources.getString(R.string.auth_string),
+            "Bearer ".plus(base64EncodedAccessToken)
+        )
         Logcat.d("Header", requestBuilder.toString())
     }
 
@@ -130,8 +133,8 @@ class RetrofitModule(
             val original = chain.request()
             val requestBuilder = original.newBuilder()
             SharedPrefUtils.getPublicApiKey(context)?.let { publicApiKey ->
-                requestBuilder.addHeader("Public-key", publicApiKey)
-                requestBuilder.addHeader("Content_Type", "application/json")
+                requestBuilder.addHeader(context.resources.getString(R.string.public_key), publicApiKey)
+                requestBuilder.addHeader(context.resources.getString(R.string.content_type), "application/json")
             }
             addAuthHeader(requestBuilder)
             val request = requestBuilder.build()

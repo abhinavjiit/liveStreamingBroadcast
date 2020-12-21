@@ -7,6 +7,7 @@ import com.squareup.picasso.Picasso
 class ImageLoader private constructor() {
 
     companion object {
+
         fun showImage(imageUrl: String?, viewId: ImageView) {
             try {
                 imageUrl?.let { url ->

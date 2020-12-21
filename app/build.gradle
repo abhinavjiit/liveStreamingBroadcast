@@ -75,7 +75,6 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.github.ChannelizeIO.Channelize-Android-SDK:channelizeapi:4.3.40'
 
-
 }
 
 
