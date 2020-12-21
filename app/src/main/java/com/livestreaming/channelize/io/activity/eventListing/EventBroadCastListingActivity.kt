@@ -167,8 +167,8 @@ class EventBroadCastListingActivity : BaseActivity(),
 
     override fun onClick(position: Int) {
         val productsList = ArrayList<String>()
-        eventListResponse[position].products.forEach {
-                products -> productsList.add(products.id)
+        eventListResponse[position].products.forEach { products ->
+            productsList.add(products.id)
         }
         val intent = Intent(this, LSCBroadCastSettingUpAndLiveActivity::class.java)
         intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, eventListResponse[position].id)

@@ -30,21 +30,11 @@ data class MessageCommentData(
         other as MessageCommentData
 
         if (id != other.id) return false
-        if (type != other.type) return false
-        if (body != other.body) return false
-        if (conversationId != other.conversationId) return false
-        if (userName != other.userName) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + type.hashCode()
-        result = 31 * result + (body?.hashCode() ?: 0)
-        result = 31 * result + (conversationId?.hashCode() ?: 0)
-        result = 31 * result + (userName?.hashCode() ?: 0)
-        return result
+        return id?.hashCode() ?: 0
     }
-
 }

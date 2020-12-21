@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
@@ -57,7 +58,7 @@ const val VIDEO_FRAME_HEIGHT = 1280
 const val USER_ID = 0
 const val DELAY = 2000L
 const val ANIMATION_COUNT = 1
-const val ANIMATION_SCALING_FACTOR = 0.2f
+const val ANIMATION_SCALING_FACTOR = 0.5f
 const val LAST_REMINDER_POPUP = 30000L
 
 class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
@@ -92,7 +93,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     private val lscCommentListAdapter: LSCCommentListAdapter by lazy {
-        LSCCommentListAdapter(commentListData)
+        LSCCommentListAdapter(this, commentListData)
     }
 
     private val startBroadcastRequiredResponse: StartBroadcastRequiredResponse by lazy {
@@ -468,21 +469,19 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     }
 
     override fun onOpenConversationMessageReceived(response: String?) {
-        runOnUiThread {
-            response?.let { response ->
-                Log.d("onMessageCreated", response)
-                val res = Gson().fromJson(response, MessageResponse::class.java)
-                val commentData = MessageCommentData()
-                commentData.body = res.message.body
-                commentData.userName = res.message.owner.displayName
-                commentData.id = res.message.id
-                commentListData.add(commentData)
-                val listOfMessaged = LinkedHashSet(commentListData)
-                commentListData.clear()
-                commentListData.addAll(listOfMessaged)
-                lscCommentListAdapter.notifyDataSetChanged()
-                commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
-            }
+        response?.let { messageResponse ->
+            Log.d("onMessageCreated", messageResponse)
+            val res = Gson().fromJson(messageResponse, MessageResponse::class.java)
+            val commentData = MessageCommentData()
+            commentData.body = res.message.body
+            commentData.userName = res.message.owner.displayName
+            commentData.id = res.message.id
+            commentListData.add(commentData)
+            val listOfMessaged = LinkedHashSet(commentListData)
+            commentListData.clear()
+            commentListData.addAll(listOfMessaged)
+            lscCommentListAdapter.notifyDataSetChanged()
+            commentRecyclerView.smoothScrollToPosition(commentListData.size - 1)
         }
     }
 
@@ -520,48 +519,59 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val res = Gson().fromJson(response, LSCLiveReactionsResponse::class.java)
         when (res.reaction.type) {
             LiveBroadcasterConstants.ANGRY -> {
-                onFlyReactions(R.drawable.angry)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.THANK_YOU -> {
-                onFlyReactions(R.drawable.thankyou)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.WOW -> {
-                onFlyReactions(R.drawable.wow)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.SAD -> {
-                onFlyReactions(R.drawable.sad)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.SMILEY -> {
-                onFlyReactions(R.drawable.smiley)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.CLAP -> {
-                onFlyReactions(R.drawable.clapping)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.LIKE -> {
-                onFlyReactions(R.drawable.like)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.LAUGH -> {
-                onFlyReactions(R.drawable.laugh)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.HEART -> {
-                onFlyReactions(R.drawable.heart)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.INSIGHT -> {
-                onFlyReactions(R.drawable.angry)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.DISLIKE -> {
-                onFlyReactions(R.drawable.dislike)
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                onFlyReactions(smileDrawable)
             }
         }
     }
 
-    private fun onFlyReactions(resId: Int) {
+    private fun onFlyReactions(iconDrawable: VectorDrawable) {
         val animation = ZeroGravityAnimation()
         animation.setCount(ANIMATION_COUNT)
         animation.setScalingFactor(ANIMATION_SCALING_FACTOR)
         animation.setOriginationDirection(Direction.BOTTOM)
         animation.setDestinationDirection(Direction.TOP)
-        animation.setImage(resId)
+        animation.setImage(iconDrawable)
         animation.setAnimationListener(object : Animation.AnimationListener {
 
             override fun onAnimationStart(animation: Animation?) {}

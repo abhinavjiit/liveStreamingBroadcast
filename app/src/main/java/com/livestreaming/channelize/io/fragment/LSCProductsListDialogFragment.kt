@@ -98,9 +98,6 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
                         view?.tvNoProducts?.visibility = View.VISIBLE
                         progressBar.visibility = View.GONE
                     }
-                    Resource.Status.LOADING -> {
-                        Log.d("ProductItemResponse", "Loading")
-                    }
                 }
             })
     }

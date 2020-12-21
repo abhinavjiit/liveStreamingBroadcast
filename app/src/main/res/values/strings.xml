@@ -81,4 +81,5 @@
     <string name="login_failed">Login Failed</string>
     <string name="error">error</string>
     <string name="you_are_live_now">You are now live!</string>
+    <string name="ok">OK</string>
 </resources>

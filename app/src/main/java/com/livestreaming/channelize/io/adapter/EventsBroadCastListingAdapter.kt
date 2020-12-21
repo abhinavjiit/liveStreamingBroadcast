@@ -27,7 +27,6 @@ class EventsBroadCastListingAdapter(
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_event_broadcast_item_layout, parent, false)
@@ -39,35 +38,22 @@ class EventsBroadCastListingAdapter(
             holder.apply {
                 eventNameTextView.text = eventsList?.get(position)?.title
                 try {
-                    ImageLoader.showImage(eventsList?.get(position)?.bannerImageUrl, eventImageView)
+                    ImageLoader.showImage(
+                        eventsList?.get(position)?.bannerImageUrl,
+                        eventImageView
+                    )
                 } catch (e: Exception) {
                     Log.d("EventListingAdapterEx", e.toString())
                 }
                 eventStatus.text = eventsList?.get(position)?.status?.capitalize()
-                eventStatus.setBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.upcoming_event_color_code
-                    )
-                )
-                holder.eventStatus.setBackgroundColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.dark_grey
-                    )
-                )
-                printDifferenceDateForHours(
-                    holder,
-                    startingInDateCounter,
-                    eventsList?.get(position)?.startTime
-                )
+                eventStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.upcoming_event_color_code))
+                holder.eventStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.dark_grey))
+                printDifferenceDateForHours(holder, startingInDateCounter, eventsList?.get(position)?.startTime)
                 try {
-                    startDateTextView.text =
-                        context.getString(R.string.start_event_date_string)
-                            .plus(" " + eventsList?.get(position)?.startTime?.changeGMTtoIST())
-                    endDateTextView.text =
-                        context.getString(R.string.end_event_date_string)
-                            .plus(" " + eventsList?.get(position)?.endTime?.changeGMTtoIST())
+                    startDateTextView.text = context.getString(R.string.start_event_date_string)
+                        .plus(" " + eventsList?.get(position)?.startTime?.changeGMTtoIST())
+                    endDateTextView.text = context.getString(R.string.end_event_date_string)
+                        .plus(" " + eventsList?.get(position)?.endTime?.changeGMTtoIST())
 
                 } catch (e: Exception) {
                     Log.d("EventListAdapterEx", e.toString())
@@ -105,11 +91,7 @@ class EventsBroadCastListingAdapter(
     }
 
     @SuppressLint("SimpleDateFormat")
-    private fun printDifferenceDateForHours(
-        holder: ViewHolder,
-        dateCounter: TextView,
-        startTime: String?
-    ) {
+    private fun printDifferenceDateForHours(holder: ViewHolder, dateCounter: TextView, startTime: String?) {
         startTime?.let { eventStartTime ->
             holder.countDownTimer?.cancel()
             dateCounter.visibility = View.VISIBLE
@@ -118,8 +100,7 @@ class EventsBroadCastListingAdapter(
             holder.startBroadCastStatus.visibility = View.GONE
             holder.card.isEnabled = false
             holder.card.isClickable = false
-            val outputFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             outputFormat.timeZone = TimeZone.getTimeZone("IST")
             val timeFormat = outputFormat.parse(eventStartTime)
             val currentTime = Calendar.getInstance().time
@@ -164,9 +145,7 @@ class EventsBroadCastListingAdapter(
                         holder.goLiveButton.visibility = View.VISIBLE
                         holder.startBroadCastStatus.visibility = View.VISIBLE
                         holder.eventStatus.text = context.getString(R.string.live_event_string)
-                        holder.eventStatus.setBackgroundResource(
-                            R.drawable.available_events_status_backgroung
-                        )
+                        holder.eventStatus.setBackgroundResource(R.drawable.available_events_status_backgroung)
                         holder.card.isClickable = true
                         holder.card.isEnabled = true
                     }
@@ -185,8 +164,7 @@ class EventsBroadCastListingAdapter(
 fun String.changeGMTtoIST(): String {
     val utcFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     utcFormat.timeZone = TimeZone.getTimeZone("GMT")
-    val outputFormat =
-        SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
     outputFormat.timeZone = TimeZone.getTimeZone("IST")
     val timeFormat = outputFormat.parse(this)
     timeFormat?.let { formatTime ->

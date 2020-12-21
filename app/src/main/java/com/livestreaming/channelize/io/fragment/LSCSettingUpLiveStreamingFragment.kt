@@ -36,9 +36,7 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
         }
         view.btnGoLiveButton.setOnClickListener {
             activity?.let { context ->
-                (context as LSCBroadCastSettingUpAndLiveActivity).joinChannel(
-                    this
-                )
+                (context as LSCBroadCastSettingUpAndLiveActivity).joinChannel(this)
             }
         }
         view.tvCancel.setOnClickListener {

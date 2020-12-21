@@ -196,8 +196,7 @@ class LSCPermissionFragment : Fragment() {
 
     private fun setDrawables(container: TextView) {
         activity?.let { activity ->
-            val gradientDrawable: GradientDrawable =
-                container.background as GradientDrawable
+            val gradientDrawable = container.background as GradientDrawable
             gradientDrawable.mutate()
             gradientDrawable.setColor(ContextCompat.getColor(activity, R.color.white))
             container.setTextColor(ContextCompat.getColor(activity, R.color.app_red))
@@ -210,7 +209,7 @@ class LSCPermissionFragment : Fragment() {
             builder.setMessage(msg)
                 .setTitle(title)
             builder.setPositiveButton(
-                "OK"
+                activity.resources.getString(R.string.ok)
             ) { _, _ ->
                 Log.i("TAG", "Clicked")
                 makeRequest(activity, permissionType)

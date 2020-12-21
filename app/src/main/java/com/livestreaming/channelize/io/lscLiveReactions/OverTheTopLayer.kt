@@ -100,23 +100,23 @@ class OverTheTopLayer {
         if (mWeakActivity == null) {
             throw OverTheTopLayerException("Could not create the layer as not activity reference was provided.")
         }
-        val activity = mWeakActivity!!.get()
+        val activity = mWeakActivity?.get()
         if (activity != null) {
             var attachingView: ViewGroup? = null
-            attachingView = if (mWeakRootView != null && mWeakRootView!!.get() != null) {
-                mWeakRootView!!.get()
+            attachingView = if (mWeakRootView != null && mWeakRootView?.get() != null) {
+                mWeakRootView?.get()
             } else {
                 activity.findViewById<View>(android.R.id.content) as ViewGroup
             }
             val imageView = ImageView(activity)
             imageView.setImageBitmap(mBitmap)
-            val minWidth = mBitmap!!.width
-            val minHeight = mBitmap!!.height
+            val minWidth = mBitmap?.width ?: 0
+            val minHeight = mBitmap?.height ?: 0
             imageView.measure(
                 View.MeasureSpec.makeMeasureSpec(minWidth, View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(minHeight, View.MeasureSpec.AT_MOST)
             )
-            var params = imageView.layoutParams as FrameLayout.LayoutParams
+            var params = imageView.layoutParams as FrameLayout.LayoutParams?
             if (params == null) {
                 params = FrameLayout.LayoutParams(
                     FrameLayout.LayoutParams.WRAP_CONTENT,
@@ -140,7 +140,7 @@ class OverTheTopLayer {
             )
             ottLayer.layoutParams = topLayerParam
             ottLayer.addView(imageView)
-            attachingView!!.addView(ottLayer)
+            attachingView?.addView(ottLayer)
             mCreatedOttLayer = ottLayer
         } else {
             Log.e(
@@ -158,16 +158,16 @@ class OverTheTopLayer {
         if (mWeakActivity == null) {
             throw OverTheTopLayerException("Could not create the layer as not activity reference was provided.")
         }
-        val activity = mWeakActivity!!.get()
+        val activity = mWeakActivity?.get()
         if (activity != null) {
             var attachingView: ViewGroup? = null
-            attachingView = if (mWeakRootView != null && mWeakRootView!!.get() != null) {
-                mWeakRootView!!.get()
+            attachingView = if (mWeakRootView != null && mWeakRootView?.get() != null) {
+                mWeakRootView?.get()
             } else {
                 activity.findViewById<View>(android.R.id.content) as ViewGroup
             }
             if (mCreatedOttLayer != null) {
-                attachingView!!.removeView(mCreatedOttLayer)
+                attachingView?.removeView(mCreatedOttLayer)
                 mCreatedOttLayer = null
             }
         } else {
@@ -182,7 +182,7 @@ class OverTheTopLayer {
      */
     fun applyAnimation(animation: Animation?) {
         if (mCreatedOttLayer != null) {
-            val drawnImageView = mCreatedOttLayer!!.getChildAt(0) as ImageView
+            val drawnImageView = mCreatedOttLayer?.getChildAt(0) as ImageView
             drawnImageView.startAnimation(animation)
         }
     }

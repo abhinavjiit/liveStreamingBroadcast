@@ -15,46 +15,31 @@ class SharedPrefUtils private constructor() {
         private const val STORE_URL = "storeUrl"
 
         fun isUserLoggedIn(context: Context, isLoggedIn: Boolean) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putBoolean(LOGGED_IN, isLoggedIn)
             editor.commit()
         }
 
         fun isUserLoggedIn(context: Context): Boolean {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getBoolean(LOGGED_IN, false)
         }
 
         fun setPublicApiKey(context: Context, apiKey: String?) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putString(PUBLIC_API_KEY, apiKey)
             editor.commit()
         }
 
         fun getPublicApiKey(context: Context): String? {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getString(PUBLIC_API_KEY, null)
         }
 
         fun onClearSharedPref(context: Context) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.clear()
             editor.commit()
@@ -62,76 +47,50 @@ class SharedPrefUtils private constructor() {
 
 
         fun showInstructions(context: Context, flag: Boolean) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putBoolean(INSTRUCTIONS_SHOWN_FLAG, flag)
             editor.commit()
         }
 
-        fun showInstructions(
-            context: Context
-        ): Boolean {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+        fun showInstructions(context: Context): Boolean {
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getBoolean(INSTRUCTIONS_SHOWN_FLAG, false)
         }
 
         fun getStoreUrl(context: Context): String? {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getString(STORE_URL, null)
         }
 
         fun setStoreUrl(context: Context, url: String) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putString(STORE_URL, url)
             editor.commit()
         }
 
         fun setAppId(context: Context, appId: String) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putString(APP_ID, appId)
             editor.commit()
         }
 
         fun getAppId(context: Context): String? {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getString(APP_ID, null)
         }
 
         fun setUniqueId(context: Context, id: Long) {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             val editor = sharedPref.edit()
             editor.putLong(RTC_UNIQUE_ID, id)
             editor.commit()
         }
 
         fun getUniqueId(context: Context): Long {
-            val sharedPref = context.applicationContext.getSharedPreferences(
-                COMMON_PREF_FILE,
-                Context.MODE_PRIVATE
-            )
+            val sharedPref = context.applicationContext.getSharedPreferences(COMMON_PREF_FILE, Context.MODE_PRIVATE)
             return sharedPref.getLong(RTC_UNIQUE_ID, 0)
         }
     }

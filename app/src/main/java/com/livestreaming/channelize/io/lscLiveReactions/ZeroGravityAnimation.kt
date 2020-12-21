@@ -2,7 +2,8 @@ package com.livestreaming.channelize.io.lscLiveReactions
 
 import android.app.Activity
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.drawable.VectorDrawable
 import android.util.Log
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -13,7 +14,7 @@ class ZeroGravityAnimation {
     private var mDestinationDirection = Direction.RANDOM
     private var mDuration = RANDOM_DURATION
     private var mCount = 1
-    private var mImageResId = 0
+    private lateinit var mImageDrawable: VectorDrawable
     private var mScalingFactor = 1f
     private var mAnimationListener: Animation.AnimationListener? = null
 
@@ -35,35 +36,14 @@ class ZeroGravityAnimation {
         mDestinationDirection = direction
         return this
     }
-
-    /**
-     * Will take a random time duriation for the animation
-     *
-     * @return
-     */
-    fun setRandomDuration(): ZeroGravityAnimation {
-        return setDuration(RANDOM_DURATION)
-    }
-
-    /**
-     * Sets the time duration in millseconds for animation to proceed.
-     *
-     * @param duration
-     * @return
-     */
-    fun setDuration(duration: Int): ZeroGravityAnimation {
-        mDuration = duration
-        return this
-    }
-
     /**
      * Sets the image reference id for drawing the image
      *
      * @param resId
      * @return
      */
-    fun setImage(resId: Int): ZeroGravityAnimation {
-        mImageResId = resId
+    fun setImage(resId: VectorDrawable): ZeroGravityAnimation {
+        mImageDrawable = resId
         return this
     }
 
@@ -109,7 +89,15 @@ class ZeroGravityAnimation {
                     if (mDestinationDirection === Direction.RANDOM) generator.getRandomDirection(origin) else mDestinationDirection
                 val startingPoints = generator.getPointsInDirection(activity, origin)
                 val endPoints = generator.getPointsInDirection(activity, destination)
-                val bitmap = BitmapFactory.decodeResource(activity.resources, mImageResId)
+                val bitmap = Bitmap.createBitmap(
+                    mImageDrawable.intrinsicWidth,
+                    mImageDrawable.intrinsicHeight,
+                    Bitmap.Config.ARGB_8888
+                )
+                val canvas = Canvas(bitmap)
+                mImageDrawable.setBounds(0, 0, canvas.width, canvas.height)
+                mImageDrawable.draw(canvas)
+                //  val bitmap = BitmapFactory.decodeResource(activity.resources, mImageResId)
                 val scaledBitmap = Bitmap.createScaledBitmap(
                     bitmap,
                     (bitmap.width * mScalingFactor).toInt(),
@@ -148,7 +136,7 @@ class ZeroGravityAnimation {
                     override fun onAnimationStart(animation: Animation) {
                         if (i == 0) {
                             if (mAnimationListener != null) {
-                                mAnimationListener!!.onAnimationStart(animation)
+                                mAnimationListener?.onAnimationStart(animation)
                             }
                         }
                     }
@@ -157,7 +145,7 @@ class ZeroGravityAnimation {
                         layer.destroy()
                         if (i == mCount - 1) {
                             if (mAnimationListener != null) {
-                                mAnimationListener!!.onAnimationEnd(animation)
+                                mAnimationListener?.onAnimationEnd(animation)
                             }
                         }
                     }
