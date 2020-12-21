@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:background="@color/app_light_grey"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,7 +46,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <RelativeLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/rlUserDetailContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,14 +59,15 @@
                             android:id="@+id/ivUserProfile"
                             android:layout_width="@dimen/dimen_40"
                             android:layout_height="@dimen/dimen_40"
-                            android:layout_alignParentTop="true"
                             android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_launcher_background" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/tvUserName"
                             android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dimen_30"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/circular_blue_background"
                             android:backgroundTint="@color/btn_bg_blue"
                             android:gravity="center"
@@ -72,8 +77,10 @@
                             android:textSize="@dimen/dimen_12sp"
                             android:textStyle="bold"
                             android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:textAllCaps="true" />
-                    </RelativeLayout>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.appcompat.widget.Toolbar>
@@ -183,8 +190,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cvHeaderInfoContainer" />
 
-            <RelativeLayout
-                android:id="@+id/rlNoEventContainer"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cslNoEventContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -202,20 +209,26 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ivNoEvent"
                     android:layout_centerHorizontal="true"
                     android:text="@string/no_events_available"
-                    android:textSize="@dimen/dimen_20sp" />
+                    android:textSize="@dimen/dimen_20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivNoEvent" />
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <include
         android:id="@+id/viewLogoutPopUp"
         layout="@layout/over_lay_refresh_logout_pop_up_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

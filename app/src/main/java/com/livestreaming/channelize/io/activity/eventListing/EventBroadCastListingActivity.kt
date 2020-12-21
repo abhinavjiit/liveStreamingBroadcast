@@ -22,8 +22,7 @@ import javax.inject.Inject
 
 const val REQUEST_CODE = 1000
 
-class EventBroadCastListingActivity : BaseActivity(),
-    EventsBroadCastListingAdapter.IRecyclerViewClickListener {
+class EventBroadCastListingActivity : BaseActivity(), EventsBroadCastListingAdapter.IRecyclerViewClickListener {
 
     @Inject
     lateinit var eventListingViewModelFact: EventListingViewModelFact
@@ -108,8 +107,7 @@ class EventBroadCastListingActivity : BaseActivity(),
                             progressBar.dismiss()
                             Channelize.disconnect()
                             val intent = Intent(this, LSCBroadcastLoginActivity::class.java)
-                            intent.flags =
-                                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                             Log.d("LOGOUT", "USER_LOGGED_OUT_TRUE")
                         } else {
@@ -136,7 +134,7 @@ class EventBroadCastListingActivity : BaseActivity(),
             when (eventDetailResource.status) {
                 Resource.Status.SUCCESS -> {
                     if (!eventDetailResource.data.isNullOrEmpty()) {
-                        rlNoEventContainer.visibility = View.GONE
+                        cslNoEventContainer.visibility = View.GONE
                         recyclerView.visibility = View.VISIBLE
                         eventListResponse.clear()
                         eventDetailResource.data.filter { eventDetailResponse -> eventDetailResponse.status != LiveBroadcasterConstants.BROADCAST_EVENT_STATUS_COMPLETED }
@@ -144,20 +142,20 @@ class EventBroadCastListingActivity : BaseActivity(),
                                 eventListResponse.addAll(filteredData)
                             }
                         if (eventListResponse.isNullOrEmpty()) {
-                            rlNoEventContainer.visibility = View.VISIBLE
+                            cslNoEventContainer.visibility = View.VISIBLE
                             recyclerView.visibility = View.GONE
                         }
                         eventsBroadCastListingAdapter.notifyDataSetChanged()
                         progressBar.dismiss()
                     } else {
                         progressBar.dismiss()
-                        rlNoEventContainer.visibility = View.VISIBLE
+                        cslNoEventContainer.visibility = View.VISIBLE
                         recyclerView.visibility = View.GONE
                     }
                 }
                 Resource.Status.ERROR -> {
                     progressBar.dismiss()
-                    rlNoEventContainer.visibility = View.VISIBLE
+                    cslNoEventContainer.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
                     showToast(this, eventDetailResource?.message)
                 }
@@ -190,11 +188,11 @@ class EventBroadCastListingActivity : BaseActivity(),
                 eventListResponse.addAll(filteredList)
             }
             if (eventListResponse.isNullOrEmpty()) {
-                rlNoEventContainer.visibility = View.VISIBLE
+                cslNoEventContainer.visibility = View.VISIBLE
                 recyclerView.visibility = View.GONE
             } else {
                 recyclerView.visibility = View.VISIBLE
-                rlNoEventContainer.visibility = View.GONE
+                cslNoEventContainer.visibility = View.GONE
                 eventsBroadCastListingAdapter.notifyDataSetChanged()
             }
         }

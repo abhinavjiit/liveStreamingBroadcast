@@ -31,8 +31,8 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_setting_up_video, container, false)
         showConnectionCheckingLoader()
         view.btnContinue.setOnClickListener {
-            clInstructionsContainer.visibility = View.GONE
-            clGoLiveContainer.visibility = View.VISIBLE
+            cslInstructionsContainer.visibility = View.GONE
+            cslGoLiveContainer.visibility = View.VISIBLE
         }
         view.btnGoLiveButton.setOnClickListener {
             activity?.let { context ->
@@ -73,23 +73,23 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
     private fun showConnectionCheckingLoader() {
         CoroutineScope(Dispatchers.Main).launch {
             delay(DELAY)
-            clCheckingConnectionContainer.visibility = View.GONE
+            cslCheckingConnectionContainer.visibility = View.GONE
             showNetworkResult()
         }
     }
 
     private suspend fun showNetworkResult() {
         try {
-            clConnectionResultContainer.visibility = View.VISIBLE
+            cslConnectionResultContainer.visibility = View.VISIBLE
             activity?.let { activity ->
                 when ((activity as LSCBroadCastSettingUpAndLiveActivity).getNetworkQuality()) {
                     LiveBroadcasterConstants.EXCELLENT_NETWORK_QUALITY -> {
                         tvNetworkQuality.text = context?.resources?.getString(R.string.excellent_connection_string)
                         delay(DELAY)
                         if (SharedPrefUtils.showInstructions(activity)) {
-                            clConnectionResultContainer.visibility = View.GONE
+                            cslConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
-                            clGoLiveContainer.visibility = View.VISIBLE
+                            cslGoLiveContainer.visibility = View.VISIBLE
                         } else {
                             showInstructionsList()
                         }
@@ -98,9 +98,9 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
                         tvNetworkQuality.text = context?.resources?.getString(R.string.very_good_connection_string)
                         delay(DELAY)
                         if (SharedPrefUtils.showInstructions(activity)) {
-                            clConnectionResultContainer.visibility = View.GONE
+                            cslConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
-                            clGoLiveContainer.visibility = View.VISIBLE
+                            cslGoLiveContainer.visibility = View.VISIBLE
                         } else {
                             showInstructionsList()
                         }
@@ -109,9 +109,9 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
                         tvNetworkQuality.text = context?.resources?.getString(R.string.good_connection_string)
                         delay(DELAY)
                         if (SharedPrefUtils.showInstructions(activity)) {
-                            clConnectionResultContainer.visibility = View.GONE
+                            cslConnectionResultContainer.visibility = View.GONE
                             tvCancel.visibility = View.GONE
-                            clGoLiveContainer.visibility = View.VISIBLE
+                            cslGoLiveContainer.visibility = View.VISIBLE
                         } else {
                             showInstructionsList()
                         }
@@ -127,9 +127,9 @@ class LSCSettingUpLiveStreamingFragment : Fragment() {
     }
 
     private fun showInstructionsList() {
-        clConnectionResultContainer.visibility = View.GONE
+        cslConnectionResultContainer.visibility = View.GONE
         tvCancel.visibility = View.GONE
-        clInstructionsContainer.visibility = View.VISIBLE
+        cslInstructionsContainer.visibility = View.VISIBLE
     }
 
 }

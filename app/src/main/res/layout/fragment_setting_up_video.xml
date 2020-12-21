@@ -34,7 +34,7 @@
         app:layout_constraintGuide_percent=".8" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clCheckingConnectionContainer"
+        android:id="@+id/cslCheckingConnectionContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
@@ -70,7 +70,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clConnectionResultContainer"
+        android:id="@+id/cslConnectionResultContainer"
         android:layout_width="@dimen/dimen_0"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -123,7 +123,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clInstructionsContainer"
+        android:id="@+id/cslInstructionsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -231,7 +231,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clGoLiveContainer"
+        android:id="@+id/cslGoLiveContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

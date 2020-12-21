@@ -9,10 +9,7 @@ import javax.inject.Inject
 
 class UserLoginRepository @Inject constructor() {
 
-    fun onUserLogin(
-        email: String,
-        password: String
-    ): MutableLiveData<Resource<LoginResponse>> {
+    fun onUserLogin(email: String, password: String): MutableLiveData<Resource<LoginResponse>> {
         val logInResponse = MutableLiveData<Resource<LoginResponse>>()
 
         try {

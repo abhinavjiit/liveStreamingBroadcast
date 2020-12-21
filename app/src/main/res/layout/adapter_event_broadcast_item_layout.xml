@@ -53,9 +53,9 @@
                     android:layout_width="@dimen/dimen_0"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dimen_10"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/dimen_16sp"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/dimen_16sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -75,7 +75,7 @@
                     android:paddingBottom="@dimen/dimen_5"
                     android:text="Start : "
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@id/timerCounterConatiner"
+                    app:layout_constraintEnd_toStartOf="@id/cslTimerCounterContainer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/div" />
 
@@ -87,12 +87,12 @@
                     android:paddingEnd="@dimen/dimen_10"
                     android:text="End : "
                     android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@id/timerCounterConatiner"
+                    app:layout_constraintEnd_toStartOf="@id/cslTimerCounterContainer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/startDateTextView" />
 
-                <RelativeLayout
-                    android:id="@+id/timerCounterConatiner"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cslTimerCounterContainer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -106,18 +106,18 @@
                         android:layout_marginEnd="@dimen/dimen_10"
                         android:paddingStart="@dimen/dimen_10"
                         android:paddingTop="@dimen/dimen_5"
-
                         android:paddingEnd="@dimen/dimen_10"
                         android:paddingBottom="@dimen/dimen_5"
                         android:text=""
                         android:textColor="@color/white"
-                        android:visibility="visible" />
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/startingInTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/startingInDateCounter"
                         android:layout_centerHorizontal="true"
                         android:layout_marginStart="@dimen/dimen_10"
                         android:layout_marginEnd="@dimen/dimen_10"
@@ -126,7 +126,8 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_12sp"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/startingInDateCounter" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/goLiveButton"
@@ -143,13 +144,14 @@
                         android:paddingBottom="@dimen/dimen_5"
                         android:text="Go Live"
                         android:textColor="@color/white"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/startBroadCastStatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/goLiveButton"
                         android:layout_centerHorizontal="true"
                         android:layout_marginStart="@dimen/dimen_10"
                         android:layout_marginTop="@dimen/dimen_5"
@@ -159,9 +161,10 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/dimen_12sp"
                         android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/goLiveButton" />
 
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

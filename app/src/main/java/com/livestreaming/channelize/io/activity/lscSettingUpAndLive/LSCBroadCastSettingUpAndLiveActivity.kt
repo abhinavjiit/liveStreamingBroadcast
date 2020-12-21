@@ -61,8 +61,7 @@ const val ANIMATION_COUNT = 1
 const val ANIMATION_SCALING_FACTOR = 0.5f
 const val LAST_REMINDER_POPUP = 30000L
 
-class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
-    ChannelizeConversationEventHandler, ChannelizeConnectionHandler {
+class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversationEventHandler, ChannelizeConnectionHandler {
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
@@ -321,7 +320,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
     private fun setLocalVideo() {
         val view = RtcEngine.CreateRendererView(BaseApplication.getInstance())
         view.setZOrderMediaOverlay(true)
-        rlBroadcastContainer.addView(view)
+        cslBroadcastContainer.addView(view)
         mLocalVideo = VideoCanvas(view, VideoCanvas.RENDER_MODE_HIDDEN, USER_ID)
         mRtcEngine.setupLocalVideo(mLocalVideo)
     }
@@ -519,19 +518,19 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         val res = Gson().fromJson(response, LSCLiveReactionsResponse::class.java)
         when (res.reaction.type) {
             LiveBroadcasterConstants.ANGRY -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_angry) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.THANK_YOU -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_thankyou) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.WOW -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_wow) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.SAD -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_sad) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.SMILEY -> {
@@ -539,27 +538,27 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.CLAP -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_clapping) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.LIKE -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_like) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.LAUGH -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_laugh) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.HEART -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_heart) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.INSIGHT -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_bulb) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
             LiveBroadcasterConstants.DISLIKE -> {
-                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_smile) as VectorDrawable
+                val smileDrawable = ContextCompat.getDrawable(this, R.drawable.ic_dislike) as VectorDrawable
                 onFlyReactions(smileDrawable)
             }
         }
@@ -632,7 +631,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(),
         cslBottomContainer.visibility = View.VISIBLE
         commentRecyclerView.visibility = View.VISIBLE
         ivFlipCamera.visibility = View.VISIBLE
-        rlTimerContainer.visibility = View.VISIBLE
+        cslTimerContainer.visibility = View.VISIBLE
     }
 
     private fun onSubscribeTopics() {
