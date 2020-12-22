@@ -135,10 +135,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lsc_broadcast_setting_up_and_live)
