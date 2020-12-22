@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io
 
 import android.content.Context

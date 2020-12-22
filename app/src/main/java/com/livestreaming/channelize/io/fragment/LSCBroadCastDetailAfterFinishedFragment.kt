@@ -50,7 +50,7 @@ class LSCBroadCastDetailAfterFinishedFragment : Fragment() {
         conversationId = arguments?.getString(LiveBroadcasterConstants.CONVERSATION_ID)
         comingFrom = arguments?.getString(LiveBroadcasterConstants.COMING_FROM)
         eventTitle = arguments?.getString(LiveBroadcasterConstants.EVENT_NAME)
-        if (TIME_ELAPSED == comingFrom) {
+        if (comingFrom == TIME_ELAPSED) {
             onStopBroadCast()
             (activity as LSCBroadCastSettingUpAndLiveActivity).onUnsubscribeTopics()
             clCancelLiveBroadCastView.visibility = View.GONE
