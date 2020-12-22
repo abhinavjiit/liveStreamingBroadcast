@@ -114,9 +114,6 @@ class LSCBroadCastDataSource(
         } catch (e: Exception) {
             Log.d("onStopConversationEx", e.toString())
             stopConversationResponse.postValue(null)
-        } catch (t: Throwable) {
-            Log.d("onStopConversationEx", t.toString())
-            stopConversationResponse.postValue(null)
         }
         return stopConversationResponse
     }
@@ -127,16 +124,16 @@ class LSCBroadCastDataSource(
     ): Resource<LSCBroadCastLiveUpdateDetailsResponse> {
         return try {
             val lscBroadCastLiveUpdateDetailsResponse: LSCBroadCastLiveUpdateDetailsResponse
-            val response1 =
+            val liveAndReactionsCountResponse =
                 lscRetrofit.create(ILscApiCallBack::class.java)
                     .getAllDetailsOfBroadCast(broadcastId = broadcastId)
-            val response2 =
+            val commentCountResponse =
                 coreUrlRetrofit.create(ILscApiCallBack::class.java)
                     .getCommentsCount(conversation_id = conversationId)
             lscBroadCastLiveUpdateDetailsResponse = LSCBroadCastLiveUpdateDetailsResponse(
-                viewersCount = response1.viewersCount,
-                messageCount = response2.messageCount,
-                reactionsCount = response1.reactionsCount
+                viewersCount = liveAndReactionsCountResponse.viewersCount,
+                messageCount = commentCountResponse.messageCount,
+                reactionsCount = liveAndReactionsCountResponse.reactionsCount
             )
             ResponseHandler().handleSuccess(lscBroadCastLiveUpdateDetailsResponse)
         } catch (e: Exception) {

@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.BeautificationCustomizationValuesClassHolder
-import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_beautification_customization.*
 
 const val LOW_CONTRAST = 0
@@ -18,8 +19,9 @@ const val HIGH_CONTRAST = 2
 
 class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    private var contrastValue = HIGH_CONTRAST
+    private lateinit var lscLiveBroadCastViewModel: LSCLiveBroadCastViewModel
     private lateinit var beautificationCustomizationValuesClassHolder: BeautificationCustomizationValuesClassHolder
+    private var contrastValue = HIGH_CONTRAST
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,8 +33,10 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        beautificationCustomizationValuesClassHolder =
-            (activity as LSCBroadCastSettingUpAndLiveActivity).getBeautificationObject()
+        initViewModel()
+        lscLiveBroadCastViewModel.beautificationCustomizationValuesClassHolder.value?.let { beautificationCustomizationValuesClassHolder ->
+            this.beautificationCustomizationValuesClassHolder = beautificationCustomizationValuesClassHolder
+        }
         slrSmoothness.value = beautificationCustomizationValuesClassHolder.smoothnessValue
         slrLightness.value = beautificationCustomizationValuesClassHolder.lightingValue
         slrRedness.value = beautificationCustomizationValuesClassHolder.rednessValue
@@ -74,14 +78,18 @@ class LSCBeautificationBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun initViewModel() {
+        lscLiveBroadCastViewModel = ViewModelProvider(
+            requireActivity()
+        ).get(LSCLiveBroadCastViewModel::class.java)
+    }
+
     override fun getTheme(): Int {
         return R.style.AppBottomSheetDialogTheme
     }
 
     private fun changeBeautification() {
-        (activity as LSCBroadCastSettingUpAndLiveActivity).changeBeautification(
-            beautificationCustomizationValuesClassHolder
-        )
+        lscLiveBroadCastViewModel.onchangeBeautification.value = beautificationCustomizationValuesClassHolder
     }
 
     private fun setContrastButtonState() {

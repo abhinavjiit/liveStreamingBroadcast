@@ -1,5 +1,6 @@
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -15,6 +16,13 @@ import kotlinx.coroutines.launch
 class LSCLiveBroadCastViewModel(private var lscBroadCastDataSource: LSCBroadCastDataSource) : ViewModel() {
 
     private var startStopConversationResponse = MutableLiveData<RequestResponse>()
+    var beautificationCustomizationValuesClassHolder = MutableLiveData<BeautificationCustomizationValuesClassHolder>()
+    var onchangeBeautification = MutableLiveData<BeautificationCustomizationValuesClassHolder>()
+    var onUnsubscribeTopics = MutableLiveData<Boolean>()
+    var onFinishBroadcast = MutableLiveData<Boolean>()
+    var onRemoveFragment = MutableLiveData<Fragment>()
+    var onSettingUpFragment = MutableLiveData<Boolean>()
+    var networkQuality = MutableLiveData<Int>()
 
     fun getProductItems(productsIds: String?) = liveData<Resource<ProductItemsResponse>?> {
         val productItemsData = lscBroadCastDataSource.getProducts(productsIds = productsIds)
@@ -54,6 +62,9 @@ class LSCLiveBroadCastViewModel(private var lscBroadCastDataSource: LSCBroadCast
         emit(res)
     }
 
+    fun onRemoveFragment(fragment: Fragment) {
+        onRemoveFragment.value = fragment
+    }
 }
 
 

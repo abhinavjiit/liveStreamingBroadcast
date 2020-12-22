@@ -14,6 +14,7 @@ import com.livestreaming.channelize.io.activity.BaseActivity
 import com.livestreaming.channelize.io.activity.login.LSCBroadcastLoginActivity
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
 import com.livestreaming.channelize.io.adapter.EventsBroadCastListingAdapter
+import com.livestreaming.channelize.io.adapter.initials
 import com.livestreaming.channelize.io.model.EventDetailResponse
 import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Resource
 import kotlinx.android.synthetic.main.activity_event_broadcast_listing.*
@@ -50,17 +51,7 @@ class EventBroadCastListingActivity : BaseActivity(), EventsBroadCastListingAdap
             val name = ChannelizePreferences.getCurrentUserName(BaseApplication.getInstance())
             if (!name.isNullOrBlank()) {
                 val nameParts = name.split(" ").toTypedArray()
-                val initials = when (nameParts.size) {
-                    1 -> {
-                        nameParts[0][0].toString()
-                    }
-                    2, 3, 4 -> {
-                        nameParts[0][0].toString() + nameParts[1][0]
-                    }
-                    else -> {
-                        getString(R.string.null_user_name_string)
-                    }
-                }
+                val initials = nameParts.initials(this)
                 tvUserName.text = initials
             } else {
                 tvUserName.text = getString(R.string.null_user_name_string)

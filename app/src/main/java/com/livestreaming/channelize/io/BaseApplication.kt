@@ -44,7 +44,7 @@ class BaseApplication : Application(), Injector {
     }
 
     fun initChannelize() {
-        if (null != SharedPrefUtils.getPublicApiKey(this)) {
+        if (SharedPrefUtils.getPublicApiKey(this) != null) {
             val channelizeConfig = ChannelizeConfig.Builder(this).setAPIKey(SharedPrefUtils.getPublicApiKey(this))
                 .setLoggingEnabled(BuildConfig.DEBUG)
                 .build()

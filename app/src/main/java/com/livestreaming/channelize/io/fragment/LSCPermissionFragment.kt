@@ -14,8 +14,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import com.livestreaming.channelize.io.R
 import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCBroadCastSettingUpAndLiveActivity
+import com.livestreaming.channelize.io.activity.lscSettingUpAndLive.LSCLiveBroadCastViewModel
 import kotlinx.android.synthetic.main.fragment_permission_lsc.*
 import kotlinx.android.synthetic.main.fragment_permission_lsc.view.*
 
@@ -26,6 +28,7 @@ const val MICROPHONE = "microPhone"
 
 class LSCPermissionFragment : Fragment() {
 
+    private lateinit var lscLiveBroadCastViewModel: LSCLiveBroadCastViewModel
     private var cameraPermission = false
     private var microPhonePermission = false
 
@@ -39,6 +42,7 @@ class LSCPermissionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViewModel()
         activity?.let { activity ->
             if (ContextCompat.checkSelfPermission(
                     activity,
@@ -67,6 +71,12 @@ class LSCPermissionFragment : Fragment() {
         view.tvCamera.setOnClickListener {
             showCameraPermission()
         }
+    }
+
+    private fun initViewModel() {
+        lscLiveBroadCastViewModel = ViewModelProvider(
+            requireActivity(),
+        ).get(LSCLiveBroadCastViewModel::class.java)
     }
 
     private fun showCameraPermission() {
@@ -189,7 +199,7 @@ class LSCPermissionFragment : Fragment() {
                     Manifest.permission.RECORD_AUDIO
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
-                (activity as LSCBroadCastSettingUpAndLiveActivity).settingUpFragment()
+                lscLiveBroadCastViewModel.onSettingUpFragment.value = true
             }
         }
     }

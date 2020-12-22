@@ -45,18 +45,7 @@ class LSCCommentListAdapter(private val context: Context, private val commentLis
                     }
                 } else {
                     val nameParts = commentList?.get(position)?.userName?.split(" ")?.toTypedArray()
-
-                    val initials = when (nameParts?.size) {
-                        1 -> {
-                            nameParts[0][0].toString()
-                        }
-                        2, 3, 4 -> {
-                            nameParts[0][0].toString() + nameParts[1][0]
-                        }
-                        else -> {
-                            context.resources.getString(R.string.null_user_name_string)
-                        }
-                    }
+                    val initials = nameParts.initials(context)
                     nameTextView.visibility = View.VISIBLE
                     userImageView.visibility = View.GONE
                     nameTextView.text = initials
@@ -72,4 +61,18 @@ class LSCCommentListAdapter(private val context: Context, private val commentLis
         internal val nameTextView: TextView = mView.nameTextView
     }
 
+}
+
+fun Array<String>?.initials(context: Context): String {
+    return when (this?.size) {
+        1 -> {
+            this[0][0].toString()
+        }
+        2, 3, 4 -> {
+            this[0][0].toString() + this[1][0]
+        }
+        else -> {
+            context.resources.getString(com.livestreaming.channelize.io.R.string.null_user_name_string)
+        }
+    }
 }

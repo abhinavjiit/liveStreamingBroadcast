@@ -19,8 +19,6 @@ import com.livestreaming.channelize.io.SharedPrefUtils
 
 open class BaseActivity : AppCompatActivity() {
 
-    private lateinit var toast: Toast
-
     fun showToast(context: Context, msg: String?) {
         msg?.let {
             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()

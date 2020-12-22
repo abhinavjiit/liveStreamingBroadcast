@@ -3,7 +3,6 @@ package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
@@ -61,7 +60,8 @@ const val ANIMATION_COUNT = 1
 const val ANIMATION_SCALING_FACTOR = 0.5f
 const val LAST_REMINDER_POPUP = 30000L
 
-class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversationEventHandler, ChannelizeConnectionHandler {
+class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversationEventHandler,
+    ChannelizeConnectionHandler {
 
     @Inject
     lateinit var lscBroadcastAndLiveViewModelFact: LSCBroadcastAndLiveViewModelFact
@@ -120,8 +120,8 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
                     if (!isLive) {
                         val recordingParams = RecordingParams(width = VIDEO_FRAME_WIDTH, height = VIDEO_FRAME_HEIGHT)
                         startBroadcastRequiredResponse.recordingParams = recordingParams
-                        hitStartBroadCastApi()
-                        hitStartConversationApi()
+                        onStratingBroadcast()
+                        onStartingConversation()
                         setAllRequiredVisibility()
                     }
                     Log.d("onFirstLocalVideoFrame", "success")
@@ -139,6 +139,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lsc_broadcast_setting_up_and_live)
         (BaseApplication.getInstance() as Injector).createAppComponent().inject(this)
+        setupViewModel()
         Channelize.addConversationEventHandler(this)
         Channelize.addConnectionHandler(this)
         broadCastId = intent?.getStringExtra(LiveBroadcasterConstants.BROADCAST_ID)
@@ -157,7 +158,6 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
             settingUpFragment()
         }
         initCommentRecyclerView()
-        setupViewModel()
         clickListener
     }
 
@@ -187,9 +187,31 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
     private fun setupViewModel() {
         lscBroadCastViewModel =
             ViewModelProvider(this, lscBroadcastAndLiveViewModelFact).get(LSCLiveBroadCastViewModel::class.java)
+
+        lscBroadCastViewModel.onUnsubscribeTopics.observe(this, Observer { onUnsubscribeTopics ->
+            if (onUnsubscribeTopics) {
+                onUnsubscribeTopics()
+            }
+        })
+
+        lscBroadCastViewModel.onFinishBroadcast.observe(this, Observer { onFinishBroadcast ->
+            if (onFinishBroadcast) {
+                finish()
+            }
+        })
+
+        lscBroadCastViewModel.onRemoveFragment.observe(this, Observer { fragment ->
+            removeFragment(fragment)
+        })
+
+        lscBroadCastViewModel.onSettingUpFragment.observe(this, Observer { onSettingUpFragment ->
+            if (onSettingUpFragment) {
+                settingUpFragment()
+            }
+        })
     }
 
-    fun settingUpFragment() {
+    private fun settingUpFragment() {
         val fragment = supportFragmentManager.findFragmentByTag("LSCPermissionFragment")
         if (fragment != null && fragment is LSCPermissionFragment) {
             removeFragment(fragment)
@@ -199,7 +221,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
             .commit()
     }
 
-    fun removeFragment(fragment: Fragment?) {
+    private fun removeFragment(fragment: Fragment?) {
         fragment?.let { removeFrag ->
             supportFragmentManager.beginTransaction().remove(removeFrag).commit()
         }
@@ -293,7 +315,18 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
                 mRtcEngine.enableLastmileTest()
                 mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING)
                 mRtcEngine.setClientRole(Constants.CLIENT_ROLE_BROADCASTER)
-                changeBeautification(beautificationValues)
+                lscBroadCastViewModel.onchangeBeautification.observe(this, Observer {
+                    mRtcEngine.setBeautyEffectOptions(
+                        beautificationValues.isEnabled,
+                        BeautyOptions(
+                            beautificationValues.contrastValue,
+                            beautificationValues.lightingValue,
+                            beautificationValues.smoothnessValue,
+                            beautificationValues.rednessValue
+                        )
+                    )
+                })
+                lscBroadCastViewModel.beautificationCustomizationValuesClassHolder.value = beautificationValues
             }
         } catch (e: Exception) {
             startAppIdService()
@@ -342,27 +375,10 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         bundle.putString(LiveBroadcasterConstants.COMING_FROM, comingFrom)
         fragment.arguments = bundle
         val fm = supportFragmentManager
-        val transaction =
-            fm.beginTransaction()
-                .add(R.id.flContentFrame, fragment, "LSCBroadCastDetailAfterEndingFragment")
-                .addToBackStack(null)
+        val transaction = fm.beginTransaction()
+            .add(R.id.flContentFrame, fragment, "LSCBroadCastDetailAfterEndingFragment")
+            .addToBackStack(null)
         transaction.commit()
-    }
-
-    fun changeBeautification(beautificationValues: BeautificationCustomizationValuesClassHolder) {
-        mRtcEngine.setBeautyEffectOptions(
-            beautificationValues.isEnabled,
-            BeautyOptions(
-                beautificationValues.contrastValue,
-                beautificationValues.lightingValue,
-                beautificationValues.smoothnessValue,
-                beautificationValues.rednessValue
-            )
-        )
-    }
-
-    fun getBeautificationObject(): BeautificationCustomizationValuesClassHolder {
-        return beautificationValues
     }
 
     private fun sendCommentData(message: String) {
@@ -421,7 +437,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         }
     }
 
-    private fun hitStartBroadCastApi() {
+    private fun onStratingBroadcast() {
         broadCastId?.let { broadcastId ->
             lscBroadCastViewModel.onStartLSCBroadCast(broadcastId, startBroadcastRequiredResponse)
                 .observe(this,
@@ -446,7 +462,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         }
     }
 
-    private fun hitStartConversationApi() {
+    private fun onStartingConversation() {
         conversationId?.let { conversationId ->
             lscBroadCastViewModel.onStartConversation(conversationId)
                 .observe(this, Observer { startConversationResponse ->
@@ -637,7 +653,7 @@ class LSCBroadCastSettingUpAndLiveActivity : BaseActivity(), ChannelizeConversat
         Channelize.getInstance().addSubscriber("live_broadcasts/$broadCastId/reaction_added")
     }
 
-    fun onUnsubscribeTopics() {
+    private fun onUnsubscribeTopics() {
         try {
             Channelize.getInstance().unSubscribeTopic("live_broadcasts/$broadCastId/start_watching")
             Channelize.getInstance().unSubscribeTopic("live_broadcasts/$broadCastId/stop_watching")
