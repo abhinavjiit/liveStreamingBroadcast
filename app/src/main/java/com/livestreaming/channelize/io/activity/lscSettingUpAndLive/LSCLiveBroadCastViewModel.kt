@@ -64,6 +64,8 @@ class LSCLiveBroadCastViewModel(private var lscBroadCastDataSource: LSCBroadCast
     fun onRemoveFragment(fragment: Fragment) {
         onRemoveFragment.value = fragment
     }
+
 }
+
 
 
