@@ -1,5 +1,6 @@
 package com.livestreaming.channelize.io.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,9 +24,10 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
     private val productsList = ArrayList<ProductDetailResponse>()
     private lateinit var lscBroadCastViewModel: LSCLiveBroadCastViewModel
     private var productsIds: ArrayList<String>? = null
+    private  lateinit var mContext:Context
 
     private val productsItemAdapter: LSCBroadcastProductsListingAdapter by lazy {
-        LSCBroadcastProductsListingAdapter(productsList)
+            LSCBroadcastProductsListingAdapter(mContext,productsList)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,6 +46,7 @@ class LSCProductsListDialogFragment : BottomSheetDialogFragment() {
 
     private fun setupRecyclerView(view: View) {
         activity?.let { activity ->
+            mContext=activity
             view.rvProductList.layoutManager = LinearLayoutManager(activity)
             view.rvProductList.adapter = productsItemAdapter
             productsItemAdapter.notifyDataSetChanged()

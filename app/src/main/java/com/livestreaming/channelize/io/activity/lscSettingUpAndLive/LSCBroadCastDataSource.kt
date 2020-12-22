@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity.lscSettingUpAndLive
 
 import android.util.Log
@@ -17,18 +16,17 @@ import com.livestreaming.channelize.io.networkCallErrorAndSuccessHandler.Respons
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 
-class LSCBroadCastRepoImpl(
+class LSCBroadCastDataSource(
     private val productsRetrofit: Retrofit,
     private val lscRetrofit: Retrofit,
     private val coreUrlRetrofit: Retrofit,
     private val channelizeApiClient: ChannelizeApi
-) :
-    ILscBroadCastRepositoryCallBack {
+) {
 
     private var startConversationResponse = MutableLiveData<RequestResponse>()
     private var stopConversationResponse = MutableLiveData<RequestResponse>()
 
-    override suspend fun getProducts(productsIds: String?): Resource<ProductItemsResponse>? {
+    suspend fun getProducts(productsIds: String?): Resource<ProductItemsResponse>? {
         return try {
             productsIds?.let { eventProductsIds ->
                 SharedPrefUtils.getStoreUrl(BaseApplication.getInstance())?.let { storeUrl ->
@@ -47,7 +45,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override suspend fun sendComment(messageCommentData: MessageCommentData) {
+    suspend fun sendComment(messageCommentData: MessageCommentData) {
         try {
             coreUrlRetrofit.create(ILscApiCallBack::class.java)
                 .sendComment(messageCommentData)
@@ -56,7 +54,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override suspend fun onStartLSCBroadCast(
+    suspend fun onStartLSCBroadCast(
         broadcastId: String,
         broadcastRequiredResponse: StartBroadcastRequiredResponse
     ): Resource<ResponseBody> {
@@ -75,7 +73,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
+    fun onStartConversation(conversationId: String): MutableLiveData<RequestResponse> {
         try {
             channelizeApiClient.startWatching(conversationId) { result, _ ->
                 if (result != null && result.isSuccessful) {
@@ -96,7 +94,7 @@ class LSCBroadCastRepoImpl(
         return startConversationResponse
     }
 
-    override suspend fun onStopLSCBroadCast(broadcastId: String) {
+    suspend fun onStopLSCBroadCast(broadcastId: String) {
         try {
             lscRetrofit.create(ILscApiCallBack::class.java).onStopBroadCast(broadcastId)
         } catch (e: Exception) {
@@ -104,7 +102,7 @@ class LSCBroadCastRepoImpl(
         }
     }
 
-    override fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
+    fun onStopConversation(conversationId: String): MutableLiveData<RequestResponse> {
         try {
             channelizeApiClient.stopWatching(conversationId) { result, _ ->
                 if (result != null && result.isSuccessful) {
@@ -123,7 +121,7 @@ class LSCBroadCastRepoImpl(
         return stopConversationResponse
     }
 
-    override suspend fun getBroadCastDetails(
+    suspend fun getBroadCastDetails(
         broadcastId: String,
         conversationId: String
     ): Resource<LSCBroadCastLiveUpdateDetailsResponse> {

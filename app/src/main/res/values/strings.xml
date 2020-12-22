@@ -85,4 +85,5 @@
     <string name="public_key">Public-key</string>
     <string name="content_type">Content_Type</string>
     <string name="auth_string">Authorization</string>
+    <string name="logout_failed">Logout Failed</string>
 </resources>

@@ -1,4 +1,3 @@
-
 package com.livestreaming.channelize.io.activity
 
 import android.app.Dialog
@@ -23,14 +22,9 @@ open class BaseActivity : AppCompatActivity() {
     private lateinit var toast: Toast
 
     fun showToast(context: Context, msg: String?) {
-        if (::toast.isInitialized) {
-            toast.cancel()
+        msg?.let {
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
         }
-        if (!msg.isNullOrBlank()) {
-            toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT)
-            toast.show()
-        }
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     fun progressDialog(context: Context, text: String = "", onlyText: Boolean = false): Dialog {

@@ -34,7 +34,12 @@ class LSCCommentListAdapter(private val context: Context, private val commentLis
                     nameTextView.visibility = View.GONE
                     userImageView.visibility = View.VISIBLE
                     try {
-                        ImageLoader.showImage(commentList?.get(position)?.userImage, userImageView)
+                        ImageLoader.showImage(
+                            commentList?.get(position)?.userImage,
+                            userImageView,
+                            context.resources.getDimensionPixelSize(R.dimen.dimen_30),
+                            context.resources.getDimensionPixelSize(R.dimen.dimen_30)
+                        )
                     } catch (e: Exception) {
                         userImageView.setImageResource(R.drawable.smiley)
                     }

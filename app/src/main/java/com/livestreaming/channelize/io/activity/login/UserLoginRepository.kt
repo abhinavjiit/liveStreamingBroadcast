@@ -11,7 +11,6 @@ class UserLoginRepository @Inject constructor() {
 
     fun onUserLogin(email: String, password: String): MutableLiveData<Resource<LoginResponse>> {
         val logInResponse = MutableLiveData<Resource<LoginResponse>>()
-
         try {
             Channelize.getInstance().loginWithEmailPassword(
                 email, password

@@ -8,10 +8,11 @@ class ImageLoader private constructor() {
 
     companion object {
 
-        fun showImage(imageUrl: String?, viewId: ImageView) {
+        fun showImage(imageUrl: String?, viewId: ImageView, width: Int, height: Int) {
             try {
                 imageUrl?.let { url ->
-                    Picasso.get().load(url.trim()).into(viewId)
+                    Picasso.get().load(url.trim()).placeholder(R.drawable.app_logo_svg).resize(width, height)
+                        .error(R.drawable.app_logo_svg).into(viewId)
                 }
             } catch (e: Exception) {
                 Log.d("ImageShowEx", e.toString())

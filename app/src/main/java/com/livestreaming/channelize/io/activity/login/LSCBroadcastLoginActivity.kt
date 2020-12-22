@@ -11,7 +11,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
-import android.widget.TextView
+import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -53,35 +53,10 @@ class LSCBroadcastLoginActivity : BaseActivity() {
 
     private val initUi: Unit
         get() {
-            etPublicKey.onFocusChangeListener =
-                View.OnFocusChangeListener { _, hasFocus ->
-                    if (hasFocus) {
-                        setFocusEditTextDrawables(cslPublicKeyContainer, R.drawable.ic_public_key, etPublicKey)
-                    } else {
-                        setDefaultEditTextDrawables(cslPublicKeyContainer, R.drawable.ic_public_key, etPublicKey)
-                    }
-                }
-            etStoreUrl.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    setFocusEditTextDrawables(cslStoreUrlContainer, R.drawable.ic_store_url, etStoreUrl)
-                } else {
-                    setDefaultEditTextDrawables(cslStoreUrlContainer, R.drawable.ic_store_url, etStoreUrl)
-                }
-            }
-            etEmail.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    setFocusEditTextDrawables(cslEmailContainer, R.drawable.ic_email, etEmail)
-                } else {
-                    setDefaultEditTextDrawables(cslEmailContainer, R.drawable.ic_email, etEmail)
-                }
-            }
-            etPassword.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    setFocusEditTextDrawables(cslPasswordContainer, R.drawable.ic_password, etPassword)
-                } else {
-                    setDefaultEditTextDrawables(cslPasswordContainer, R.drawable.ic_password, etPassword)
-                }
-            }
+            DrawableStateChange(cslPublicKeyContainer, R.drawable.ic_public_key, etPublicKey)
+            DrawableStateChange(cslStoreUrlContainer, R.drawable.ic_store_url, etStoreUrl)
+            DrawableStateChange(cslEmailContainer, R.drawable.ic_email, etEmail)
+            DrawableStateChange(cslPasswordContainer, R.drawable.ic_password, etPassword)
         }
 
     private val initViewModel: Unit
@@ -153,7 +128,7 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         return true
     }
 
-    private fun setFocusEditTextDrawables(container: ConstraintLayout, drawableId: Int, text: TextView) {
+    private fun setFocusEditTextDrawables(container: ConstraintLayout, drawableId: Int, text: EditText) {
         val gradientDrawable = container.background as GradientDrawable
         gradientDrawable.mutate()
         gradientDrawable.setColor(ContextCompat.getColor(this, R.color.white))
@@ -172,7 +147,7 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         text.setTextColor(ContextCompat.getColor(this, R.color.btn_bg_blue))
     }
 
-    private fun setDefaultEditTextDrawables(container: ConstraintLayout, drawableId: Int, text: TextView) {
+    private fun setDefaultEditTextDrawables(container: ConstraintLayout, drawableId: Int, text: EditText) {
         val defaultGradientDrawable = container.background as GradientDrawable
         defaultGradientDrawable.mutate()
         defaultGradientDrawable.setColor(ContextCompat.getColor(this, R.color.white))
@@ -190,6 +165,25 @@ class LSCBroadcastLoginActivity : BaseActivity() {
         text.setTextColor(
             ContextCompat.getColor(this, R.color.dark_grey)
         )
+    }
+
+    inner class DrawableStateChange constructor(
+        private val container: ConstraintLayout,
+        private val drawableId: Int,
+        private val editText: EditText
+    ) : View.OnFocusChangeListener {
+
+        init {
+            editText.onFocusChangeListener = this
+        }
+
+        override fun onFocusChange(v: View?, hasFocus: Boolean) {
+            if (hasFocus) {
+                setFocusEditTextDrawables(container, drawableId, editText)
+            } else {
+                setDefaultEditTextDrawables(container, drawableId, editText)
+            }
+        }
     }
 
 }

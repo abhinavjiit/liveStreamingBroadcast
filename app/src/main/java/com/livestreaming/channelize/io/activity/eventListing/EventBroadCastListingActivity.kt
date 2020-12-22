@@ -72,7 +72,9 @@ class EventBroadCastListingActivity : BaseActivity(), EventsBroadCastListingAdap
             tvUserName.visibility = View.GONE
             ImageLoader.showImage(
                 imageUrl = ChannelizePreferences.getCurrentUserProfileImage(BaseApplication.getInstance()),
-                viewId = ivUserProfile
+                viewId = ivUserProfile,
+                width = resources.getDimensionPixelSize(R.dimen.dimen_40),
+                height = resources.getDimensionPixelSize(R.dimen.dimen_40)
             )
         }
         onClick
@@ -113,7 +115,7 @@ class EventBroadCastListingActivity : BaseActivity(), EventsBroadCastListingAdap
                         } else {
                             progressBar.dismiss()
                             Log.d("LOGOUT", "USER_LOGGED_OUT_FALSE")
-                            showToast(this, "Logout Failed")
+                            showToast(this, getString(R.string.logout_failed))
                         }
                     })
                 } catch (e: Exception) {
@@ -165,8 +167,10 @@ class EventBroadCastListingActivity : BaseActivity(), EventsBroadCastListingAdap
 
     override fun onClick(position: Int) {
         val productsList = ArrayList<String>()
-        eventListResponse[position].products.forEach { products ->
-            productsList.add(products.id)
+        if (position in eventListResponse.indices) {
+            eventListResponse[position].products.forEach { products ->
+                productsList.add(products.id)
+            }
         }
         val intent = Intent(this, LSCBroadCastSettingUpAndLiveActivity::class.java)
         intent.putExtra(LiveBroadcasterConstants.BROADCAST_ID, eventListResponse[position].id)

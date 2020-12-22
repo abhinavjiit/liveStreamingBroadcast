@@ -1,5 +1,6 @@
 package com.livestreaming.channelize.io.adapter
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +18,10 @@ import java.util.*
 const val CURRENCY_INR = "INR"
 const val CURRENCY_USD = "USD"
 
-class LSCBroadcastProductsListingAdapter(private val listData: ArrayList<ProductDetailResponse>?) :
+class LSCBroadcastProductsListingAdapter(
+    private val context: Context,
+    private val listData: ArrayList<ProductDetailResponse>?
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -36,10 +40,19 @@ class LSCBroadcastProductsListingAdapter(private val listData: ArrayList<Product
                 try {
                     when {
                         listData?.get(position)?.image != null -> {
-                            ImageLoader.showImage(listData[position].image.src, itemImageView)
+                            ImageLoader.showImage(
+                                listData[position].image.src,
+                                itemImageView,
+                                context.resources.getDimensionPixelSize(R.dimen.dimen_50),
+                                context.resources.getDimensionPixelSize(R.dimen.dimen_50)
+                            )
                         }
                         listData?.get(position)?.images.isNullOrEmpty() -> {
-                            ImageLoader.showImage(listData?.get(position)?.images?.get(0)?.src, itemImageView)
+                            ImageLoader.showImage(
+                                listData?.get(position)?.images?.get(0)?.src, itemImageView,
+                                context.resources.getDimensionPixelSize(R.dimen.dimen_50),
+                                context.resources.getDimensionPixelSize(R.dimen.dimen_50)
+                            )
                         }
                         else -> {
                             itemImageView.visibility = View.INVISIBLE

@@ -24,8 +24,11 @@ class EventsBroadCastListingAdapter(
     private val context: Context,
     private val listenerI: IRecyclerViewClickListener,
     private val eventsList: ArrayList<EventDetailResponse>?
-) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val displayMetrics = context.resources.displayMetrics
+    private val screenWidth = displayMetrics.widthPixels
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -40,7 +43,9 @@ class EventsBroadCastListingAdapter(
                 try {
                     ImageLoader.showImage(
                         eventsList?.get(position)?.bannerImageUrl,
-                        eventImageView
+                        eventImageView,
+                        width = screenWidth,
+                        height = context.resources.getDimensionPixelSize(R.dimen.dimen_200)
                     )
                 } catch (e: Exception) {
                     Log.d("EventListingAdapterEx", e.toString())
