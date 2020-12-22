@@ -22,7 +22,6 @@ class LSCLiveBroadCastViewModel(private var lscBroadCastDataSource: LSCBroadCast
     var onFinishBroadcast = MutableLiveData<Boolean>()
     var onRemoveFragment = MutableLiveData<Fragment>()
     var onSettingUpFragment = MutableLiveData<Boolean>()
-    var networkQuality = MutableLiveData<Int>()
 
     fun getProductItems(productsIds: String?) = liveData<Resource<ProductItemsResponse>?> {
         val productItemsData = lscBroadCastDataSource.getProducts(productsIds = productsIds)
